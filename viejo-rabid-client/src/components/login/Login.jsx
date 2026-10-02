@@ -16,7 +16,6 @@ import { useRef, useState } from 'react';
 import { Form, Button, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 
-import "./Login.css";
 
 const Login = ({ loggedInFlag }) => {
 	const [email, setEmail] = useState("");

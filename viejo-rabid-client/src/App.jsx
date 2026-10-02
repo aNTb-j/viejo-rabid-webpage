@@ -1,11 +1,8 @@
-import { useState } from 'react'
 
-import './App.css'
+import Router from "./routes/Routes.jsx";
 
-function App() {
-	return (
+const App = () => {
+    return <Router />;
+};
 
-	)
-}
-
-export default App
+export default App;

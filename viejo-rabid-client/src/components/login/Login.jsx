@@ -17,7 +17,7 @@ import { Form, Button, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 
 
-const Login = ({ loggedInFlag }) => {
+const Login = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
@@ -60,8 +60,7 @@ const Login = ({ loggedInFlag }) => {
 		// No hay errores
 
 		setErrors({ email: false, password: false });
-		loggedInFlag()
-		navigate("/movies")
+		navigate("/home")
 	};
 
 	// https://es.react.dev/reference/react-dom/components/input

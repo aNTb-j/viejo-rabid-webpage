@@ -1,33 +1,34 @@
 import { DataTypes } from "sequelize";
 import { squeilize } from "../db.js";
 
-export const Stocks = squeilize.define("stocks" , {
-	id_stock: {
+export const Stocks = squeilize.define("products" , {
+	id_producto: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
 		autoIncrement: true
 	}, 
-	id_producto_fk: {
-		type: DataTypes.INTEGER,
+	id_proveedor_fk: {
+		type: DataTypes.STRING,
 		foreignKey: true,
 		allowNull: false
 	},
-	id_proveedor_fk: {
-		type: DataTypes.INTEGER,
+
+	codigo_proveedor: {
+		type: DataTypes.STRING,
 		unique: true,
 		allowNull: false
 	},
-	id_ventas_fk: {
-		type: DataTypes.INTEGER,
+	color: {
+		type: DataTypes.STRING,
 		foreignKey: true,
 		allowNull: false
 	},
-	stock_actual: {
-		type: DataTypes.INTEGER,
+	talle: {
+		type: DataTypes.STRING,
 		allowNull: false
 	},
-	stock_minimo: {
-		type: DataTypes.INTEGER,
+	precio: {
+		type: DataTypes.STRING,
 		allowNull: false
 	}
 })

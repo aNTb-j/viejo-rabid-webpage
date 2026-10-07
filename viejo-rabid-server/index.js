@@ -2,7 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 
 
-import { squeilize } from './database/db.js';
+import { sequeilize } from './database/db.js';
 
 import "./database/models/stocks.js"
 
@@ -15,7 +15,7 @@ try {
 
 	const app = express();
 
-	const port = process.env.PORT;
+	const port = process.env.PORT ?? 3000;
 	const host = process.env.HOST;
 
 	app.listen(port, host, () => {
@@ -24,7 +24,8 @@ try {
 
 	app.use(loginRoutes);
 
-	await squeilize.authenticate();
+	await sequeilize.authenticate();
+	await sequeilize.sync();
 
 } catch (error) {
 	console.log(`Error en la inicializacion ${error}`);

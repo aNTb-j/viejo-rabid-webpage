@@ -1,23 +1,41 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
-const ProductCard = ( {id_producto, id_proveedor_fk, codigo_proveedor, color, talle, precio} ) => {
-  return (
-    <Card style={{ width: '18rem' }}>
-      <Card.Img variant="top" src="holder.js/100px180" />
-      <Card.Body>
-        <Card.Title>{codigo_proveedor}</Card.Title>
-        <Card.Text>
-          {id_producto}
-			 {id_proveedor_fk}
-			 {color}
-			 {talle}
-			 {precio}
-        </Card.Text>
-        <Button variant="primary">Go somewhere</Button>
-      </Card.Body>
-    </Card>
-  );
-}
+import styles from './ProductCard.module.css';
+
+const ProductCard = ({ name, size, color, price }) => {
+	return (
+		<Card className={styles.card}>
+
+			<Card.Img
+				className={styles.image}
+				variant="top"
+				src="holder.js/100px180"
+			/>
+
+			<Card.Body className={styles.body}>
+
+				<Card.Title className={styles.title}>
+					{name}
+				</Card.Title>
+
+				<Card.Text className={styles.info}>
+					<span>{size}</span>
+					<span>{color}</span>
+					<span>${price}</span>
+				</Card.Text>
+
+				<Button
+					className={styles.button}
+					variant="primary"
+				>
+					Ver más
+				</Button>
+
+			</Card.Body>
+
+		</Card>
+	);
+};
 
 export default ProductCard;

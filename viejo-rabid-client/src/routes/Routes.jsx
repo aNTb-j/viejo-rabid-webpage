@@ -26,9 +26,9 @@ const Router = () => {
 					element={<Home />}
 				/>
 				<Route
-                    path="/dashboard"
-                    element={<Dashboard />}
-                />
+					path="/dashboard"
+					element={<Dashboard />}
+				/>
 
 				<Route
 					path="*"

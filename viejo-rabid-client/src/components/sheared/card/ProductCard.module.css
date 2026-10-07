@@ -1,0 +1,26 @@
+.card {
+    height: 100%;
+}
+
+.image {
+    height: 250px;
+    object-fit: cover;
+}
+
+.body {
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    font-size: 1.2rem;
+}
+
+.info {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.button {
+    margin-top: auto;
+}

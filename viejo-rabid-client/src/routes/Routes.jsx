@@ -1,39 +1,44 @@
 import {
-    BrowserRouter,
-    Routes,
-    Route
+	BrowserRouter,
+	Routes,
+	Route
 } from "react-router";
 
 import Home from "../components/home/Home";
 import Login from "../components/login/Login";
+import Dashboard from "../components/dashboard/Dashboard";
 
 import NotFound from "../components/sheared/notFound/NotFound";
 
 const Router = () => {
-    return (
-        <BrowserRouter>
+	return (
+		<BrowserRouter>
 
-            <Routes>
+			<Routes>
 
-                <Route
-                    path="/login"
-                    element={<Login />}
+				<Route
+					path="/login"
+					element={<Login />}
+				/>
+
+				<Route
+					path="/home"
+					element={<Home />}
+				/>
+				<Route
+                    path="/dashboard"
+                    element={<Dashboard />}
                 />
 
-                <Route
-                    path="/home"
-                    element={<Home />}
-                />
+				<Route
+					path="*"
+					element={<NotFound />}
+				/>
 
-                <Route
-                    path="*"
-                    element={<NotFound />}
-                />
+			</Routes>
 
-            </Routes>
-
-        </BrowserRouter>
-    );
+		</BrowserRouter>
+	);
 };
 
 export default Router;

@@ -4,8 +4,15 @@ import { Products } from "../database/models/products";
 /* Post */
 
 export const createProduct = async (res, req) => {
+	const { id } = req.params.id_product;
+	
+	
+	const checkProduct = await Products.findOne({ where: {id: id}})
+
+	if (checkProduct)
+		return res.status(400).send({message: "Producto existente"})
+
 	const { name, size, color, brand, stock } = req.body;
-	//const { tags } = 
 
 	const newProduct = Products.create({
 		name,
@@ -17,7 +24,8 @@ export const createProduct = async (res, req) => {
 		stock
 	})
 
-}
+	res.json(newProduct.name)
+}	
 
 
 

@@ -1,0 +1,127 @@
+.loginContainer {
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 2rem 1rem;
+	background-color: #f5f1e8;
+}
+
+.loginCard {
+	width: 100%;
+	max-width: 460px;
+	padding: 2.5rem;
+	background-color: #fffefa;
+	border: 1px solid #e7e1d7;
+	border-radius: 16px;
+	box-shadow: 0 12px 35px rgba(52, 78, 65, 0.08);
+}
+
+.brand {
+	margin-bottom: 2.5rem;
+	text-align: center;
+}
+
+.brandTitle {
+	margin: 0;
+	color: #344e41;
+	font-size: 2rem;
+	font-weight: 700;
+	letter-spacing: -1px;
+}
+
+.brandSubtitle {
+	margin-top: 0.5rem;
+	color: #778477;
+	font-size: 0.75rem;
+	letter-spacing: 2px;
+}
+
+.formGroup {
+	margin-bottom: 1.25rem;
+}
+
+.input {
+	min-height: 50px;
+	padding: 0.8rem 1rem;
+	color: #344e41;
+	background-color: #fffefa;
+	border: 1px solid #d9d9d3;
+	border-radius: 9px;
+	box-shadow: none;
+	transition: border-color 0.2s ease;
+}
+
+.input {
+	border-color: #667b62;
+	box-shadow: 0 0 0 3px rgba(102, 123, 98, 0.12);
+}
+
+.input::placeholder {
+	color: #999c96;
+}
+
+.loginButton {
+	width: 100%;
+	min-height: 50px;
+	margin-top: 0.5rem;
+	color: #fffefa;
+	font-weight: 600;
+	background-color: #526b53;
+	border: 1px solid #526b53;
+	border-radius: 9px;
+	transition: background-color 0.2s ease;
+}
+
+.loginButton,
+.loginButton {
+	color: #fffefa;
+	background-color: #3f5741;
+	border-color: #3f5741;
+}
+
+.registerSection {
+	margin-top: 2rem;
+	text-align: center;
+}
+
+.registerText {
+	margin-bottom: 1rem;
+	color: #777c75;
+	font-size: 0.9rem;
+}
+
+.registerButton {
+	width: 100%;
+	min-height: 46px;
+	color: #526b53;
+	font-weight: 600;
+	background-color: transparent;
+	border: 1px solid #526b53;
+	border-radius: 9px;
+	transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.registerButton,
+.registerButton {
+	color: #fffefa;
+	background-color: #526b53;
+	border-color: #526b53;
+}
+
+.error {
+	margin-top: 0.5rem;
+	margin-bottom: 0;
+	font-size: 0.85rem;
+}
+
+@media (max-width: 480px) {
+	.loginCard {
+		padding: 2rem 1.25rem;
+	}
+
+	.brandTitle {
+		font-size: 1.75rem;
+	}
+
+}

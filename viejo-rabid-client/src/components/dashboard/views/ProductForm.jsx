@@ -1,9 +1,12 @@
 import { Fragment } from 'react';
 
-import Form from 'react-bootstrap';
+import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 const ProductForm = () => {
+
+	
+
 	return (
 		<Fragment>
 			<Form>
@@ -50,7 +53,7 @@ const ProductForm = () => {
 					<Form.Control type="prod-date" />
 				</Form.Group>
 
-				<Button variant="primary" type="submit">
+				<Button variant="primary" type="button">
 					Submit
 				</Button>
 

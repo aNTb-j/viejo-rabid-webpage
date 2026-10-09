@@ -6,6 +6,7 @@ import {
 
 import Home from "../components/home/Home";
 import Login from "../components/login/Login";
+import Register from "../components/login/Register";
 import Dashboard from "../components/dashboard/Dashboard";
 
 import NotFound from "../components/sheared/notFound/NotFound";
@@ -19,6 +20,11 @@ const Router = () => {
 				<Route
 					path="/login"
 					element={<Login />}
+				/>
+
+				<Route
+					path="/register"
+					element={<Register />}
 				/>
 
 				<Route

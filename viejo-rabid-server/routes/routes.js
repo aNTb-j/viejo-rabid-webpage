@@ -1,18 +1,19 @@
 import { Router } from "express";
-import { findProducts, findProduct } from "../service/product.service";
+import { registerUser } from "../service/login.service";
+// import { findProducts, findProduct } from "../service/product.service.js";
 
 const router = Router();
 
+router.post("/register", registerUser)
 
-
-router.get("/login")
+// router.get("/login")
 
 // Product.service
 // Manejo de los productos
 
-router.get("/products", findProducts)
+// router.get("/products", findProducts)
 
-router.get("/products/:id", findProduct)
+// router.get("/products/:id", findProduct)
 
 export default router;
 

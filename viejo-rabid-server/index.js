@@ -1,32 +1,39 @@
+import 'dotenv/config';
 import express from 'express';
-import dotenv from 'dotenv';
+import cors from 'cors';
 
+import { sequelize } from './database/db.js';
 
-import { sequeilize } from './database/db.js';
-
-import "./database/models/stocks.js"
+import './database/models/products.js';
+import './database/models/user.js'; // Ajustá la ruta al nombre real del archivo.
 
 import loginRoutes from './routes/routes.js';
 
+const app = express();
+
+const port = process.env.PORT ?? 3000;
+const host = process.env.HOST ?? 'localhost';
+
+// Middlewares
+app.use(cors({
+    origin: 'http://localhost:5173' // Origen habitual de Vite; ajustalo si es distinto.
+}));
+
+app.use(express.json());
+
+// Rutas
+app.use(loginRoutes);
+
 try {
-	dotenv.config();
+    await sequelize.authenticate();
+    console.log('Base de datos conectada');
 
-	console.log(process.env.PORT) 
+    await sequelize.sync();
+    console.log('Modelos sincronizados');
 
-	const app = express();
-
-	const port = process.env.PORT ?? 3000;
-	const host = process.env.HOST;
-
-	app.listen(port, host, () => {
-		console.log(`Server listening on http://${host}:${port}`);
-	});
-
-	app.use(loginRoutes);
-
-	await sequeilize.authenticate();
-	await sequeilize.sync();
-
+    app.listen(port, host, () => {
+        console.log(`Server listening on http://${host}:${port}`);
+    });
 } catch (error) {
-	console.log(`Error en la inicializacion ${error}`);
+    console.error('Error en la inicialización:', error);
 }

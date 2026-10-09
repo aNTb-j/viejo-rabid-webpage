@@ -1,7 +1,7 @@
-import { DataTypes } from "sequelize";
-import { squeilize } from "../db.js";
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../db.js';
 
-export const Products = squeilize.define("Products" , {
+export const Products = sequelize.define("Products" , {
 	id_product: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,

@@ -4,7 +4,7 @@ https://es.react.dev/reference/rules/rules-of-hooks
 
 https://es.react.dev/reference/react/useRef
 
-	 https://es.react.dev/learn/referencing-values-with-refs
+https://es.react.dev/learn/referencing-values-with-refs
 
 
 https://es.react.dev/learn/responding-to-events
@@ -13,24 +13,25 @@ https://es.react.dev/learn/adding-interactivity
 */
 
 import { useRef, useState } from 'react';
-import { Form, Button, Card } from 'react-bootstrap';
+import { Form, Button, Card, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 
+import styles from './Login.module.css'
 
 const Login = () => {
-	const [email, setEmail] = useState("");
+	const [user, setUser] = useState("");
 	const [password, setPassword] = useState("");
 
-	const [errors, setErrors] = useState({ email: false, password: false });
+	const [errors, setErrors] = useState({ user: false, password: false });
 
-	const emailRef = useRef(null);
+	const userRef = useRef(null);
 	const passwordRef = useRef(null);
 
 	const navigate = useNavigate();
 
-	const handleEmailChange = (event) => {
-		setEmail(event.target.value);
-		setErrors({ ...errors, email: false });
+	const handleUserChange = (event) => {
+		setUser(event.target.value);
+		setErrors({ ...errors, user: false });
 	};
 
 	const handlePasswordChange = (event) => {
@@ -41,43 +42,28 @@ const Login = () => {
 	const handleLogin = (event) => {
 		event.preventDefault();
 
-		// Validar email
-		if (!emailRef.current.value.length) {
-			setErrors({ ...errors, email: true });
-			const errorText = "El mail debe contener @";
-			emailRef.current.focus();
-			return errorText;
-		}
-
-		// Validar password
-		if (!password.length || password.length < 7) {
-			setErrors({ ...errors, password: true });
-			const errorText = "El password debe tener al menos 7 caracteres";
-			passwordRef.current.focus();
-			return errorText;
-		}
-
-		// No hay errores
-
-		setErrors({ email: false, password: false });
+		setErrors({ user: false, password: false });
 		navigate("/home")
 	};
 
-	// https://es.react.dev/reference/react-dom/components/input
+	const handleRegistrer = () => {
+		navigate("/register")
 
-	// onSubmit: la idea es que cuando el usuario envía el formulario, React ejecute una función.
+	};
+
 	return (
-		<section className="login-container">
-			<Card className="login-card">
+		<>
+			<Card className={styles.loginCard}>
 				<Form onSubmit={handleLogin}>
 					<Form.Group className="mb-4">
 						<Form.Control
 							type="text"
-							ref={emailRef}
-							placeholder="Ingresar mail"
-							onChange={handleEmailChange}
-							value={email}
-							className={errors.email ? "border border-danger" : ""} />
+							ref={userRef}
+							placeholder="Ingresar Usuario"
+							onChange={handleUserChange}
+							value={user}
+							className={errors.email && "border border-danger"} />
+						{errors.user && <p className="mt-2 text-danger">Debe ingresar un usuario</p>}
 					</Form.Group>
 					<p>{errors.email ? "Error en la email" : ""}</p>
 					<Form.Group className="mb-4">
@@ -87,17 +73,25 @@ const Login = () => {
 							placeholder="Ingresar password"
 							onChange={handlePasswordChange}
 							value={password}
-							className={errors.password ? "border border-danger" : ""} />
+							className={errors.password && "border border-danger"} />
+						{errors.password && <p className="mt-2 text-danger">Debe ingresar una contraseña</p>}
 					</Form.Group>
-					<p>{errors.password ? "Error en la constraseña" : ""}</p>
-					<p>{errors.email ? "Error en la email" : errors.password ? "Error en la constraseña" : ""}</p>
-					<Button type="submit">
-						Ingresar
-					</Button>
+					<Row>
+						<Col />
+						<Col md={6} className="">
+							<Button variant='secondary' type='submit'>
+								Iniciar Secion
+							</Button>
+						</Col>
+					</Row>
+
+					<Row className='mt-4'>
+						<p className=''>¿Aun no tienes cuenta?</p>
+						<Button onClick={handleRegistrer}>Registrate</Button>
+					</Row>
 				</Form>
 			</Card>
-		</section>
-
+		</>
 	)
 }
 

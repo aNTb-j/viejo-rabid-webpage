@@ -12,10 +12,6 @@ export const Products = sequelize.define("Products" , {
 		foreignKey: true,
 		allowNull: false
 	},
-	id_tags_fk: {
-		type: DataTypes.INTEGER,
-		allowNull: true
-	},
 	intern_code: {
 		type: DataTypes.INTEGER,
 	},

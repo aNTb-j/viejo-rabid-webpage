@@ -1,45 +1,64 @@
-import { User } from "../database/models/user";
+import { User } from "../database/models/user.js";
 import dotenv from 'dotenv';
+import bcrypt from 'bcrypt'; 
 
-export const requisterUser = async (req, res) => {
-	const { user, password, dni, name, surname, email, phone_number } = req.body;
 
-	const newUser = await User.findOne({ where: {dni: dni}})
+// Post
+export const registerUser = async (req, res) => {
+	try {
+		const { user, password, dni, username, surname, email, birthdate, phone_number } = req.body;
 
-	if (newUser)
-		return res.status(400).send({message: "Usuario existente"})
+		const existingUser = await User.findOne({ where: { dni } })
 
-	// Hash
-	const saltRounds = 10;
+		if (existingUser)
+			return res.status(400).send({ message: "Usuario existente" })
 
-	const salt = await bcrypt.genSalt(saltRounds);
+		
+		// Hash
+		const saltRounds = 10;
 
-	const hashedPasword = await bcrypt.hash(password, salt);
+		const salt = await bcrypt.genSalt(saltRounds);
 
-	const registerNewUser = await User.create({
-		user,
-		password: hashedPasword,
-		dni,
-		name,
-		surname,
-		email,
-		phone_number
-	});
+		const hashedPasword = await bcrypt.hash(password, salt);
 
-	res.json(registerNewUser.id);
+		const registerNewUser = await User.create({
+			user,
+			password: hashedPasword,
+			dni,
+			username,
+			surname,
+			email,
+			phone_number,
+			birthdate
+		});
+
+		return res.status(201).json({
+			message: "Usuario creado correctamente",
+			id: registerNewUser.id_user
+		});
+
+	} catch (error) {
+		console.error("Error al registrar usuario:", error);
+		
+		return res.status(500).json({
+			message: "Error interno al registrar el usuario"
+		});
+	}
 }
 
+
+// Get
 export const loginUser = async (req, res) => {
 	const { user, password } = req.body;
 
 	const checkUser = await User.findOne({
-		where: {user}
+		where: { user }
 	})
 
 	if (!user)
 		return res.status(401).send({ message: "Usuario no encontrado" })
 
-	const comparison = await bcrypt.compare(password. user.password);
+	const comparison = await bcrypt.compare(password.user.password);
 
 	if (!comparison)
 		return res.status(401).send({ message: "Usuario o contraseña incorrecta" });
@@ -47,23 +66,8 @@ export const loginUser = async (req, res) => {
 
 	const secretKey = process.env.SECRETKEY;
 
-	const token = jwt.sign({ user }, secretKey, {expressIn: '1h'});
+	const token = jwt.sign({ user }, secretKey, { expressIn: '1h' });
 
 	return res.json(token);
 };
 
-export const registerUser = async (req, res) => {
-    try {
-        console.log(req.body);
-
-        res.status(201).json({
-            message: "Ruta de registro alcanzada"
-        });
-    } catch (error) {
-        console.error(error);
-
-        res.status(500).json({
-            message: "Error interno del servidor"
-        });
-    }
-};

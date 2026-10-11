@@ -11,6 +11,33 @@
 	padding: 4rem 0;
 }
 
+.productsSection :global(.container) {
+	max-width: 100%;
+	padding-left: 1px;
+	padding-right: 1px;
+}
+
+.productsRow {
+	--bs-gutter-x: 1px;
+	--bs-gutter-y: 1px;
+}
+
+.productsRow > * {
+	padding-left: 0.5px;
+	padding-right: 0.5px;
+}
+
+.productCol {
+	--bs-gutter-x: 1px;
+	--bs-gutter-y: 1px;
+}
+
+.productsCol > * {
+	padding-left: 0.5px;
+	padding-right: 0.5px;
+}
+
+
 .title {
 	margin-bottom: 2rem;
 	font-size: 2rem;

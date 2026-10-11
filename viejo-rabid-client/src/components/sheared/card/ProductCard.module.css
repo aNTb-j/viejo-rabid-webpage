@@ -1,26 +1,122 @@
 .card {
-    height: 100%;
+	height: 100%;
+	overflow: hidden;
+	background-color: #fffefa;
+	border: 1px solid #e8e4da;
+	border-radius: 2px;
+	box-shadow: 0 3px 12px rgba(40, 50, 40, 0.04);
+	transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 8px 22px rgba(40, 50, 40, 0.10);
+}
+
+.imageContainer {
+	width: 100%;
+	aspect-ratio: 4 / 5;
+	overflow: hidden;
+	background-color: #f0ede5;
 }
 
 .image {
-    height: 250px;
-    object-fit: cover;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border-radius: 0;
+	transition: transform 0.35s ease;
+}
+
+.card:hover .image {
+	transform: scale(1.035);
 }
 
 .body {
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	padding: 1.1rem;
 }
 
 .title {
-    font-size: 1.2rem;
+	margin-bottom: 0.4rem;
+	color: #344e41;
+	font-size: 1rem;
+	font-weight: 600;
 }
 
-.info {
-    display: flex;
-    gap: 0.5rem;
+.price {
+	margin-bottom: 1rem;
+	color: #344e41;
+	font-size: 1.15rem;
+	font-weight: 700;
+}
+
+.colorSection {
+	margin-bottom: 1.25rem;
+}
+
+.colorLabel {
+	display: block;
+	margin-bottom: 0.6rem;
+	color: #777c75;
+	font-size: 0.8rem;
+}
+
+.colorOptions {
+	display: flex;
+	align-items: center;
+	gap: 0.65rem;
+	flex-wrap: wrap;
+}
+
+.colorButton {
+	width: 23px;
+	height: 23px;
+	padding: 0;
+	background-color: var(--swatch-color);
+	border: 1px solid #d8d8d0;
+	border-radius: 50%;
+	cursor: pointer;
+	transition: outline 0.15s ease, transform 0.15s ease;
+}
+
+.colorButton:hover {
+	transform: scale(1.1);
+}
+
+.selectedColor {
+	outline: 2px solid #526b53;
+	outline-offset: 3px;
 }
 
 .button {
-    margin-top: auto;
+	width: 100%;
+	margin-top: auto;
+	padding: 0.65rem;
+	color: #fffefa;
+	font-size: 0.9rem;
+	font-weight: 500;
+	background-color: #526b53;
+	border: 1px solid #526b53;
+	border-radius: 7px;
+	transition: background-color 0.2s ease;
+}
+
+.button:hover,
+.button:focus-visible {
+	color: #fffefa;
+	background-color: #3f5741;
+	border-color: #3f5741;
+}
+
+@media (max-width: 480px) {
+	.body {
+		padding: 0.9rem;
+	}
+
+	.title {
+		font-size: 0.95rem;
+	}
 }

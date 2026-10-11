@@ -5,9 +5,11 @@ import cors from 'cors';
 import { sequelize } from './database/db.js';
 
 import './database/models/products.js';
-import './database/models/user.js'; // Ajustá la ruta al nombre real del archivo.
+import './database/models/user.js';
+import './database/models/tags.js';
+import './database/models/productTags.js';
 
-import loginRoutes from './routes/routes.js';
+import routes from './routes/routes.js';
 
 const app = express();
 
@@ -16,13 +18,13 @@ const host = process.env.HOST ?? 'localhost';
 
 // Middlewares
 app.use(cors({
-    origin: 'http://localhost:5173' // Origen habitual de Vite; ajustalo si es distinto.
+    origin: 'http://localhost:5173' // Origen de Vite
 }));
 
 app.use(express.json());
 
 // Rutas
-app.use(loginRoutes);
+app.use(routes);
 
 try {
     await sequelize.authenticate();

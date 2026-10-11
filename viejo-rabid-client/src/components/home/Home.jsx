@@ -1,4 +1,4 @@
-//import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Fragment } from 'react';
 
 import Container from 'react-bootstrap/Container';
@@ -97,22 +97,31 @@ const products = [
 const Home = () => {
 
 
-	/*
-	const [products, setProducts] = useState([]);
-	useEffect(() => {
+	const [selectedColors, setSelectedColors] = useState(
+		Object.fromEntries(
+			products.map((product) => [
+				product.id_product,
+				product.color
+			])
+		)
+	);
 
-		fetch('http://localhost:3000/api/products')
-			.then(res => res.json())
-			.then(data => {
-				setProducts(data);
-			})
-			.catch(error => {
-				console.error('Error cargando productos:', error);
-			});
+	const colorOptions = [
+		{ name: 'Negro', value: '#222222' },
+		{ name: 'Blanco', value: '#f5f5f0' },
+		{ name: 'Gris', value: '#808080' },
+		{ name: 'Verde', value: '#526b53' },
+		{ name: 'Azul', value: '#365b85' },
+		{ name: 'Beige', value: '#d6c5a8' },
+		{ name: 'Rojo', value: '#a6443f' }
+	];
 
-	}, []);
-
-	*/
+	const handleColorChange = (productId, color) => {
+		setSelectedColors((previous) => ({
+			...previous,
+			[productId]: color
+		}));
+	};
 
 
 	return (
@@ -128,14 +137,18 @@ const Home = () => {
 					<Container>
 						<h2 className={styles.title}>Productos destacados</h2>
 
-						<Row xs={1} sm={2} lg={3} xl={4} className="g-4">
+						<Row xs={1} sm={2} lg={3} xl={4} className={styles.productRow}>
 							{products.map((product) => (
-								<Col key={product.id_product}>
+								<Col key={product.id_product} className={styles.productCol}>
 									<ProductCard
 										name={product.name}
-										color={product.color}
-										size={product.size}
 										price={product.price}
+										image={product.image}
+										selectedColor={selectedColors[product.id_product]}
+										colorOptions={colorOptions}
+										setSelectedColor={(color) =>
+											handleColorChange(product.id_product, color)
+										}
 									/>
 								</Col>
 							))}

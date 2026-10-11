@@ -13,7 +13,7 @@ https://es.react.dev/learn/adding-interactivity
 */
 
 import { useRef, useState } from 'react';
-import { Form, Button, Card, Row, Col } from 'react-bootstrap';
+import { Form, Button, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 
 import styles from './Login.module.css'
@@ -51,48 +51,91 @@ const Login = () => {
 
 	};
 
-	return (
-		<>
-			<Card className={styles.loginCard}>
-				<Form onSubmit={handleLogin}>
-					<Form.Group className="mb-4">
-						<Form.Control
-							type="text"
-							ref={userRef}
-							placeholder="Ingresar Usuario"
-							onChange={handleUserChange}
-							value={user}
-							className={errors.email && "border border-danger"} />
-						{errors.user && <p className="mt-2 text-danger">Debe ingresar un usuario</p>}
-					</Form.Group>
-					<p>{errors.email ? "Error en la email" : ""}</p>
-					<Form.Group className="mb-4">
-						<Form.Control
-							type="password"
-							ref={passwordRef}
-							placeholder="Ingresar password"
-							onChange={handlePasswordChange}
-							value={password}
-							className={errors.password && "border border-danger"} />
-						{errors.password && <p className="mt-2 text-danger">Debe ingresar una contraseña</p>}
-					</Form.Group>
-					<Row>
-						<Col />
-						<Col md={6} className="">
-							<Button variant='secondary' type='submit'>
-								Iniciar Secion
-							</Button>
-						</Col>
-					</Row>
 
-					<Row className='mt-4'>
-						<p className=''>¿Aun no tienes cuenta?</p>
-						<Button onClick={handleRegistrer}>Registrate</Button>
-					</Row>
-				</Form>
+	return (
+		<div className={styles.loginPage}>
+			<Card className={styles.loginCard}>
+				<Card.Body className={styles.loginBody}>
+					<div className={styles.header}>
+						<span className={styles.eyebrow}>VIEJO RABID</span>
+
+						<Card.Title className={styles.title}>
+							Bienvenido
+						</Card.Title>
+
+						<p className={styles.subtitle}>
+							Ingresá a tu cuenta para continuar.
+						</p>
+					</div>
+
+					<Form onSubmit={handleLogin} noValidate>
+						<Form.Group className={styles.field}>
+							<Form.Label>Usuario</Form.Label>
+
+							<Form.Control
+								type="text"
+								ref={userRef}
+								placeholder="Ingresar usuario"
+								onChange={handleUserChange}
+								value={user}
+								isInvalid={!!errors.user}
+							/>
+
+							<Form.Control.Feedback type="invalid">
+								Debe ingresar un usuario.
+							</Form.Control.Feedback>
+						</Form.Group>
+
+						{errors.email && (
+							<p className={styles.errorMessage}>
+								Error en el email.
+							</p>
+						)}
+
+						<Form.Group className={styles.field}>
+							<Form.Label>Contraseña</Form.Label>
+
+							<Form.Control
+								type="password"
+								ref={passwordRef}
+								placeholder="Ingresar contraseña"
+								onChange={handlePasswordChange}
+								value={password}
+								isInvalid={!!errors.password}
+							/>
+
+							<Form.Control.Feedback type="invalid">
+								Debe ingresar una contraseña.
+							</Form.Control.Feedback>
+						</Form.Group>
+
+						<Button
+							variant="secondary"
+							type="submit"
+							className={styles.submitButton}
+						>
+							Iniciar sesión
+						</Button>
+
+						<div className={styles.registerSection}>
+							<p>¿Aún no tenés cuenta?</p>
+
+							<Button
+								variant="link"
+								onClick={handleRegistrer}
+								className={styles.registerButton}
+							>
+								Crear una cuenta
+							</Button>
+						</div>
+					</Form>
+				</Card.Body>
 			</Card>
-		</>
-	)
+		</div>
+	);
+
+
 }
 
 export default Login;
+

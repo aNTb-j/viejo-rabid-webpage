@@ -30,7 +30,7 @@ export const User = sequelize.define("user", {
 		allowNull: false,
 		unique: true
 	},
-	emial:{
+	email:{
 		type: DataTypes.STRING,
 		allowNull: false,
 		unique: true,

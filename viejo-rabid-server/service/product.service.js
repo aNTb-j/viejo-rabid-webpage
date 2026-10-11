@@ -1,47 +1,88 @@
-import { Products } from "../database/models/products";
 
+import { Products } from '../database/models/products.js';
+import { Tags } from '../database/models/tags.js';
+import { ProductTags } from '../database/models/productTags.js';
 
-/* Post */
+Products.belongsToMany(Tags, {
+	through: ProductTags,
+	foreignKey: 'id_product_fk',
+	otherKey: 'id_tag_fk',
+	as: 'tags'
+});
 
-export const createProduct = async (res, req) => {
-	const { id } = req.params.id_product;
-	
-	
-	const checkProduct = await Products.findOne({ where: {id: id}})
+Tags.belongsToMany(Products, {
+	through: ProductTags,
+	foreignKey: 'id_tag_fk',
+	otherKey: 'id_product_fk',
+	as: 'products'
+});
 
-	if (checkProduct)
-		return res.status(400).send({message: "Producto existente"})
+/* POST */
+export const addProduct = async (req, res) => {
+	try {
+		const {
+			id_supplier_fk,
+			intern_code,
+			name,
+			brand,
+			color,
+			size,
+			stock,
+			date,
+			tags
+		} = req.body;
 
-	const { name, size, color, brand, stock } = req.body;
+		// Comprobar si ya existe el código interno
+		const existingProduct = await Products.findOne({
+			where: { intern_code }
+		});
 
-	const newProduct = Products.create({
-		name,
-		id_supplier_fk,
-		id_tags_fk,
-		size,
-		color,
-		brand,
-		stock
-	})
+		if (existingProduct) {
+			return res.status(400).json({
+				message: 'Producto existente'
+			});
+		}
 
-	res.json(newProduct.name)
-}	
+		// Crear producto
+		const newProduct = await Products.create({
+			id_supplier_fk,
+			intern_code,
+			name,
+			brand,
+			color,
+			size,
+			stock,
+			date
+		});
 
+		// Buscar o crear las etiquetas secuencialmente
+		if (Array.isArray(tags) && tags.length > 0) {
+			const tagInstances = [];
 
+			for (const tagName of tags) {
+				const [tagInstance] = await Tags.findOrCreate({
+					where: { name: tagName },
+					defaults: { name: tagName }
+				});
 
-/* Get */
+				tagInstances.push(tagInstance);
+			}
 
-export const findProducts = async (req, res) => {
-	const products = await Products.findAll();
-	res.json(products);
-};
+			if (tagInstances.length > 0) {
+				await newProduct.addTags(tagInstances);
+			}
+		}
 
-export const findProduct = async (req, res) => {
-	const { id } = req.params.id;
-	const product = await Products.findOne({ where: {id: id}});
+		return res.status(201).json({
+			message: 'Producto agregado correctamente',
+			product: newProduct
+		});
 
-	if (!product)
-		res.status(404).send({ message: "Producto no encontrado" })
+	} catch (error) {
+		console.error('Error al registrar producto:', error);
 
-	res.json(products);
+		return res.status(500).json({
+			message: 'Error interno al registrar el producto'
+		});
+	}
 };

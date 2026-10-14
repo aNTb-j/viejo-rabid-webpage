@@ -1,15 +1,15 @@
-
 import { useState, Fragment } from 'react';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 
-const ProductForm = () => {
+const ProductForm = ({ onAddProduct }) => {
 	const [idSupplier, setIdSupplier] = useState('');
 	const [internProductCode, setInternProductCode] = useState('');
 	const [productName, setProductName] = useState('');
-	const [size, setProductSize] = useState('');
+	const [productSize, setProductSize] = useState('');
+	const [productPrice, setProductPrice] = useState(0);
 	const [productColor, setProductColor] = useState('');
 	const [productBrand, setProductBrand] = useState('');
 	const [productStock, setProductStock] = useState('');
@@ -24,7 +24,8 @@ const ProductForm = () => {
 
 		setMessage('');
 
-		// Construir el array de tags
+		// Construye el array de tags
+		// Pasar todo a upper case, sin acentos 
 		const tags = extraTags
 			.split(',')
 			.map(tag => tag.trim())
@@ -44,7 +45,8 @@ const ProductForm = () => {
 						name: productName,
 						brand: productBrand,
 						color: productColor,
-						size,
+						size: productSize,
+						price: Number(productPrice),
 						stock: Number(productStock),
 						date: buyDate,
 						tags
@@ -53,7 +55,7 @@ const ProductForm = () => {
 			);
 
 			const data = await response.json();
-
+			onAddProduct(data.product)
 
 			if (!response.ok) {
 				throw new Error(
@@ -131,7 +133,7 @@ const ProductForm = () => {
 				<Form.Group className="mb-3" controlId="productSize">
 					<Form.Label>Talla</Form.Label>
 					<Form.Select
-						value={size}
+						value={productSize}
 						onChange={e => setProductSize(e.target.value)}
 						required
 					>
@@ -143,6 +145,15 @@ const ProductForm = () => {
 						<option value="XL">XL</option>
 						<option value="XXL">XXL</option>
 					</Form.Select>
+				</Form.Group>
+
+				<Form.Group className="mb-3" controlId="productPrice">
+					<Form.Label>Precio</Form.Label>
+					<Form.Control
+						type="number"
+						value={productPrice}
+						onChange={e => setProductPrice(e.target.value)}
+					/>
 				</Form.Group>
 
 				<Form.Group className="mb-3" controlId="productTags">

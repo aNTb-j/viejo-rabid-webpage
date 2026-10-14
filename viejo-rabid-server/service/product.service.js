@@ -27,6 +27,7 @@ export const addProduct = async (req, res) => {
 			brand,
 			color,
 			size,
+			price,
 			stock,
 			date,
 			tags
@@ -51,6 +52,7 @@ export const addProduct = async (req, res) => {
 			brand,
 			color,
 			size,
+			price,
 			stock,
 			date
 		});
@@ -86,3 +88,19 @@ export const addProduct = async (req, res) => {
 		});
 	}
 };
+
+/* GET */
+export const getAllProducts = async (req, res) => {
+	try {
+		const products = 	await Products.findAll();
+		res.json(products);
+
+	} catch (error) {
+		console.error('Error al obtener los productos:', error);
+
+		return res.status(500).json({
+			message: 'Error interno al registrar el producto'
+		});
+	}
+}
+ 

@@ -5,11 +5,13 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-import NavBar from "../sheared/navbar/NavBar.jsx";
+import NavBar from '../../shared/navbar/NavBar.jsx';
 import Sidebar from './Sidebar.jsx';
 
 import DashboardView from './views/DashboardView.jsx';
-import ProductForm from './views/ProductForm.jsx';
+import ProductsView from './views/ProductsView.jsx';
+
+// React Bootstrap Off-Canvas
 
 const Dashboard = () => {
 
@@ -28,11 +30,10 @@ const Dashboard = () => {
 						<Sidebar setSection={setSection} />
 					</Col>
 
-
 					{/* Cuadricula de contenido */}
 					<Col xs={10}>
 						{section === 'home' && <DashboardView />}
-						{section === 'products' && <ProductForm />}
+						{section === 'products' && <ProductsView />}
 					</Col>
 
 				</Row>

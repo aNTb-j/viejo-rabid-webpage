@@ -1,12 +1,12 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../db.js';
 
-export const Products = sequelize.define("Products" , {
+export const Products = sequelize.define("Products", {
 	id_product: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
 		autoIncrement: true
-	}, 
+	},
 	id_supplier_fk: {
 		type: DataTypes.INTEGER,
 		foreignKey: true,
@@ -23,6 +23,10 @@ export const Products = sequelize.define("Products" , {
 		type: DataTypes.STRING,
 		allowNull: false
 	},
+	price: {
+		type: DataTypes.INTEGER,
+		allowNull: false
+	},
 	stock: {
 		type: DataTypes.INTEGER,
 		allowNull: false
@@ -32,4 +36,6 @@ export const Products = sequelize.define("Products" , {
 		allowNull: false
 	}
 
+}, {
+	timestamp: false
 })

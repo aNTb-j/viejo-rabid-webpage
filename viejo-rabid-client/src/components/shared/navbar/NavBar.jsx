@@ -19,15 +19,10 @@ const NavBar = () => {
 
 			<Navbar.Collapse id="basic-navbar-nav">
 				<Nav className="me-auto">
-					<Nav.Link
-						className={styles.link}
-						href="/home">
+					<Nav.Link className={styles.link} href="/home">
 						Home
 					</Nav.Link>
-					<NavDropdown
-						className={styles.dropdown}
-						title="Menu"
-						id="basic-nav-dropdown">
+					<NavDropdown className={styles.dropdown} title="Menu" id="basic-nav-dropdown">
 
 						<NavDropdown.Item href="#action/3.3">
 							Cargar Venta
@@ -38,6 +33,7 @@ const NavBar = () => {
 						<NavDropdown.Item href="/dashboard">
 							Dashboard
 						</NavDropdown.Item>
+
 						<NavDropdown.Item href="/layoutdef">
 							Layout Definer
 						</NavDropdown.Item>

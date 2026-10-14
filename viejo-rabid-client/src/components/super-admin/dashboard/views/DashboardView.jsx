@@ -1,5 +1,6 @@
 
-import styles from './DashboardView.module.css';
+import styles from './dashboard-utils/DashboardView.module.css';
+
 
 const DashboardView = () => {
 	return (

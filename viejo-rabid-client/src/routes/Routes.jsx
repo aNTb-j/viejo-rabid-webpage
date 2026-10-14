@@ -4,12 +4,13 @@ import {
 	Route
 } from "react-router";
 
-import Home from "../components/home/Home";
-import Login from "../components/login/Login";
-import Register from "../components/login/Register";
-import Dashboard from "../components/dashboard/Dashboard";
+import Home from "../components/shared/home/Home";
+import Login from "../components/shared/login/Login";
+import Register from "../components/shared/login/Register";
+import Dashboard from "../components/super-admin/dashboard/Dashboard";
+import LayoutDefiner from "../components/super-admin/layout-definer/LayoutDefiner";
 
-import NotFound from "../components/sheared/notFound/NotFound";
+import NotFound from "../components/shared/notFound/NotFound";
 
 const Router = () => {
 	return (
@@ -35,6 +36,12 @@ const Router = () => {
 					path="/dashboard"
 					element={<Dashboard />}
 				/>
+
+				<Route
+					path="/layoutdef"
+					element={<LayoutDefiner />}
+				/>
+
 
 				<Route
 					path="*"

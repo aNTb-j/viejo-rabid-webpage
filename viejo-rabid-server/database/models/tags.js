@@ -13,4 +13,6 @@ export const Tags = sequelize.define("Tags", {
 		type: DataTypes.STRING,
 		allowNull: false
 	}
-})
+}, {
+    timestamps: false
+});

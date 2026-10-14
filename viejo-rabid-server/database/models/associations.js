@@ -32,3 +32,18 @@ Tags.belongsToMany(Products, {
     foreignKey: 'id_tag_fk',
     otherKey: 'id_product_fk'
 });
+
+// Asociacion entre tags y tagGroups
+TagGroups.belongsToMany(Tags, {
+    through: TagGroupTags,
+    foreignKey: 'id_group_fk',
+    otherKey: 'id_tag_fk',
+    as: 'tags'
+});
+
+Tags.belongsToMany(TagGroups, {
+    through: TagGroupTags,
+    foreignKey: 'id_tag_fk',
+    otherKey: 'id_group_fk',
+    as: 'groups'
+});

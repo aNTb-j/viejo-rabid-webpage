@@ -12,13 +12,19 @@ https://es.react.dev/learn/responding-to-events
 https://es.react.dev/learn/adding-interactivity
 */
 
-import { useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { Form, Button, Card } from 'react-bootstrap';
+
 import { useNavigate } from 'react-router';
+
+import { AuthenticationContext } from '../auth/auth.context';
+import { errorToast, successToast } from "../../shared/toast/toast";
 
 import styles from './Login.module.css'
 
 const Login = () => {
+	const { handleUserLogin } = useContext(AuthenticationContext)
+
 	const [user, setUser] = useState("");
 	const [password, setPassword] = useState("");
 
@@ -42,13 +48,40 @@ const Login = () => {
 	const handleLogin = (event) => {
 		event.preventDefault();
 
+		let data = {
+			user,
+			password
+		}
+
 		setErrors({ user: false, password: false });
-		navigate("/home")
+
+		fetch("http://localhost:3000/login", {
+			method: "POST",
+			headers: { "Content-type": "application/json" },
+			body: JSON.stringify(data)
+		})
+			.then(res => {
+				if (!res.ok)
+					return res.json().then(data => {
+						errorToast(data.message);
+						throw new Error(data.message);
+					});
+
+				return res.json();
+			})
+			.then(res => {
+				setErrors({ email: false, password: false });
+				handleUserLogin(res.token);
+				successToast("Sesion iniciada con exito")
+				navigate("/home");
+				
+			})
+			.catch(err => console.log(err))
+
 	};
 
 	const handleRegistrer = () => {
 		navigate("/register")
-
 	};
 
 

@@ -30,23 +30,23 @@ export const getAllTags = async (req, res) => {
 };
 
 export const getAllTagGroups = async (req, res) => {
-  try {
-    const groups = await TagGroups.findAll({
-      include: [{
-        model: Tags,
-        as: 'tags',
-        through: { attributes: [] }
-      }]
-    });
+	try {
+		const groups = await TagGroups.findAll({
+			include: [{
+				model: Tags,
+				as: 'tags',
+				through: { attributes: [] }
+			}]
+		});
 
-    return res.json(groups);
-  } catch (error) {
-    console.error(error);
+		return res.json(groups);
+	} catch (error) {
+		console.error(error);
 
-    return res.status(500).json({
-      message: 'Error al obtener los grupos'
-    });
-  }
+		return res.status(500).json({
+			message: 'Error al obtener los grupos'
+		});
+	}
 };
 
 export const createTagGroup = async (req, res) => {
@@ -77,6 +77,7 @@ export const createTagGroup = async (req, res) => {
 			message: 'Grupo creado correctamente',
 			group
 		});
+		
 	} catch (error) {
 		console.error('Error al crear el grupo:', error);
 

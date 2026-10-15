@@ -1,12 +1,17 @@
 import { Router } from "express";
 
-import { registerUser } from "../service/login.service.js";
+import { loginUser, registerUser } from "../service/login.service.js";
 import { addProduct, getAllProducts } from "../service/product.service.js";
 import { getAllTags, getAllTagGroups, createTagGroup } from "../service/definer.service.js";
+
+import { verifyToken } from '../middleware/auth.js';
+
 
 const router = Router();
 
 // login
+
+router.post("/login", loginUser)
 
 router.post("/register", registerUser)
 

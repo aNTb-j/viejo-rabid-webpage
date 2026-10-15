@@ -1,0 +1,172 @@
+.tableContainer {
+	width: 100%;
+	min-width: 0;
+	overflow: hidden;
+	background-color: #f5f1e8;
+	border: 1px solid #deded3;
+	border-radius: 12px;
+	box-shadow: 0 2px 8px rgb(52 78 65 / 5%);
+}
+
+.tableHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 22px 24px;
+}
+
+.title {
+	margin: 0;
+	color: #344e41;
+	font-size: 1.1rem;
+	font-weight: 700;
+}
+
+.subtitle {
+	margin: 5px 0 0;
+	color: #72786e;
+	font-size: 0.85rem;
+}
+
+.productCount {
+	flex-shrink: 0;
+	padding: 7px 12px;
+	border-radius: 20px;
+	background-color: #e2e7dc;
+	color: #344e41;
+	font-size: 0.8rem;
+	font-weight: 600;
+}
+
+.tableWrapper {
+	width: 100%;
+	overflow-x: auto;
+}
+
+.productTable {
+	width: 100%;
+	margin-bottom: 0;
+	vertical-align: middle;
+	border-collapse: separate;
+	border-spacing: 0;
+	--bs-table-bg: transparent;
+	--bs-table-color: #344e41;
+	--bs-table-hover-bg: #eeeee4;
+	--bs-table-hover-color: #344e41;
+}
+
+.productTable thead th {
+	padding: 14px 20px;
+	border-top: 1px solid #deded3;
+	border-bottom: 1px solid #deded3;
+	background-color: #344e41;
+	color: #ffffff;
+	font-size: 0.78rem;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+.productTable tbody td {
+	padding: 16px 20px;
+	border-bottom: 1px solid #e7e4da;
+	font-size: 0.9rem;
+}
+
+.productTable tbody tr:last-child td {
+	border-bottom: none;
+}
+
+.productTable tbody tr:hover td {
+	background-color: #eeeee4;
+}
+
+.idCell {
+	color: #72786e !important;
+	font-size: 0.82rem !important;
+	font-variant-numeric: tabular-nums;
+}
+
+.nameCell {
+	color: #344e41 !important;
+	font-weight: 600;
+}
+
+.sizeBadge {
+	display: inline-block;
+	min-width: 38px;
+	padding: 5px 9px;
+	border: 1px solid #deded3;
+	border-radius: 6px;
+	background-color: #fffefa;
+	color: #344e41;
+	font-size: 0.8rem;
+	font-weight: 600;
+	text-align: center;
+}
+
+.stockBadge {
+	display: inline-block;
+	min-width: 34px;
+	padding: 5px 10px;
+	border-radius: 6px;
+	font-size: 0.82rem;
+	font-weight: 700;
+	text-align: center;
+	font-variant-numeric: tabular-nums;
+}
+
+.stockAvailable {
+	background-color: #e2e7dc;
+	color: #344e41;
+}
+
+.stockLow {
+	background-color: #f6e8c9;
+	color: #805d1d;
+}
+
+.stockEmpty {
+	background-color: #f3deda;
+	color: #963f35;
+}
+
+.emptyState {
+	padding: 48px 20px !important;
+	color: #72786e;
+	text-align: center;
+}
+
+.emptyTitle {
+	margin-bottom: 8px;
+	color: #344e41;
+	font-weight: 700;
+}
+
+.emptyState p {
+	margin: 0;
+	font-size: 0.88rem;
+}
+
+@media (max-width: 576px) {
+	.tableHeader {
+		align-items: flex-start;
+		padding: 18px 14px;
+	}
+
+	.title {
+		font-size: 1rem;
+	}
+
+	.productCount {
+		padding: 6px 9px;
+		font-size: 0.72rem;
+	}
+
+	.productTable thead th,
+	.productTable tbody td {
+		padding: 13px 14px;
+	}
+}

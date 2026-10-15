@@ -7,33 +7,22 @@ Aplicación web desarrollada con **JavaScript + React** para gestionar productos
 ### 1. Gestión de productos y stock
 
 * Alta, baja, modificación y consulta de productos (**CRUD**).
+
 * Generación de código identificador propio para productos que no posean código de barras.
-* Lectura de códigos de barras.
+* Lectura de códigos de barras. **a ver**
 * Registro de:
 
-  * Código de producto / código de barras.
+  * Código de producto / código de barras. (Codigo interno)
   * Talle.
   * Color.
-  * Fecha de compra.
-  * Precio de compra.
-  * Precio de venta.
-  * Stock actual.
-  * Stock mínimo.
+  * Precio.
+  * tags (Tabla Intermedia).
+
 * Control y actualización del stock.
 * Identificación de productos que llevan demasiado tiempo en stock.
 * Sistema de alertas para productos con stock antiguo o bajo.
 
-### 2. Base de datos de compras
-
-* Registro de las compras realizadas.
-* Asociación de productos con cada compra.
-* Registro y consulta por fecha.
-* Diferenciación de compras según período.
-* Confirmación de compras por parte del **superadministrador**.
-* Seguimiento del estado de cada compra.
-* Integración de las compras con el sistema de stock.
-
-### 3. Ventas y análisis
+### 2. Ventas y análisis
 
 * Registro de ventas.
 * Actualización automática del stock después de una venta.
@@ -47,7 +36,7 @@ Aplicación web desarrollada con **JavaScript + React** para gestionar productos
 * Analizador de ventas mediante tablas y/o gráficos.
 * Consulta de ventas por períodos.
 
-### 4. Página principal (Home)
+### 3. Página principal (Home)
 
 * Carrusel de productos.
 * Utilización de un banco de imágenes.
@@ -55,7 +44,7 @@ Aplicación web desarrollada con **JavaScript + React** para gestionar productos
 * Bloques de contenido condicionados por información del stock.
 * Diseño visual basado en una paleta **beige y verde militar**.
 
-### 5. Pagos y envíos
+### 4. Pagos y envíos
 
 * Integración con un sistema de pagos.
 * Automatización del proceso de envío.
@@ -81,8 +70,8 @@ Aplicación web desarrollada con **JavaScript + React** para gestionar productos
 
 A definir según las necesidades del proyecto:
 
-* SQLite
-* CSV para importación/exportación de información
+* SQLite.
+* CSV para importación/exportación de información.
 
 ## Datos y análisis
 
@@ -161,12 +150,12 @@ Teoría y práctica de:
 
 Evaluar SQLite como sistema de persistencia para el proyecto.
 
-### CSV
 
-* Importación de datos.
-* Exportación de datos.
-* Conversión entre CSV y objetos JavaScript.
-* Validación de información importada.
+
+
+### A VER
+
+
 
 ## Códigos de barras
 
@@ -187,6 +176,7 @@ Evaluar SQLite como sistema de persistencia para el proyecto.
 * Alertas de stock.
 * Antigüedad del inventario.
 
+
 ## Análisis de ventas
 
 * Cálculo de ingresos.
@@ -199,6 +189,7 @@ Evaluar SQLite como sistema de persistencia para el proyecto.
 * Productos con mayor permanencia en stock.
 * Visualización mediante gráficos.
 
+
 ## Autenticación y autorización
 
 * Usuarios y roles.
@@ -209,6 +200,7 @@ Evaluar SQLite como sistema de persistencia para el proyecto.
 * Protección de rutas.
 * Rol de **superadministrador**.
 * Permisos según tipo de usuario.
+
 
 ## APIs e integraciones
 
@@ -238,41 +230,3 @@ Estudiar las APIs y mecanismos de integración disponibles para:
 * Automatización de estados de compras.
 * Automatización de información de ventas.
 * Automatización de procesos relacionados con envíos.
-
----
-
-# Arquitectura inicial
-
-```text
-src/
-├── components/
-├── pages/
-├── layouts/
-├── routes/
-├── hooks/
-├── services/
-├── context/
-├── utils/
-├── data/
-├── assets/
-└── styles/
-```
-
-La estructura podrá modificarse a medida que aumente la complejidad del proyecto.
-
----
-
-# Decisiones pendientes
-
-* [ ] Definir SQLite como base de datos principal.
-* [ ] Definir utilización de CSV para importación/exportación.
-* [ ] Seleccionar librería para lectura de códigos de barras.
-* [ ] Seleccionar librería para generación de códigos de barras.
-* [ ] Seleccionar librería de gráficos.
-* [ ] Definir proveedor de pagos.
-* [ ] Investigar integración con MiCorreo.
-* [ ] Investigar integración con Andreani.
-* [ ] Definir banco de imágenes.
-* [ ] Definir sistema de autenticación.
-* [ ] Definir roles y permisos.
-* [ ] Definir modelo definitivo de datos.

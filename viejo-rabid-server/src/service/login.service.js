@@ -1,6 +1,45 @@
 import { User } from "../database/models/user.js";
-import dotenv from 'dotenv';
-import bcrypt from 'bcrypt'; 
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+// Get
+export const loginUser = async (req, res) => {
+	try {
+		const { user, password } = req.body;
+
+		const checkUser = await User.findOne({
+			where: { user }
+		})
+
+		if (!checkUser)
+			return res.status(401).send({ message: "Usuario no encontrado" })
+
+		const comparison = await bcrypt.compare(password, checkUser.password);
+
+		if (!comparison)
+			return res.status(401).send({ message: "Usuario o contraseña incorrecta" });
+
+		const secretKey = process.env.SECRETKEY;
+
+		if (!secretKey) {
+			throw new Error("Falta configurar SECRETKEY");
+		}
+
+		const token = jwt.sign({ user: checkUser.user }, secretKey, { expiresIn: "1h" });
+
+		return res.json({ token });
+
+	} catch (error) {
+		console.error("Error al iniciar sesión:", error);
+
+		return res.status(500).json({
+			message: "Error interno al iniciar sesión"
+		});
+	}
+};
 
 
 // Post
@@ -13,7 +52,7 @@ export const registerUser = async (req, res) => {
 		if (existingUser)
 			return res.status(400).send({ message: "Usuario existente" })
 
-		
+
 		// Hash
 		const saltRounds = 10;
 
@@ -39,35 +78,10 @@ export const registerUser = async (req, res) => {
 
 	} catch (error) {
 		console.error("Error al registrar usuario:", error);
-		
+
 		return res.status(500).json({
 			message: "Error interno al registrar el usuario"
 		});
 	}
 }
-
-
-// Get
-export const loginUser = async (req, res) => {
-	const { user, password } = req.body;
-
-	const checkUser = await User.findOne({
-		where: { user }
-	})
-
-	if (!user)
-		return res.status(401).send({ message: "Usuario no encontrado" })
-
-	const comparison = await bcrypt.compare(password.user.password);
-
-	if (!comparison)
-		return res.status(401).send({ message: "Usuario o contraseña incorrecta" });
-
-
-	const secretKey = process.env.SECRETKEY;
-
-	const token = jwt.sign({ user }, secretKey, { expressIn: '1h' });
-
-	return res.json(token);
-};
 

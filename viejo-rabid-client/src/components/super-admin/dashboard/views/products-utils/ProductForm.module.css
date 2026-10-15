@@ -1,0 +1,174 @@
+.productFormContainer {
+	width: 100%;
+	margin-bottom: 24px;
+	overflow: hidden;
+	background-color: #f5f1e8;
+	border: 1px solid #deded3;
+	border-radius: 12px;
+	box-shadow: 0 2px 8px rgb(52 78 65 / 5%);
+}
+
+.toggleButton {
+	display: block;
+	width: 100%;
+	padding: 18px 22px;
+	border: none;
+	border-radius: 0;
+	background-color: transparent;
+	color: #344e41;
+	text-align: left;
+}
+
+.toggleButton:hover,
+.toggleButton:focus,
+.toggleButton:active {
+	background-color: #ebe9de !important;
+	color: #344e41 !important;
+}
+
+.toggleContent {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.toggleTitle {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	font-size: 1.05rem;
+	font-weight: 700;
+}
+
+.toggleDescription {
+	display: block;
+	margin-top: 5px;
+	color: #72786e;
+	font-size: 0.85rem;
+	font-weight: 400;
+}
+
+.chevron {
+	display: inline-block;
+	color: #344e41;
+	font-size: 1.9rem;
+	line-height: 1;
+	transition: transform 0.25s ease;
+}
+
+.chevronOpen {
+	transform: rotate(180deg);
+}
+
+.formContent {
+	display: grid;
+	grid-template-rows: 0fr;
+	visibility: hidden;
+	border-top: 0 solid #deded3;
+	transition:
+		grid-template-rows 0.3s ease,
+		visibility 0.3s ease,
+		border-top-width 0.3s ease;
+}
+
+.formExpanded {
+	grid-template-rows: 1fr;
+	visibility: visible;
+	border-top-width: 1px;
+}
+
+.formInner {
+	min-height: 0;
+	overflow: hidden;
+}
+
+.formInner form {
+	padding: 24px;
+}
+
+.formGroup {
+	margin-bottom: 20px;
+}
+
+.formGroup :global(.form-label) {
+	margin-bottom: 7px;
+	color: #344e41;
+	font-size: 0.9rem;
+	font-weight: 600;
+}
+
+.formGroup :global(.form-control),
+.formGroup :global(.form-select) {
+	min-height: 42px;
+	border: 1px solid #d7d8cc;
+	border-radius: 7px;
+	background-color: #fffefa;
+	color: #344e41;
+	box-shadow: none;
+}
+
+.formGroup :global(.form-control:focus),
+.formGroup :global(.form-select:focus) {
+	border-color: #52745c;
+	box-shadow: 0 0 0 3px rgb(82 116 92 / 14%);
+}
+
+.formGroup :global(.form-text) {
+	color: #72786e;
+	font-size: 0.8rem;
+}
+
+.formActions {
+	display: flex;
+	justify-content: flex-end;
+	padding-top: 8px;
+	border-top: 1px solid #deded3;
+}
+
+.submitButton {
+	min-height: 42px;
+	padding: 9px 22px;
+	border: none;
+	border-radius: 7px;
+	background-color: #344e41;
+	font-weight: 600;
+}
+
+.submitButton:hover,
+.submitButton:focus {
+	background-color: #263b31;
+}
+
+.message {
+	margin-top: 16px;
+}
+
+@media (max-width: 576px) {
+	.toggleButton {
+		padding: 15px;
+	}
+
+	.toggleDescription {
+		margin-left: 0;
+	}
+
+	.formInner form {
+		padding: 18px 14px;
+	}
+
+	.formActions {
+		justify-content: stretch;
+	}
+
+	.submitButton {
+		width: 100%;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.formContent,
+	.chevron {
+		transition: none;
+	}
+}

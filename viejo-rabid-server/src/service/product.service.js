@@ -91,16 +91,24 @@ export const addProduct = async (req, res) => {
 
 /* GET */
 export const getAllProducts = async (req, res) => {
-	try {
-		const products = 	await Products.findAll();
-		res.json(products);
+  try {
+    const products = await Products.findAll({
+      include: [{
+        model: Tags,
+        as: 'tags',
+        through: {
+          attributes: []
+        }
+      }]
+    });
 
-	} catch (error) {
-		console.error('Error al obtener los productos:', error);
+    return res.json(products);
+  } catch (error) {
+    console.error('Error al obtener productos:', error);
 
-		return res.status(500).json({
-			message: 'Error interno al registrar el producto'
-		});
-	}
-}
+    return res.status(500).json({
+      message: 'Error al obtener los productos'
+    });
+  }
+};
  

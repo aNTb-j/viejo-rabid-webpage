@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card';
 
 import styles from './ProductCard.module.css';
 
-const ProductCard = ({ name, selectedColor,setSelectedColor, colorOptions, price, image }) => {
+const ProductCard = ({ name, selectedColor, price, image }) => {
 	return (
 		<Card className={styles.card}>
 			<div className={styles.imageContainer}>
@@ -32,23 +32,7 @@ const ProductCard = ({ name, selectedColor,setSelectedColor, colorOptions, price
 						Color: {selectedColor}
 					</span>
 
-					<div className={styles.colorOptions}>
-						{colorOptions.map((option) => (
-							<button
-								key={option.name}
-								type="button"
-								title={option.name}
-								aria-label={`Seleccionar color ${option.name}`}
-								aria-pressed={selectedColor === option.name}
-								className={`${styles.colorButton} ${selectedColor === option.name
-										? styles.selectedColor
-										: ''
-									}`}
-								style={{ '--swatch-color': option.value }}
-								onClick={() => setSelectedColor(option.name)}
-							/>
-						))}
-					</div>
+		
 				</div>
 
 				<Button

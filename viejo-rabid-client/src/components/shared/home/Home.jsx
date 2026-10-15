@@ -48,14 +48,10 @@ const Home = () => {
 				</section>
 
 				{groups.map(group => {
-					const groupTagIds = (group.tags ?? []).map(tag =>
-						Number(tag.id_tag)
-					);
+					const groupTagIds = (group.tags ?? []).map(tag => Number(tag.id_tag));
 
 					const groupProducts = products.filter(product => {
-						const productTagIds = (product.tags ?? []).map(tag =>
-							Number(tag.id_tag)
-						);
+						const productTagIds = (product.tags ?? []).map(tag => Number(tag.id_tag));
 
 						return (
 							groupTagIds.length > 0 &&

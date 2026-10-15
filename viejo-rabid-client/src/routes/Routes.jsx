@@ -18,35 +18,17 @@ const Router = () => {
 
 			<Routes>
 
-				<Route
-					path="/login"
-					element={<Login />}
-				/>
+				<Route path="/login" element={<Login />} />
 
-				<Route
-					path="/register"
-					element={<Register />}
-				/>
+				<Route path="/register" element={<Register />} />
 
-				<Route
-					path="/home"
-					element={<Home />}
-				/>
-				<Route
-					path="/dashboard"
-					element={<Dashboard />}
-				/>
+				<Route path="/home" element={<Home />} />
 
-				<Route
-					path="/layoutdef"
-					element={<LayoutDefiner />}
-				/>
+				<Route path="/dashboard" element={<Dashboard />} />
 
+				<Route path="/layoutdef" element={<LayoutDefiner />} />
 
-				<Route
-					path="*"
-					element={<NotFound />}
-				/>
+				<Route path="*" element={<NotFound />} />
 
 			</Routes>
 

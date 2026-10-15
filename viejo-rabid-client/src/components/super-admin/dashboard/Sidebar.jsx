@@ -5,57 +5,71 @@ import Button from 'react-bootstrap/Button';
 
 import styles from './Sidebar.module.css';
 
+import { HomeIcon, ProductIcon, StockIcon, PurchasesIcon, SalesIcon }from './utils/SideBarIcons.jsx';
 
-const Sidebar = ({ setSection  }) => {
+const Sidebar = ({ setSection }) => {
+	const [sidebarState, setSidebarState] = useState('expanded');
 
-	const [sidebarState, setSidebarState] = useState('hidden')
+	const isCollapsed = sidebarState === 'collapsed';
+
+	const menuItems = [
+		{ id: 'home', label: 'Inicio', Icon: HomeIcon },
+		{ id: 'products', label: 'Productos', Icon: ProductIcon },
+		{ id: 'stock', label: 'Stock', Icon: StockIcon },
+		{ id: 'purchaces', label: 'Compras', Icon: PurchasesIcon },
+		{ id: 'sales', label: 'Ventas', Icon: SalesIcon },
+	];
 
 	function handleSidebarState() {
-		sidebarState === 'hidden' ? setSidebarState("seen") : setSidebarState('hidden')
-		console.log(sidebarState)
-	};
-
-
-	function handleBagininSection() {
-		setSection('home');
-	};
-
-	function handleProductView() {
-		setSection('products');
-	};
-
-	function handleStockstView() {
-		setSection('stock');
-	};
-
-	function handlePurchasesView() {
-		setSection('purchaces');
-	};
-
-	function handleSellstView() {
-		setSection('sales');
-	};
+		setSidebarState((current) =>
+			current === 'expanded' ? 'collapsed' : 'expanded'
+		);
+	}
 
 	return (
-		<aside className={`${styles.sidebar} ${styles[sidebarState]}`}>
-			<h4 className={styles.title}>SideBar
-				<Button onClick={handleSidebarState}>
-					H
-				</Button>
-			</h4>
+		<aside
+			className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : ''}`}>
+			<div className={styles.header}>
+				{!isCollapsed && (
+					<h4 className={styles.title}>Viejo Rabid</h4>
+				)}
 
-			<Nav className="flex-column">
-				
-				<Nav.Link onClick={handleBagininSection}>Inicio</Nav.Link>
-				<Nav.Link onClick={handleProductView}>Productos</Nav.Link>
-				<Nav.Link onClick={handleStockstView}>Stock</Nav.Link>
-				<Nav.Link onClick={handlePurchasesView}>Compras</Nav.Link>
-				<Nav.Link onClick={handleSellstView}>Ventas</Nav.Link>
-				
+				<Button
+					variant="light"
+					className={styles.toggleButton}
+					onClick={handleSidebarState}
+					aria-label={
+						isCollapsed
+							? 'Expandir menú'
+							: 'Contraer menú'
+					}
+					aria-expanded={!isCollapsed}
+				>
+					{isCollapsed ? '»' : '«'}
+				</Button>
+			</div>
+
+			<Nav className={styles.nav}>
+				{menuItems.map(({ id, label, Icon }) => (
+					<Nav.Link
+						key={id}
+						onClick={() => setSection(id)}
+						className={styles.sidebarLink}
+						title={isCollapsed ? label : undefined}
+						aria-label={label}
+					>
+						<Icon size={24} />
+
+						{!isCollapsed && (
+							<span className={styles.linkText}>
+								{label}
+							</span>
+						)}
+					</Nav.Link>
+				))}
 			</Nav>
 		</aside>
 	);
 };
 
 export default Sidebar;
-

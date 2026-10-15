@@ -1,13 +1,13 @@
 import { DataTypes } from "sequelize";
 import { sequeilize } from "../db.js";
 
-export const Stocks = sequeilize.define("stocks" , {
-	id_stock: {
+export const Purchases = sequeilize.define("purchases" , {
+	id_purchases: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
 		autoIncrement: true
 	}, 
-	id_producto_fk: {
+	date: {
 		type: DataTypes.INTEGER,
 		foreignKey: true,
 		allowNull: false

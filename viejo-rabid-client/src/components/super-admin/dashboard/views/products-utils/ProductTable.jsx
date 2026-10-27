@@ -1,15 +1,84 @@
 
-// https://es.react.dev/reference/react/useMemo
-import Table from 'react-bootstrap/Table';
-
+import CustomTable from '../../../../shared/table/CustomTable';
 import styles from './ProductTable.module.css';
 
 function ProductTable({ products = [], onEdit, onDelete }) {
+	const titles = [
+		{
+			key: 'id_product',
+			label: 'ID',
+			render: (product) => (
+				<span className={styles.idCell}>
+					#{product.id_product}
+				</span>
+			),
+		},
+		{
+			key: 'name',
+			label: 'Producto',
+			render: (product) => (
+				<span className={styles.nameCell}>
+					{product.name}
+				</span>
+			),
+		},
+		{
+			key: 'size',
+			label: 'Talle',
+			render: (product) => (
+				<span className={styles.sizeBadge}>
+					{product.size || 'Sin talle'}
+				</span>
+			),
+		},
+		{
+			key: 'stock',
+			label: 'Stock',
+			render: (product) => {
+				const stock = Number(product.stock);
+
+				const stockClass =
+					stock === 0
+						? styles.stockEmpty
+						: stock <= 5
+							? styles.stockLow
+							: styles.stockAvailable;
+
+				return (
+					<span
+						className={`${styles.stockBadge} ${stockClass}`}
+					>
+						{product.stock}
+					</span>
+				);
+			},
+		},
+		{
+			key: 'actions',
+			label: 'Acciones',
+			render: (product) => (
+				<div>
+					<button onClick={() => onEdit?.(product)}>
+						Editar
+					</button>
+
+					<button onClick={() => onDelete?.(product.id_product)}>
+						Eliminar
+					</button>
+				</div>
+			),
+		} 
+	];
+
+
 	return (
 		<section className={styles.tableContainer}>
 			<div className={styles.tableHeader}>
 				<div>
-					<h5 className={styles.title}>Inventario de productos</h5>
+					<h5 className={styles.title}>
+						Inventario de productos
+					</h5>
+
 					<p className={styles.subtitle}>
 						Productos registrados en el sistema
 					</p>
@@ -21,64 +90,14 @@ function ProductTable({ products = [], onEdit, onDelete }) {
 			</div>
 
 			<div className={styles.tableWrapper}>
-				<Table responsive hover className={styles.productTable}>
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th>Producto</th>
-							<th>Talle</th>
-							<th>Stock</th>
-						</tr>
-					</thead>
-
-					<tbody>
-						{products.length > 0 ? (
-							products.map(product => (
-								<tr key={product.id_product}>
-									<td className={styles.idCell}>
-										#{product.id_product}
-									</td>
-
-									<td className={styles.nameCell}>
-										{product.name}
-									</td>
-
-									<td>
-										<span className={styles.sizeBadge}>
-											{product.size || 'Sin talle'}
-										</span>
-									</td>
-
-									<td>
-										<span
-											className={`${styles.stockBadge} ${Number(product.stock) === 0
-													? styles.stockEmpty
-													: Number(product.stock) <= 5
-														? styles.stockLow
-														: styles.stockAvailable
-												}`}
-										>
-											{product.stock}
-										</span>
-									</td>
-								</tr>
-							))
-						) : (
-							<tr>
-								<td colSpan="4" className={styles.emptyState}>
-									<div className={styles.emptyTitle}>
-										No hay productos registrados
-									</div>
-
-									<p>
-										Los productos que agregues aparecerán
-										en esta tabla.
-									</p>
-								</td>
-							</tr>
-						)}
-					</tbody>
-				</Table>
+				<CustomTable
+					titles={titles}
+					data={products}
+					rowKey="id_product"
+					emptyMessage="No hay productos registrados"
+					emptyDescription="Los productos que agregues aparecerán en esta tabla."
+					className={styles.productTable}
+				/>
 			</div>
 		</section>
 	);

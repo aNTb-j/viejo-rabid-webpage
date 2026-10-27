@@ -16,6 +16,7 @@ Tags.belongsToMany(TagGroups, {
 	as: 'groups'
 });
 
+
 export const getAllTags = async (req, res) => {
 	try {
 		const tags = await Tags.findAll();

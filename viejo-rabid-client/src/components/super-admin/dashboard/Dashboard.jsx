@@ -10,6 +10,8 @@ import Sidebar from './Sidebar.jsx';
 
 import DashboardView from './views/DashboardView.jsx';
 import ProductsView from './views/ProductsView.jsx';
+import SuppliersView from './views/SuppliersView.jsx';
+import PurchasesView from './views/PurchasesView.jsx';
 
 // React Bootstrap Off-Canvas
 
@@ -34,6 +36,8 @@ const Dashboard = () => {
 					<Col xs={10}>
 						{section === 'home' && <DashboardView />}
 						{section === 'products' && <ProductsView />}
+						{section === 'suppliers' && <SuppliersView />}
+						{section === 'purchases' && <PurchasesView />}
 					</Col>
 
 				</Row>

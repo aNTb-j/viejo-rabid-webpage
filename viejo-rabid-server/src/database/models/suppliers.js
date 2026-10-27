@@ -1,25 +1,26 @@
 import { DataTypes } from "sequelize";
-import { squeilize } from "../db.js";
+import { sequelize } from "../db.js";
 
 // Tabla principal
-export const Suppliers = squeilize.define("Suppliers" , {
-	id_suplier: {
+export const Suppliers = sequelize.define("Suppliers", {
+	id_supplier: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
 		autoIncrement: true
-	}, 
-	id_supplier_fk: {
-		type: DataTypes.INTEGER,
-		foreignKey: true,
+	},
+	suppliersName: {
+		type: DataTypes.STRING,
 		allowNull: false
 	},
 	email: {
 		type: DataTypes.STRING,
 		allowNull: false
 	},
-	telefono: {
+	supplierPhone: {
 		type: DataTypes.BIGINT,
 		allowNull: false
 	}
+}, {
+	timestamp: false
 })
 

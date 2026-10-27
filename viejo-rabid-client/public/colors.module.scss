@@ -1,0 +1,74 @@
+
+:root {
+	/* ========= Brand ========= */
+	--accent: hsl(77, 95%, 56%);
+	--accent-hover: hsl(77, 95%, 63%);
+	--accent-soft: hsla(77, 95%, 56%, .15);
+
+	/* ========= Dark ========= */
+	--dark-background: hsl(0, 0%, 0%);
+	--dark-surface: hsl(0, 0%, 0%);
+	--dark-panel: hsl(0, 0%, 0%);
+	--dark-card: hsl(223, 18%, 8%);
+	--dark-card-hover: hsl(226, 24%, 14%);
+	--dark-border: hsl(221, 33%, 9%);
+	--dark-text1: hsl(0, 0%, 100%);
+	--dark-text2: hsl(0, 0%, 100%);
+	--crt-dark-scanline: hsla(0, 0%, 0%, .16);
+	--crt-dark-red: hsla(0, 100%, 65%, .025);
+	--crt-dark-green: hsla(120, 100%, 65%, .020);
+	--crt-dark-blue: hsla(220, 100%, 65%, .025);
+	--crt-dark-glow: hsla(77, 95%, 56%, .18);
+
+	/* ========= Light ========= */
+	--light-background: hsl(40, 25%, 98%);
+	--light-surface: hsl(0, 0%, 100%);
+	--light-panel: hsl(60, 20%, 96%);
+	--light-card: hsl(60, 18%, 94%);
+	--light-card-hover: hsl(60, 16%, 91%);
+	--light-border: hsl(220, 12%, 82%);
+	--light-text1: hsl(220, 10%, 42%);
+	--light-text2: hsl(220, 18%, 12%);
+	--crt-light-scanline: hsla(0, 0%, 0%, .05);
+	--crt-light-red: hsla(0, 100%, 55%, .010);
+	--crt-light-green: hsla(120, 100%, 45%, .008);
+	--crt-light-blue: hsla(220, 100%, 55%, .010);
+	--crt-light-glow: hsla(77, 95%, 56%, .08);
+
+	--vivid-color: hsl(87, 100%, 50%);
+	--vivid-color-contrast: hsl(111, 100%, 12%);
+}
+
+:root {
+	--background: var(--light-background);
+	--surface: var(--light-surface);
+	--panel: var(--light-panel);
+	--card: var(--light-card);
+	--card-hover: var(--light-card-hover);
+	--border: var(--light-border);
+	--text1: var(--light-text1);
+	--text2: var(--light-text2);
+	--crt-scanline: var(--crt-light-scanline);
+	--crt-red: var(--crt-light-red);
+	--crt-green: var(--crt-light-green);
+	--crt-blue: var(--crt-light-blue);
+	--crt-glow: var(--crt-light-glow);
+	--v-color: var(--vivid-color-contrast)
+}
+
+[data-theme=dark] {
+	--background: var(--dark-background);
+	--surface: var(--dark-surface);
+	--panel: var(--dark-panel);
+	--card: var(--dark-card);
+	--card-hover: var(--dark-card-hover);
+	--border: var(--dark-border);
+	--text1: var(--dark-text1);
+	--text2: var(--dark-text2);
+	--crt-scanline: var(--crt-dark-scanline);
+	--crt-red: var(--crt-dark-red);
+	--crt-green: var(--crt-dark-green);
+	--crt-blue: var(--crt-dark-blue);
+	--crt-glow: var(--crt-dark-glow);
+	--v-color: var(--vivid-color)
+}

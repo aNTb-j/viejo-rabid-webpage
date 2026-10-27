@@ -5,11 +5,20 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+
+// Crear un custom Hook para chekear validar la existencia del usuario
+//
+//
+//
+//
+
+
 // Get
 export const loginUser = async (req, res) => {
 	try {
 		const { user, password } = req.body;
 
+		// Verifica si un usuario ya existe
 		const checkUser = await User.findOne({
 			where: { user }
 		})
@@ -17,11 +26,14 @@ export const loginUser = async (req, res) => {
 		if (!checkUser)
 			return res.status(401).send({ message: "Usuario no encontrado" })
 
+		// Compara contraseñas
 		const comparison = await bcrypt.compare(password, checkUser.password);
+
 
 		if (!comparison)
 			return res.status(401).send({ message: "Usuario o contraseña incorrecta" });
 
+		// JWT 
 		const secretKey = process.env.SECRETKEY;
 
 		if (!secretKey) {
@@ -47,19 +59,20 @@ export const registerUser = async (req, res) => {
 	try {
 		const { user, password, dni, username, surname, email, birthdate, phone_number } = req.body;
 
+		// Verifica si un usuario ya existe
 		const existingUser = await User.findOne({ where: { dni } })
 
 		if (existingUser)
 			return res.status(400).send({ message: "Usuario existente" })
 
-
-		// Hash
+		// Hasheo de contraseñas
 		const saltRounds = 10;
 
 		const salt = await bcrypt.genSalt(saltRounds);
 
 		const hashedPasword = await bcrypt.hash(password, salt);
 
+		// Registro de nuevo usuario
 		const registerNewUser = await User.create({
 			user,
 			password: hashedPasword,

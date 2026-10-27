@@ -11,4 +11,6 @@ export const TagGroups = sequelize.define('TagGroups', {
     type: DataTypes.STRING,
     allowNull: false
   }
+}, {
+	timestamp: false
 });

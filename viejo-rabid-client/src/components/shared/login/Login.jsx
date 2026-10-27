@@ -13,7 +13,9 @@ https://es.react.dev/learn/adding-interactivity
 */
 
 import { useContext, useRef, useState } from 'react';
-import { Form, Button, Card } from 'react-bootstrap';
+import { Button, Card, Form } from 'react-bootstrap';
+
+import { GenericForm } from '../forms/GenericForm';
 
 import { useNavigate } from 'react-router';
 
@@ -74,7 +76,7 @@ const Login = () => {
 				handleUserLogin(res.token);
 				successToast("Sesion iniciada con exito")
 				navigate("/home");
-				
+
 			})
 			.catch(err => console.log(err))
 
@@ -90,7 +92,9 @@ const Login = () => {
 			<Card className={styles.loginCard}>
 				<Card.Body className={styles.loginBody}>
 					<div className={styles.header}>
-						<span className={styles.eyebrow}>VIEJO RABID</span>
+						<span className={styles.eyebrow}>
+							VIEJO RABID
+						</span>
 
 						<Card.Title className={styles.title}>
 							Bienvenido
@@ -102,62 +106,38 @@ const Login = () => {
 					</div>
 
 					<Form onSubmit={handleLogin} noValidate>
-						<Form.Group className={styles.field}>
-							<Form.Label>Usuario</Form.Label>
+						<GenericForm
+							id="user"
+							label="Usuario"
+							type="text"
+							placeholder="Ingresar usuario"
+							inputRef={userRef}
+							value={user}
+							onChange={handleUserChange}
+							error={errors.user ? 'Debe ingresar un usuario.' : ''}
+							className={styles.field}
+						/>
 
-							<Form.Control
-								type="text"
-								ref={userRef}
-								placeholder="Ingresar usuario"
-								onChange={handleUserChange}
-								value={user}
-								isInvalid={!!errors.user}
-							/>
+						<GenericForm
+							id="password"
+							label="Contraseña"
+							type="password"
+							placeholder="Ingresar contraseña"
+							inputRef={passwordRef}
+							value={password}
+							onChange={handlePasswordChange}
+							error={errors.password ? 'Debe ingresar una contraseña.' : ''}
+							className={styles.field}
+						/>
 
-							<Form.Control.Feedback type="invalid">
-								Debe ingresar un usuario.
-							</Form.Control.Feedback>
-						</Form.Group>
-
-						{errors.email && (
-							<p className={styles.errorMessage}>
-								Error en el email.
-							</p>
-						)}
-
-						<Form.Group className={styles.field}>
-							<Form.Label>Contraseña</Form.Label>
-
-							<Form.Control
-								type="password"
-								ref={passwordRef}
-								placeholder="Ingresar contraseña"
-								onChange={handlePasswordChange}
-								value={password}
-								isInvalid={!!errors.password}
-							/>
-
-							<Form.Control.Feedback type="invalid">
-								Debe ingresar una contraseña.
-							</Form.Control.Feedback>
-						</Form.Group>
-
-						<Button
-							variant="secondary"
-							type="submit"
-							className={styles.submitButton}
-						>
+						<Button variant="secondary" type="submit" className={styles.submitButton}>
 							Iniciar sesión
 						</Button>
 
 						<div className={styles.registerSection}>
 							<p>¿Aún no tenés cuenta?</p>
 
-							<Button
-								variant="link"
-								onClick={handleRegistrer}
-								className={styles.registerButton}
-							>
+							<Button	variant="link" onClick={handleRegistrer} className={styles.registerButton}>
 								Crear una cuenta
 							</Button>
 						</div>
@@ -166,8 +146,6 @@ const Login = () => {
 			</Card>
 		</div>
 	);
-
-
 }
 
 export default Login;

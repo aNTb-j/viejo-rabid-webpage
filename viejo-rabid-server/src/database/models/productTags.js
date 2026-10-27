@@ -12,4 +12,6 @@ export const ProductTags = sequelize.define("ProductTags", {
 		type: DataTypes.INTEGER,
 		allowNull: false
 	}
+}, {
+	timestamp: false
 });

@@ -3,11 +3,28 @@ import { useState, useEffect, Fragment } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-import HomeImageCarousels from '../carousels/HomeImageCarousels.jsx';
+import HomeImageCarousels from '../carousels/Carousel.jsx';
 import NavBar from '../navbar/NavBar.jsx';
 import ProductCard from '../card/ProductCard.jsx';
 
 import styles from './Home.module.css';
+
+// Cambiarla a banco de imagenes
+
+const homeImages = [
+	{
+		src: '../../../../public/images/home-1.jpg',
+		alt: 'Colección de ropa masculina',
+		title: 'Nueva colección',
+		description: 'Descubrí las novedades de Viejo Rabid.',
+	},
+	{
+		src: '../../../../public/images/home-2.png',
+		alt: 'Ropa casual masculina',
+		title: 'Estilo para todos los días',
+		description: 'Prendas para acompañar tu estilo.',
+	}
+];
 
 const Home = () => {
 	const [products, setProducts] = useState([]);
@@ -44,7 +61,7 @@ const Home = () => {
 
 			<main className={styles.home}>
 				<section className={styles.hero}>
-					<HomeImageCarousels />
+					<HomeImageCarousels images={homeImages} />
 				</section>
 
 				{groups.map(group => {

@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router';
 import { Card, Form, Button } from 'react-bootstrap';;
 import { errorToast, successToast } from '../toast/toast.js'
 
+import { GenericForm } from '../forms/GenericForm.jsx';
+
 import styles from './Register.module.css'
 
 
@@ -117,15 +119,18 @@ const Register = () => {
 	};
 
 
+
 	return (
 		<div className={styles.registerPage}>
 			<Card className={styles.registerCard}>
 				<Card.Body className={styles.registerBody}>
 					<div className={styles.header}>
 						<span className={styles.eyebrow}>VIEJO RABID</span>
+
 						<Card.Title className={styles.title}>
 							Crear cuenta
 						</Card.Title>
+
 						<p className={styles.subtitle}>
 							Completá tus datos para registrarte.
 						</p>
@@ -133,148 +138,131 @@ const Register = () => {
 
 					<Form onSubmit={handleRegister} noValidate>
 						<div className={styles.formGrid}>
-							<Form.Group className={styles.field}>
-								<Form.Label>Usuario</Form.Label>
-								<Form.Control
-									type="text"
-									placeholder="Ingresar usuario"
-									value={user}
-									onChange={(e) => setUser(e.target.value)}
-									isInvalid={!!errors.user}
-								/>
-								<Form.Control.Feedback type="invalid">
-									Debe ingresar un usuario.
-								</Form.Control.Feedback>
-							</Form.Group>
+							<GenericForm
+								id="user"
+								label="Usuario"
+								placeholder="Ingresar usuario"
+								value={user}
+								onChange={e => setUser(e.target.value)}
+								error={errors.user ? 'Debe ingresar un usuario.' : ''}
+								className={styles.field}
+							/>
 
-							<Form.Group className={styles.field}>
-								<Form.Label>Nombre</Form.Label>
-								<Form.Control
-									type="text"
-									placeholder="Ingresar nombre"
-									value={username}
-									onChange={(e) => setUsername(e.target.value)}
-									isInvalid={!!errors.username}
-								/>
-								<Form.Control.Feedback type="invalid">
-									Debe ingresar un nombre.
-								</Form.Control.Feedback>
-							</Form.Group>
+							<GenericForm
+								id="username"
+								label="Nombre"
+								placeholder="Ingresar nombre"
+								value={username}
+								onChange={e => setUsername(e.target.value)}
+								error={errors.username ? 'Debe ingresar un nombre.' : ''}
+								className={styles.field}
+							/>
 
-							<Form.Group className={styles.field}>
-								<Form.Label>Apellido</Form.Label>
-								<Form.Control
-									type="text"
-									placeholder="Ingresar apellido"
-									value={surname}
-									onChange={(e) => setSurname(e.target.value)}
-									isInvalid={!!errors.surname}
-								/>
-								<Form.Control.Feedback type="invalid">
-									Debe ingresar un apellido.
-								</Form.Control.Feedback>
-							</Form.Group>
+							<GenericForm
+								id="surname"
+								label="Apellido"
+								placeholder="Ingresar apellido"
+								value={surname}
+								onChange={e => setSurname(e.target.value)}
+								error={errors.surname ? 'Debe ingresar un apellido.' : ''}
+								className={styles.field}
+							/>
 
-							<Form.Group className={styles.field}>
-								<Form.Label>DNI</Form.Label>
-								<Form.Control
-									type="text"
-									inputMode="numeric"
-									placeholder="Ingresar DNI"
-									value={dni}
-									onChange={(e) => setDni(e.target.value)}
-									isInvalid={!!errors.dni}
-								/>
-								<Form.Control.Feedback type="invalid">
-									Debe ingresar un DNI válido.
-								</Form.Control.Feedback>
-							</Form.Group>
+							<GenericForm
+								id="dni"
+								label="DNI"
+								type="text"
+								inputMode="numeric"
+								placeholder="Ingresar DNI"
+								value={dni}
+								onChange={e => setDni(e.target.value)}
+								error={errors.dni ? 'Debe ingresar un DNI válido.' : ''}
+								className={styles.field}
+							/>
 
-							<Form.Group className={styles.field}>
-								<Form.Label>Correo electrónico</Form.Label>
-								<Form.Control
-									type="email"
-									placeholder="Ingresar email"
-									value={email}
-									onChange={(e) => setEmail(e.target.value)}
-									isInvalid={!!errors.email || !!errors.emailFormat}
-								/>
-								<Form.Control.Feedback type="invalid">
-									{errors.emailFormat
+							<GenericForm
+								id="email"
+								label="Correo electrónico"
+								type="email"
+								placeholder="Ingresar email"
+								value={email}
+								onChange={e => setEmail(e.target.value)}
+								error={
+									errors.emailFormat
 										? 'Ingrese un email válido.'
-										: 'Debe ingresar un email.'}
-								</Form.Control.Feedback>
-							</Form.Group>
+										: errors.email
+											? 'Debe ingresar un email.'
+											: ''
+								}
+								className={styles.field}
+							/>
 
-							<Form.Group className={styles.field}>
-								<Form.Label>Fecha de nacimiento</Form.Label>
-								<Form.Control
-									type="date"
-									aria-label="Fecha de nacimiento"
-									value={birthdate}
-									onChange={(e) => setBirthdate(e.target.value)}
-									isInvalid={!!errors.birthdate}
-								/>
-								<Form.Control.Feedback type="invalid">
-									Debe ingresar la fecha de nacimiento.
-								</Form.Control.Feedback>
-							</Form.Group>
+							<GenericForm
+								id="birthdate"
+								label="Fecha de nacimiento"
+								type="date"
+								value={birthdate}
+								onChange={e => setBirthdate(e.target.value)}
+								error={
+									errors.birthdate
+										? 'Debe ingresar la fecha de nacimiento.'
+										: ''
+								}
+								className={styles.field}
+							/>
 
-							<Form.Group className={styles.field}>
-								<Form.Label>Teléfono</Form.Label>
-								<Form.Control
-									type="tel"
-									placeholder="Ingresar teléfono"
-									value={phoneNumber}
-									onChange={(e) => setPhoneNumber(e.target.value)}
-									isInvalid={!!errors.phoneNumber}
-								/>
-								<Form.Control.Feedback type="invalid">
-									Debe ingresar un teléfono.
-								</Form.Control.Feedback>
-							</Form.Group>
+							<GenericForm
+								id="phoneNumber"
+								label="Teléfono"
+								type="tel"
+								placeholder="Ingresar teléfono"
+								value={phoneNumber}
+								onChange={e => setPhoneNumber(e.target.value)}
+								error={
+									errors.phoneNumber
+										? 'Debe ingresar un teléfono.'
+										: ''
+								}
+								className={styles.field}
+							/>
 
 							<div className={styles.sectionLabel}>
 								Seguridad de la cuenta
 							</div>
 
-							<Form.Group className={styles.field}>
-								<Form.Label>Contraseña</Form.Label>
-								<Form.Control
-									type="password"
-									placeholder="Mínimo 8 caracteres"
-									value={password}
-									onChange={(e) => setPassword(e.target.value)}
-									isInvalid={
-										!!errors.password ||
-										!!errors.passwordLength
-									}
-								/>
-								<Form.Control.Feedback type="invalid">
-									{errors.passwordLength
+							<GenericForm
+								id="password"
+								label="Contraseña"
+								type="password"
+								placeholder="Mínimo 8 caracteres"
+								value={password}
+								onChange={e => setPassword(e.target.value)}
+								error={
+									errors.passwordLength
 										? 'La contraseña debe tener al menos 8 caracteres.'
-										: 'Debe ingresar una contraseña.'}
-								</Form.Control.Feedback>
-							</Form.Group>
+										: errors.password
+											? 'Debe ingresar una contraseña.'
+											: ''
+								}
+								className={styles.field}
+							/>
 
-							<Form.Group className={styles.field}>
-								<Form.Label>Confirmar contraseña</Form.Label>
-								<Form.Control
-									type="password"
-									placeholder="Repetir contraseña"
-									value={confirmPassword}
-									onChange={(e) => setConfirmPassword(e.target.value)}
-									isInvalid={
-										!!errors.confirmPassword ||
-										!!errors.passwordMatch
-									}
-								/>
-								<Form.Control.Feedback type="invalid">
-									{errors.passwordMatch
+							<GenericForm
+								id="confirmPassword"
+								label="Confirmar contraseña"
+								type="password"
+								placeholder="Repetir contraseña"
+								value={confirmPassword}
+								onChange={e => setConfirmPassword(e.target.value)}
+								error={
+									errors.passwordMatch
 										? 'Las contraseñas no coinciden.'
-										: 'Debe confirmar la contraseña.'}
-								</Form.Control.Feedback>
-							</Form.Group>
+										: errors.confirmPassword
+											? 'Debe confirmar la contraseña.'
+											: ''
+								}
+								className={styles.field}
+							/>
 						</div>
 
 						<Button
@@ -290,6 +278,6 @@ const Register = () => {
 			</Card>
 		</div>
 	);
-};
+}
 
 export default Register;

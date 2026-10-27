@@ -1,10 +1,7 @@
 import { useState, Fragment } from 'react';
+import { Form, Button, Alert, Row, Col } from 'react-bootstrap';
 
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Alert from 'react-bootstrap/Alert';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { GenericForm } from '../../../../shared/forms/GenericForm';
 
 import styles from './ProductForm.module.css';
 
@@ -92,9 +89,6 @@ const ProductForm = ({ onAddProduct }) => {
 				>
 					<span className={styles.toggleContent}>
 						<span className={styles.toggleTitle}>
-
-
-
 							<span>Registrar producto</span>
 						</span>
 
@@ -122,88 +116,72 @@ const ProductForm = ({ onAddProduct }) => {
 						<Form onSubmit={handleProductAgregation}>
 							<Row>
 								<Col md={6}>
-									<Form.Group
+									<GenericForm
+										id="idSupplier"
+										text="Proveedor"
+										label="Proveedor"
+										type="number"
+										value={idSupplier}
+										onChange={e => setIdSupplier(e.target.value)}
+										placeholder="ID del proveedor"
 										className={styles.formGroup}
-										controlId="idSupplier"
-									>
-										<Form.Label>Proveedor</Form.Label>
-										<Form.Control
-											type="number"
-											value={idSupplier}
-											onChange={e => setIdSupplier(e.target.value)}
-											placeholder="ID del proveedor"
-											required
-										/>
-									</Form.Group>
+										required
+									/>
 								</Col>
 
 								<Col md={6}>
-									<Form.Group
+									<GenericForm
+										id="productCode"
+										text="Código interno"
+										label="Código interno"
+										type="number"
+										value={internProductCode}
+										onChange={e => setInternProductCode(e.target.value)}
+										placeholder="Código del producto"
 										className={styles.formGroup}
-										controlId="productCode"
-									>
-										<Form.Label>Código interno</Form.Label>
-										<Form.Control
-											type="number"
-											value={internProductCode}
-											onChange={e => setInternProductCode(e.target.value)}
-											placeholder="Código del producto"
-											required
-										/>
-									</Form.Group>
+										required
+									/>
 								</Col>
 
 								<Col md={6}>
-									<Form.Group
+									<GenericForm
+										id="productBrand"
+										text="Marca"
+										label="Marca"
+										value={productBrand}
+										onChange={e => setProductBrand(e.target.value)}
+										placeholder="Marca del producto"
 										className={styles.formGroup}
-										controlId="productBrand"
-									>
-										<Form.Label>Marca</Form.Label>
-										<Form.Control
-											type="text"
-											value={productBrand}
-											onChange={e => setProductBrand(e.target.value)}
-											placeholder="Marca del producto"
-										/>
-									</Form.Group>
+									/>
 								</Col>
 
 								<Col md={6}>
-									<Form.Group
+									<GenericForm
+										id="productName"
+										text="Producto"
+										label="Nombre del producto"
+										value={productName}
+										onChange={e => setProductName(e.target.value)}
+										placeholder="Ej.: Remera básica"
 										className={styles.formGroup}
-										controlId="productName"
-									>
-										<Form.Label>Nombre del producto</Form.Label>
-										<Form.Control
-											type="text"
-											value={productName}
-											onChange={e => setProductName(e.target.value)}
-											placeholder="Ej.: Remera básica"
-											required
-										/>
-									</Form.Group>
+										required
+									/>
 								</Col>
 
 								<Col md={6}>
-									<Form.Group
+									<GenericForm
+										id="productColor"
+										text="Color"
+										label="Color"
+										value={productColor}
+										onChange={e => setProductColor(e.target.value)}
+										placeholder="Ej.: Verde"
 										className={styles.formGroup}
-										controlId="productColor"
-									>
-										<Form.Label>Color</Form.Label>
-										<Form.Control
-											type="text"
-											value={productColor}
-											onChange={e => setProductColor(e.target.value)}
-											placeholder="Ej.: Verde"
-										/>
-									</Form.Group>
+									/>
 								</Col>
 
 								<Col md={6}>
-									<Form.Group
-										className={styles.formGroup}
-										controlId="productSize"
-									>
+									<Form.Group className={styles.formGroup} controlId="productSize">
 										<Form.Label>Talla</Form.Label>
 										<Form.Select
 											value={productSize}
@@ -222,70 +200,59 @@ const ProductForm = ({ onAddProduct }) => {
 								</Col>
 
 								<Col md={6}>
-									<Form.Group
+									<GenericForm
+										id="productPrice"
+										text="Precio"
+										label="Precio del producto"
+										type="number"
+										min="0"
+										step="0.01"
+										value={productPrice}
+										onChange={e => setProductPrice(e.target.value)}
 										className={styles.formGroup}
-										controlId="productPrice"
-									>
-										<Form.Label>Precio</Form.Label>
-										<Form.Control
-											type="number"
-											min="0"
-											step="0.01"
-											value={productPrice}
-											onChange={e => setProductPrice(e.target.value)}
-											required
-										/>
-									</Form.Group>
+										required
+									/>
 								</Col>
 
 								<Col md={6}>
-									<Form.Group
+									<GenericForm
+										id="productStock"
+										text="Stock"
+										label="Stock del producto"
+										type="number"
+										min="0"
+										value={productStock}
+										onChange={e => setProductStock(e.target.value)}
+										placeholder="Cantidad disponible"
 										className={styles.formGroup}
-										controlId="productStock"
-									>
-										<Form.Label>Stock</Form.Label>
-										<Form.Control
-											type="number"
-											min="0"
-											value={productStock}
-											onChange={e => setProductStock(e.target.value)}
-											placeholder="Cantidad disponible"
-											required
-										/>
-									</Form.Group>
+										required
+									/>
 								</Col>
 
 								<Col md={6}>
-									<Form.Group
+									<GenericForm
+										id="date"
+										text="Fecha de compra"
+										label="Fecha de compra"
+										type="date"
+										value={buyDate}
+										onChange={e => setBuyDate(e.target.value)}
 										className={styles.formGroup}
-										controlId="date"
-									>
-										<Form.Label>Fecha de compra</Form.Label>
-										<Form.Control
-											type="date"
-											value={buyDate}
-											onChange={e => setBuyDate(e.target.value)}
-											required
-										/>
-									</Form.Group>
+										required
+									/>
 								</Col>
 
 								<Col md={6}>
-									<Form.Group
+									<GenericForm
+										id="productTags"
+										text="Etiqueta/s"
+										label="Etiquetas"
+										value={extraTags}
+										onChange={e => setExtraTags(e.target.value)}
+										placeholder="Ej.: invierno, casual, gala"
+										description="Separá las etiquetas con comas."
 										className={styles.formGroup}
-										controlId="productTags"
-									>
-										<Form.Label>Etiquetas</Form.Label>
-										<Form.Control
-											type="text"
-											value={extraTags}
-											onChange={e => setExtraTags(e.target.value)}
-											placeholder="Ej.: invierno, casual, gala"
-										/>
-										<Form.Text>
-											Separá las etiquetas con comas.
-										</Form.Text>
-									</Form.Group>
+									/>
 								</Col>
 							</Row>
 

@@ -9,44 +9,40 @@ import './src/database/models/user.js';
 import './src/database/models/tags.js';
 import './src/database/models/productTags.js';
 
-import routes from './src/routes/routes.js';
+import loginRouter from './src/routes/login.router.js';
+import dashboardRouter from "./src/routes/dashboard.router.js";
+import layoutDefRouter from "./src/routes/layoutdef.router.js";
+import purchasesRouter from "./src/routes/purchases.router.js";
+import supplierRouter from './src/routes/supplier.router.js';
 
 const app = express();
 
 const port = process.env.PORT ?? 3000;
 const host = process.env.HOST ?? 'localhost';
 
-// Middlewares
 app.use(cors({
-	origin: 'http://localhost:5173' // Origen de Vite
+    origin: 'http://localhost:5173'
 }));
 
+app.use(express.json());
+
+app.use(loginRouter);
+app.use(dashboardRouter);
+app.use(layoutDefRouter);
+app.use(purchasesRouter);
+app.use(supplierRouter);
+
 try {
-	app.use(express.json());
-	app.use(routes);
+    await sequelize.authenticate();
+    console.log('Base de datos conectada');
 
-	app.use((req, res, next) => {
-		res.setHeader('Access-Control-Allow-Origin', '*');
-		res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-		res.setHeader('Access-Control-Allow-Headers', '*');
-		next();
-	});
+    await sequelize.sync();
+    console.log('Modelos sincronizados');
 
-	app.listen(port);
-
-	app.use(routes);
-
-	await sequelize.authenticate();
-	console.log('Base de datos conectada');
-
-	await sequelize.sync();
-	console.log('Modelos sincronizados');
-
-	app.listen(port, host, () => {
-		console.log(`Server listening on http://${host}:${port}`);
-	});
+    app.listen(port, host, () => {
+        console.log(`Server listening on http://${host}:${port}`);
+    });
 } catch (error) {
-	console.error('Unable to connect to the database:', error);
+    console.error('Error al iniciar el servidor:', error);
+    process.exitCode = 1;
 }
-
-console.log(`Server is running on port http://localhost:${port}`); 

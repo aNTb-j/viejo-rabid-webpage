@@ -10,4 +10,6 @@ export const TagGroupTags = sequelize.define("TagGroupTags", {
         type: DataTypes.INTEGER,
         allowNull: false
     }
+}, {
+	timestamp: false
 });

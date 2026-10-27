@@ -15,9 +15,10 @@ const Sidebar = ({ setSection }) => {
 	const menuItems = [
 		{ id: 'home', label: 'Inicio', Icon: HomeIcon },
 		{ id: 'products', label: 'Productos', Icon: ProductIcon },
-		{ id: 'stock', label: 'Stock', Icon: StockIcon },
-		{ id: 'purchaces', label: 'Compras', Icon: PurchasesIcon },
+		{ id: 'suppliers', label: 'Proveedores', Icon: StockIcon },
+		{ id: 'purchases', label: 'Compras', Icon: PurchasesIcon },
 		{ id: 'sales', label: 'Ventas', Icon: SalesIcon },
+		{ id: 'expenses', label: 'Gastos', Icon: SalesIcon },
 	];
 
 	function handleSidebarState() {
@@ -40,8 +41,8 @@ const Sidebar = ({ setSection }) => {
 					onClick={handleSidebarState}
 					aria-label={
 						isCollapsed
-							? 'Expandir menú'
-							: 'Contraer menú'
+							? 'Expandir menu'
+							: 'Contraer menu'
 					}
 					aria-expanded={!isCollapsed}
 				>

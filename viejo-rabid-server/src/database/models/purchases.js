@@ -1,33 +1,31 @@
 import { DataTypes } from "sequelize";
-import { sequeilize } from "../db.js";
+import { sequelize } from "../db.js";
 
-export const Purchases = sequeilize.define("purchases" , {
+export const Purchases = sequelize.define("Purchases", {
 	id_purchases: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
 		autoIncrement: true
-	}, 
-	date: {
-		type: DataTypes.INTEGER,
-		foreignKey: true,
-		allowNull: false
 	},
-	id_proveedor_fk: {
-		type: DataTypes.INTEGER,
-		unique: true,
-		allowNull: false
-	},
-	id_ventas_fk: {
-		type: DataTypes.INTEGER,
-		foreignKey: true,
-		allowNull: false
-	},
-	stock_actual: {
+	id_supplier_fk: {
 		type: DataTypes.INTEGER,
 		allowNull: false
 	},
-	stock_minimo: {
-		type: DataTypes.INTEGER,
-		allowNull: false
+	status: {
+		type: DataTypes.STRING,
+		allowNull: false,
+		defaultValue: "pending",
+		validate: {
+			isIn: [["pending", "confirmed", "cancelled"]]
+		}
+	},
+	created_at: {
+		type: DataTypes.DATE,
+		allowNull: false,
+		defaultValue: DataTypes.NOW
+	},
+	confirmed_at: {
+		type: DataTypes.DATE,
+		allowNull: true
 	}
-})
+});

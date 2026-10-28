@@ -1,8 +1,19 @@
 @forward 'header';
 @forward 'toggle';
-@forward 'card';
-@forward 'card-grid';
-@forward 'contact-form';
-@forward 'hero-animation';
-@forward 'navbar';
+@forward 'card.module.scss';
+@forward 'dashboard.module.scss';
+@forward 'form.module.scss';
+@forward 'formlayout.module.scss';
+@forward 'home.module.scss';
+@forward 'layoutdefiner.module.scss';
+@forward 'producttable.module.scss';
+@forward 'productview.module.scss';
+@forward 'purchaseform.module.scss';
+@forward 'purchasetable.module.scss';
+@forward 'sidebar.module.scss';
+@forward 'suppliersform.module.scss';
+@forward 'table.module.scss';
+@forward 'toggle.scss';
+
+@forward 'navbar.module.scss';
 @forward 'buttons';

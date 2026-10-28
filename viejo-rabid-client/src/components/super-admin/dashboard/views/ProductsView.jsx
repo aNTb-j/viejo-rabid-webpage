@@ -56,7 +56,8 @@ const ProductsView = () => {
 
 				<div className={styles.totalCard}>
 					<span className={styles.totalLabel}>
-						Productos registrados
+						Productos registrados:
+
 					</span>
 
 					<strong className={styles.totalValue}>
@@ -64,7 +65,7 @@ const ProductsView = () => {
 					</strong>
 				</div>
 			</header>
-
+			<p></p>
 			{error && (
 				<div className={styles.errorMessage} role="alert">
 					<div>

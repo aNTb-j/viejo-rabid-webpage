@@ -20,10 +20,8 @@ const NavBar = () => {
 			if (currentScrollY <= 80) {
 				setHidden(false);
 			} else if (difference > 5) {
-				// Bajando: ocultar navbar.
 				setHidden(true);
 			} else if (difference < -5) {
-				// Subiendo: mostrar navbar.
 				setHidden(false);
 			}
 
@@ -44,7 +42,7 @@ const NavBar = () => {
 		>
 			<Navbar.Brand className={styles.brand} href="/home">
 				<span className={styles.brandName}>VIEJO RABID</span>
-				<span className={styles.brandSubtitle}>Estilo cotidiano</span>
+				<span className={styles.brandSubtitle}>Estilo urbano</span>
 			</Navbar.Brand>
 
 			<Navbar.Toggle

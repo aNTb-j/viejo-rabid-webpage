@@ -1,0 +1,19 @@
+body {
+	background: var(--background);
+	font-family: var(--font-primary);
+	color: var(--text2);
+}
+
+h1 {
+	font-family: var(--font-title);
+}
+
+p {
+	font-size: 1.3rem;
+}
+
+code,
+pre,
+.hero-animation {
+	font-family: var(--font-mono);
+}

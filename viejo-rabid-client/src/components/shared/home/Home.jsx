@@ -7,7 +7,7 @@ import HomeImageCarousels from '../carousels/Carousel.jsx';
 import NavBar from '../navbar/NavBar.jsx';
 import ProductCard from '../card/ProductCard.jsx';
 
-import styles from './Home.module.css';
+import styles from '../../../styles/components/home.module.scss';
 
 // Cambiarla a banco de imagenes
 

@@ -1,0 +1,42 @@
+@use '../util' as *;
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+@media (max-width: 39.9375em) {
+  .header {
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+@media (min-width: 40em) {
+  .header {
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.header__title {
+  width: 100%;
+}
+
+@media (min-width: 40em) {
+  .header__title {
+    width: auto;
+  }
+}
+
+.header__actions {
+  width: 100%;
+  border-width: 0;
+}
+
+@media (min-width: 40em) {
+  .header__actions {
+    width: auto;
+  }
+}

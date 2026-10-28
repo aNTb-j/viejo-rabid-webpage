@@ -1,0 +1,49 @@
+@use '../util' as *;
+
+.theme-actions,
+.menu-actions {
+	display: grid;
+	place-items: center;
+	width: rem(42);
+	height: rem(42);
+	padding: 0;
+	border: 1px solid transparent;
+	border-radius: 50%;
+	color: var(--text2);
+	cursor: pointer;
+	transition:
+		background-color 0.2s ease,
+		border-color 0.2s ease,
+		transform 0.15s ease;
+
+	svg {
+		width: rem(24);
+		height: rem(24);
+	}
+
+	&:hover {
+		background: var(--card-hover);
+		border-color: var(--accent);
+	}
+
+	&:active {
+		transform: scale(0.95);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 3px;
+	}
+}
+
+.theme-actions {
+	background: transparent;
+}
+
+.menu-actions {
+	background: var(--panel);
+
+	p {
+		margin: 0;
+	}
+}

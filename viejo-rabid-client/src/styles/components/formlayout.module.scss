@@ -1,0 +1,199 @@
+@use '../util' as *;
+
+.formContainer {
+	width: 100%;
+	min-width: 0;
+	margin-bottom: rem(24);
+	overflow: hidden;
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: rem(10);
+	box-shadow: 0 rem(2) rem(8) rgb(0 0 0 / 5%);
+}
+
+.toggleButton {
+	display: block;
+	width: 100%;
+	padding: rem(18) rem(22);
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	color: var(--text2);
+	text-align: left;
+
+	&:hover,
+	&:focus,
+	&:active {
+		background: var(--card-hover) !important;
+		color: var(--text2) !important;
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: -3px;
+	}
+}
+
+.toggleContent {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: rem(12);
+}
+
+.toggleTitle {
+	display: flex;
+	align-items: center;
+	gap: rem(12);
+	font-size: rem(17);
+	font-weight: 700;
+}
+
+.toggleDescription {
+	display: block;
+	margin-top: rem(5);
+	color: var(--text1);
+	font-size: rem(13);
+	font-weight: 400;
+}
+
+.chevron {
+	display: inline-block;
+	flex-shrink: 0;
+	color: var(--text2);
+	font-size: rem(30);
+	line-height: 1;
+	transition: transform 0.25s ease;
+}
+
+.chevronOpen {
+	transform: rotate(180deg);
+}
+
+.formContent {
+	display: grid;
+	grid-template-rows: 0fr;
+	visibility: hidden;
+	border-top: 0 solid var(--border);
+	transition:
+		grid-template-rows 0.3s ease,
+		visibility 0.3s ease,
+		border-top-width 0.3s ease;
+}
+
+.formExpanded {
+	grid-template-rows: 1fr;
+	visibility: visible;
+	border-top-width: 1px;
+}
+
+.formInner {
+	min-height: 0;
+	overflow: hidden;
+
+	:global(form) {
+		padding: rem(24);
+	}
+}
+
+.formGroup {
+	min-width: 0;
+	margin-bottom: rem(20);
+
+	:global(.form-label) {
+		display: block;
+		margin-bottom: rem(7);
+		color: var(--text2);
+		font-size: rem(14);
+		font-weight: 600;
+	}
+
+	:global(.form-control),
+	:global(.form-select) {
+		width: 100%;
+		min-height: rem(42);
+		border: 1px solid var(--border);
+		border-radius: rem(6);
+		background-color: var(--background);
+		color: var(--text2);
+		box-shadow: none;
+	}
+
+	:global(.form-control:focus),
+	:global(.form-select:focus) {
+		border-color: var(--accent);
+		box-shadow: 0 0 0 rem(3) var(--accent-soft);
+	}
+
+	:global(.form-control::placeholder) {
+		color: var(--text1);
+		opacity: 0.8;
+	}
+
+	:global(.form-text) {
+		color: var(--text1);
+		font-size: rem(12);
+	}
+}
+
+.formActions {
+	display: flex;
+	justify-content: flex-end;
+	gap: rem(12);
+	padding-top: rem(16);
+	border-top: 1px solid var(--border);
+}
+
+.submitButton {
+	min-height: rem(42);
+	padding: rem(9) rem(22);
+	border: 1px solid var(--accent);
+	border-radius: rem(6);
+	background: var(--accent);
+	color: var(--v-color);
+	font-weight: 600;
+	transition: background-color 0.2s ease;
+
+	&:hover,
+	&:focus {
+		border-color: var(--accent-hover);
+		background: var(--accent-hover);
+		color: var(--v-color);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--text2);
+		outline-offset: 2px;
+	}
+}
+
+.message {
+	margin-top: rem(16);
+}
+
+@media (max-width: 36em) {
+	.toggleButton {
+		padding: rem(15);
+	}
+
+	.formInner :global(form) {
+		padding: rem(18) rem(14);
+	}
+
+	.formActions {
+		flex-direction: column;
+	}
+
+	.submitButton {
+		width: 100%;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.formContent,
+	.chevron,
+	.submitButton {
+		transition: none;
+	}
+}

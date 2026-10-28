@@ -1,12 +1,11 @@
-import { useState, Fragment } from 'react';
+import { useState } from 'react';
 import { Form, Button, Alert, Row, Col } from 'react-bootstrap';
 
+import CollapsibleForm from '../../utils/CollapsibleForm.jsx';
 import { GenericForm } from '../../../../shared/forms/GenericForm';
-
-import styles from './ProductForm.module.css';
+import formStyles from '../../../../../styles/components/formlayout.module.scss';
 
 const ProductForm = ({ onAddProduct }) => {
-	const [isExpanded, setIsExpanded] = useState(false);
 
 	const [idSupplier, setIdSupplier] = useState('');
 	const [internProductCode, setInternProductCode] = useState('');
@@ -78,210 +77,182 @@ const ProductForm = ({ onAddProduct }) => {
 	};
 
 	return (
-		<Fragment>
-			<section className={styles.productFormContainer}>
-				<Button
-					variant="light"
-					className={styles.toggleButton}
-					onClick={() => setIsExpanded(current => !current)}
-					aria-expanded={isExpanded}
-					aria-controls="product-form-content"
-				>
-					<span className={styles.toggleContent}>
-						<span className={styles.toggleTitle}>
-							<span>Registrar producto</span>
-						</span>
+		<>
+			<CollapsibleForm
+				id="product-form"
+				title="Registrar producto"
+				description="Agregar un nuevo producto al inventario"
+			>
+				<Form onSubmit={handleProductAgregation}>
+					<Row>
+						<Col md={6}>
+							<GenericForm
+								id="idSupplier"
+								text="Proveedor"
+								label="Proveedor"
+								type="number"
+								value={idSupplier}
+								onChange={(e) => setIdSupplier(e.target.value)}
+								placeholder="ID del proveedor"
+								className={formStyles.formGroup}
+								required
+							/>
+						</Col>
 
-						<span
-							className={`${styles.chevron} ${isExpanded ? styles.chevronOpen : ''
-								}`}
-						>
-							⌄
-						</span>
-					</span>
+						<Col md={6}>
+							<GenericForm
+								id="productCode"
+								text="Código interno"
+								label="Código interno"
+								type="number"
+								value={internProductCode}
+								onChange={(e) => setInternProductCode(e.target.value)}
+								placeholder="Código del producto"
+								className={formStyles.formGroup}
+								required
+							/>
+						</Col>
 
-					<span className={styles.toggleDescription}>
-						Agregar un nuevo producto al inventario
-					</span>
-				</Button>
+						<Col md={6}>
+							<GenericForm
+								id="productBrand"
+								text="Marca"
+								label="Marca"
+								value={productBrand}
+								onChange={(e) => setProductBrand(e.target.value)}
+								placeholder="Marca del producto"
+								className={formStyles.formGroup}
+							/>
+						</Col>
 
-				<div
-					id="product-form-content"
-					className={`${styles.formContent} ${isExpanded ? styles.formExpanded : ''
-						}`}
-					aria-hidden={!isExpanded}
-					inert={!isExpanded}
-				>
-					<div className={styles.formInner}>
-						<Form onSubmit={handleProductAgregation}>
-							<Row>
-								<Col md={6}>
-									<GenericForm
-										id="idSupplier"
-										text="Proveedor"
-										label="Proveedor"
-										type="number"
-										value={idSupplier}
-										onChange={e => setIdSupplier(e.target.value)}
-										placeholder="ID del proveedor"
-										className={styles.formGroup}
-										required
-									/>
-								</Col>
+						<Col md={6}>
+							<GenericForm
+								id="productName"
+								text="Producto"
+								label="Nombre del producto"
+								value={productName}
+								onChange={(e) => setProductName(e.target.value)}
+								placeholder="Ej.: Remera básica"
+								className={formStyles.formGroup}
+								required
+							/>
+						</Col>
 
-								<Col md={6}>
-									<GenericForm
-										id="productCode"
-										text="Código interno"
-										label="Código interno"
-										type="number"
-										value={internProductCode}
-										onChange={e => setInternProductCode(e.target.value)}
-										placeholder="Código del producto"
-										className={styles.formGroup}
-										required
-									/>
-								</Col>
+						<Col md={6}>
+							<GenericForm
+								id="productColor"
+								text="Color"
+								label="Color"
+								value={productColor}
+								onChange={(e) => setProductColor(e.target.value)}
+								placeholder="Ej.: Verde"
+								className={formStyles.formGroup}
+							/>
+						</Col>
 
-								<Col md={6}>
-									<GenericForm
-										id="productBrand"
-										text="Marca"
-										label="Marca"
-										value={productBrand}
-										onChange={e => setProductBrand(e.target.value)}
-										placeholder="Marca del producto"
-										className={styles.formGroup}
-									/>
-								</Col>
-
-								<Col md={6}>
-									<GenericForm
-										id="productName"
-										text="Producto"
-										label="Nombre del producto"
-										value={productName}
-										onChange={e => setProductName(e.target.value)}
-										placeholder="Ej.: Remera básica"
-										className={styles.formGroup}
-										required
-									/>
-								</Col>
-
-								<Col md={6}>
-									<GenericForm
-										id="productColor"
-										text="Color"
-										label="Color"
-										value={productColor}
-										onChange={e => setProductColor(e.target.value)}
-										placeholder="Ej.: Verde"
-										className={styles.formGroup}
-									/>
-								</Col>
-
-								<Col md={6}>
-									<Form.Group className={styles.formGroup} controlId="productSize">
-										<Form.Label>Talla</Form.Label>
-										<Form.Select
-											value={productSize}
-											onChange={e => setProductSize(e.target.value)}
-											required
-										>
-											<option value="">Seleccionar talla</option>
-											<option value="XS">XS</option>
-											<option value="S">S</option>
-											<option value="M">M</option>
-											<option value="L">L</option>
-											<option value="XL">XL</option>
-											<option value="XXL">XXL</option>
-										</Form.Select>
-									</Form.Group>
-								</Col>
-
-								<Col md={6}>
-									<GenericForm
-										id="productPrice"
-										text="Precio"
-										label="Precio del producto"
-										type="number"
-										min="0"
-										step="0.01"
-										value={productPrice}
-										onChange={e => setProductPrice(e.target.value)}
-										className={styles.formGroup}
-										required
-									/>
-								</Col>
-
-								<Col md={6}>
-									<GenericForm
-										id="productStock"
-										text="Stock"
-										label="Stock del producto"
-										type="number"
-										min="0"
-										value={productStock}
-										onChange={e => setProductStock(e.target.value)}
-										placeholder="Cantidad disponible"
-										className={styles.formGroup}
-										required
-									/>
-								</Col>
-
-								<Col md={6}>
-									<GenericForm
-										id="date"
-										text="Fecha de compra"
-										label="Fecha de compra"
-										type="date"
-										value={buyDate}
-										onChange={e => setBuyDate(e.target.value)}
-										className={styles.formGroup}
-										required
-									/>
-								</Col>
-
-								<Col md={6}>
-									<GenericForm
-										id="productTags"
-										text="Etiqueta/s"
-										label="Etiquetas"
-										value={extraTags}
-										onChange={e => setExtraTags(e.target.value)}
-										placeholder="Ej.: invierno, casual, gala"
-										description="Separá las etiquetas con comas."
-										className={styles.formGroup}
-									/>
-								</Col>
-							</Row>
-
-							<div className={styles.formActions}>
-								<Button
-									variant="success"
-									type="submit"
-									className={styles.submitButton}
+						<Col md={6}>
+							<Form.Group
+								className={formStyles.formGroup}
+								controlId="productSize"
+							>
+								<Form.Label>Talla</Form.Label>
+								<Form.Select
+									value={productSize}
+									onChange={(e) => setProductSize(e.target.value)}
+									required
 								>
-									Crear producto
-								</Button>
-							</div>
-						</Form>
+									<option value="">Seleccionar talla</option>
+									<option value="XS">XS</option>
+									<option value="S">S</option>
+									<option value="M">M</option>
+									<option value="L">L</option>
+									<option value="XL">XL</option>
+									<option value="XXL">XXL</option>
+								</Form.Select>
+							</Form.Group>
+						</Col>
+
+						<Col md={6}>
+							<GenericForm
+								id="productPrice"
+								text="Precio"
+								label="Precio del producto"
+								type="number"
+								min="0"
+								step="0.01"
+								value={productPrice}
+								onChange={(e) => setProductPrice(e.target.value)}
+								className={formStyles.formGroup}
+								required
+							/>
+						</Col>
+
+						<Col md={6}>
+							<GenericForm
+								id="productStock"
+								text="Stock"
+								label="Stock del producto"
+								type="number"
+								min="0"
+								value={productStock}
+								onChange={(e) => setProductStock(e.target.value)}
+								placeholder="Cantidad disponible"
+								className={formStyles.formGroup}
+								required
+							/>
+						</Col>
+
+						<Col md={6}>
+							<GenericForm
+								id="date"
+								text="Fecha de compra"
+								label="Fecha de compra"
+								type="date"
+								value={buyDate}
+								onChange={(e) => setBuyDate(e.target.value)}
+								className={formStyles.formGroup}
+								required
+							/>
+						</Col>
+
+						<Col md={6}>
+							<GenericForm
+								id="productTags"
+								text="Etiqueta/s"
+								label="Etiquetas"
+								value={extraTags}
+								onChange={(e) => setExtraTags(e.target.value)}
+								placeholder="Ej.: invierno, casual, gala"
+								description="Separá las etiquetas con comas."
+								className={formStyles.formGroup}
+							/>
+						</Col>
+					</Row>
+
+					<div className={formStyles.formActions}>
+						<Button
+							variant="success"
+							type="submit"
+							className={formStyles.submitButton}
+						>
+							Crear producto
+						</Button>
 					</div>
-				</div>
-			</section>
+				</Form>
+			</CollapsibleForm>
 
 			{message && (
 				<Alert
 					variant={error ? 'danger' : 'success'}
-					className={styles.message}
+					className={formStyles.message}
 					dismissible
 					onClose={() => setMessage('')}
 				>
 					{message}
 				</Alert>
 			)}
-		</Fragment>
-	);
+		</>
+	)
 };
 
 export default ProductForm;

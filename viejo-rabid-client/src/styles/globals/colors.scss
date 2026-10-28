@@ -1,0 +1,79 @@
+:root {
+	/* ==================== Brand ==================== */
+	--accent: #687052;
+	--accent-hover: #7C8663;
+	--accent-soft: rgb(104 112 82 / 15%);
+
+	--vivid-color: #D7C7A3;
+	--vivid-color-contrast: #242820;
+
+	/* ==================== Dark Theme ==================== */
+	--dark-background: #191A17;
+	--dark-surface: #20221D;
+	--dark-panel: #242820;
+	--dark-card: #2B2E26;
+	--dark-card-hover: #35392E;
+	--dark-border: #414538;
+	--dark-text1: #B9BBAF;
+	--dark-text2: #F3F0E8;
+
+	--crt-dark-scanline: rgb(0 0 0 / 10%);
+	--crt-dark-red: rgb(170 80 65 / 3%);
+	--crt-dark-green: rgb(120 140 90 / 3%);
+	--crt-dark-blue: rgb(90 110 130 / 3%);
+	--crt-dark-glow: rgb(104 112 82 / 18%);
+
+	/* ==================== Light Theme ==================== */
+	--light-background: #F3F0E8;
+	--light-surface: #FAF8F2;
+	--light-panel: #EAE6DB;
+	--light-card: #E4DFD2;
+	--light-card-hover: #DAD4C5;
+	--light-border: #D0C9BA;
+	--light-text1: #69695E;
+	--light-text2: #242820;
+
+	--crt-light-scanline: rgb(0 0 0 / 3%);
+	--crt-light-red: rgb(170 80 65 / 1%);
+	--crt-light-green: rgb(104 112 82 / 2%);
+	--crt-light-blue: rgb(90 110 130 / 1%);
+	--crt-light-glow: rgb(104 112 82 / 8%);
+
+	/* ==================== Active Theme: Light ==================== */
+	--background: var(--light-background);
+	--surface: var(--light-surface);
+	--panel: var(--light-panel);
+	--card: var(--light-card);
+	--card-hover: var(--light-card-hover);
+	--border: var(--light-border);
+	--text1: var(--light-text1);
+	--text2: var(--light-text2);
+
+	--crt-scanline: var(--crt-light-scanline);
+	--crt-red: var(--crt-light-red);
+	--crt-green: var(--crt-light-green);
+	--crt-blue: var(--crt-light-blue);
+	--crt-glow: var(--crt-light-glow);
+
+	--v-color: var(--vivid-color-contrast);
+}
+
+/* ==================== Active Theme: Dark ==================== */
+[data-theme="dark"] {
+	--background: var(--dark-background);
+	--surface: var(--dark-surface);
+	--panel: var(--dark-panel);
+	--card: var(--dark-card);
+	--card-hover: var(--dark-card-hover);
+	--border: var(--dark-border);
+	--text1: var(--dark-text1);
+	--text2: var(--dark-text2);
+
+	--crt-scanline: var(--crt-dark-scanline);
+	--crt-red: var(--crt-dark-red);
+	--crt-green: var(--crt-dark-green);
+	--crt-blue: var(--crt-dark-blue);
+	--crt-glow: var(--crt-dark-glow);
+
+	--v-color: var(--vivid-color);
+}

@@ -1,0 +1,256 @@
+@use '../util' as *;
+
+.navbar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1050;
+
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+
+	width: 100%;
+	min-height: rem(72);
+	padding: 0 rem(40);
+
+	background: var(--surface);
+	border-bottom: 1px solid var(--border);
+
+	transition:
+		transform 0.3s ease,
+		background-color 0.2s ease,
+		border-color 0.2s ease;
+
+	&.hidden {
+		transform: translateY(-110%);
+	}
+}
+
+/* Marca centrada */
+
+.brand {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	z-index: 2;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	margin: 0;
+	padding: 0;
+	transform: translate(-50%, -50%);
+	text-align: center;
+	text-decoration: none;
+
+	&:hover {
+		color: var(--text2);
+	}
+}
+
+.brandName {
+	color: var(--text2);
+	font-size: rem(23);
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	line-height: 1.1;
+	white-space: nowrap;
+}
+
+.brandSubtitle {
+	margin-top: rem(3);
+	color: var(--accent);
+	font-size: rem(9);
+	font-weight: 600;
+	letter-spacing: 0.18em;
+	line-height: 1.2;
+	text-transform: uppercase;
+}
+
+/* Navegación */
+
+.collapse {
+	flex: 1 1 auto;
+	align-items: center;
+	justify-content: space-between;
+	min-width: 0;
+}
+
+.left,
+.right {
+	display: flex;
+	align-items: center;
+	gap: rem(8);
+}
+
+.left {
+	margin-right: auto;
+}
+
+.right {
+	margin-left: auto;
+}
+
+.link,
+.dropdown> :global(.nav-link) {
+	display: flex;
+	align-items: center;
+
+	min-height: rem(40);
+	padding: rem(10) rem(12) !important;
+
+	border-radius: rem(4);
+	color: var(--text1) !important;
+	font-size: rem(12);
+	font-weight: 500;
+	letter-spacing: 0.1em;
+	text-decoration: none;
+	text-transform: uppercase;
+	white-space: nowrap;
+
+	transition:
+		color 0.2s ease,
+		background-color 0.2s ease;
+
+	&:hover,
+	&:focus-visible {
+		color: var(--text2) !important;
+		background: var(--card-hover);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 2px;
+	}
+}
+
+/* Dropdown de Bootstrap */
+
+.dropdown {
+	:global(.dropdown-menu) {
+		min-width: rem(190);
+		margin-top: rem(10);
+		padding: rem(8);
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: rem(5);
+		box-shadow: 0 rem(8) rem(24) rgb(0 0 0 / 10%);
+	}
+
+	:global(.dropdown-item) {
+		padding: rem(10) rem(12);
+		border-radius: rem(3);
+		color: var(--text1);
+		font-size: rem(13);
+		transition:
+			color 0.2s ease,
+			background-color 0.2s ease;
+
+		&:hover,
+		&:focus {
+			color: var(--text2);
+			background: var(--card-hover);
+		}
+
+		&:active {
+			color: var(--v-color);
+			background: var(--accent);
+		}
+	}
+
+	:global(.dropdown-divider) {
+		border-top-color: var(--border);
+	}
+}
+
+/* Botón hamburguesa */
+
+.toggle {
+	margin-left: auto;
+	padding: rem(7);
+	border: 1px solid var(--border);
+	border-radius: rem(4);
+	background-color: transparent;
+
+	&:focus {
+		box-shadow: 0 0 0 rem(3) var(--accent-soft);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 2px;
+	}
+
+	:global(.navbar-toggler-icon) {
+		filter: var(--navbar-toggler-filter, none);
+	}
+}
+
+/* Móvil y tablet */
+
+@media (max-width: 61.99em) {
+	.navbar {
+		min-height: rem(60);
+		padding: rem(8) rem(20);
+	}
+
+	.brand {
+		position: static;
+		align-items: flex-start;
+		margin-right: auto;
+		transform: none;
+	}
+
+	.brandName {
+		font-size: rem(19);
+	}
+
+	.brandSubtitle {
+		font-size: rem(8);
+	}
+
+	.collapse {
+		flex-basis: 100%;
+		width: 100%;
+		padding-top: rem(12);
+	}
+
+	.left,
+	.right {
+		flex-direction: column;
+		align-items: stretch;
+		width: 100%;
+		gap: rem(2);
+		margin: 0;
+	}
+
+	.link,
+	.dropdown> :global(.nav-link) {
+		width: 100%;
+		padding: rem(12) rem(10) !important;
+	}
+
+	.dropdown {
+		:global(.dropdown-menu) {
+			margin-top: 0;
+			box-shadow: none;
+		}
+	}
+}
+
+@media (max-width: 30em) {
+	.navbar {
+		padding-inline: rem(16);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.navbar,
+	.link,
+	.dropdown> :global(.nav-link) {
+		transition: none;
+	}
+}

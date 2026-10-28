@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import ProductForm from './products-utils/ProductForm';
 import ProductTable from './products-utils/ProductTable';
 
-import styles from './ProductsView.module.css';
+import styles from '../../../../styles/components/productview.module.scss';
 
 const ProductsView = () => {
 	const [products, setProducts] = useState([]);

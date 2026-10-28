@@ -1,0 +1,39 @@
+@use '../util' as *;
+
+.dashboard {
+	min-height: 100vh;
+	background: var(--background);
+	color: var(--text2);
+}
+
+.layout {
+	display: flex;
+	align-items: stretch;
+	min-height: 100vh;
+	padding-top: rem(72);
+}
+
+.content {
+	flex: 1 1 auto;
+	min-width: 0;
+	min-height: calc(100vh - rem(72));
+	padding: rem(24);
+	overflow-wrap: anywhere;
+}
+
+@media (max-width: 61.99em) {
+	.layout {
+		padding-top: rem(60);
+	}
+
+	.content {
+		min-height: calc(100vh - rem(60));
+		padding: rem(16);
+	}
+}
+
+@media (max-width: 40em) {
+	.content {
+		padding: rem(12);
+	}
+}

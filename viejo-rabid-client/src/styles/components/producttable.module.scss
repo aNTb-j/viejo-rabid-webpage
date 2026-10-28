@@ -1,0 +1,49 @@
+@use '../util' as *;
+
+.idCell {
+	color: var(--text1);
+	font-size: rem(12);
+	font-variant-numeric: tabular-nums;
+}
+
+.nameCell {
+	color: var(--text2);
+	font-weight: 600;
+}
+
+.sizeBadge,
+.stockBadge {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: rem(40);
+	padding: rem(5) rem(9);
+	border: 1px solid var(--border);
+	border-radius: rem(5);
+	font-size: rem(12);
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+.sizeBadge {
+	background: var(--panel);
+	color: var(--text2);
+}
+
+.stockAvailable {
+	background: rgb(104 112 82 / 12%);
+	border-color: var(--accent);
+	color: var(--accent);
+}
+
+.stockLow {
+	background: rgb(196 165 90 / 15%);
+	border-color: #c4a55a;
+	color: #94752e;
+}
+
+.stockEmpty {
+	background: rgb(182 75 67 / 10%);
+	border-color: #b64b43;
+	color: #b64b43;
+}

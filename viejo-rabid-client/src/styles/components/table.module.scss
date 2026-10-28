@@ -1,0 +1,174 @@
+@use '../util' as *;
+
+.tableContainer {
+	width: 100%;
+	min-width: 0;
+	margin-bottom: rem(24);
+	overflow: hidden;
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: rem(10);
+	box-shadow: 0 rem(2) rem(8) rgb(0 0 0 / 5%);
+}
+
+.tableHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: rem(16);
+	padding: rem(20) rem(24);
+	border-bottom: 1px solid var(--border);
+}
+
+.title {
+	margin: 0;
+	color: var(--text2);
+	font-size: rem(18);
+	font-weight: 700;
+}
+
+.subtitle {
+	margin: rem(5) 0 0;
+	color: var(--text1);
+	font-size: rem(13);
+}
+
+.productCount {
+	flex-shrink: 0;
+	padding: rem(6) rem(10);
+	border: 1px solid var(--border);
+	border-radius: rem(20);
+	background: var(--accent-soft);
+	color: var(--text2);
+	font-size: rem(12);
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+.tableWrapper {
+	width: 100%;
+	overflow-x: auto;
+	overscroll-behavior-x: contain;
+}
+
+.table {
+	width: 100%;
+	margin: 0;
+	border-collapse: collapse;
+	color: var(--text2);
+	vertical-align: middle;
+
+	:global(th) {
+		padding: rem(13) rem(16);
+		background: var(--panel);
+		color: var(--text1);
+		font-size: rem(11);
+		font-weight: 700;
+		letter-spacing: 0.07em;
+		text-align: left;
+		text-transform: uppercase;
+		white-space: nowrap;
+		border-bottom: 1px solid var(--border);
+	}
+
+	:global(td) {
+		padding: rem(14) rem(16);
+		background: var(--surface);
+		color: var(--text2);
+		font-size: rem(13);
+		border-bottom: 1px solid var(--border);
+	}
+
+	:global(tbody tr:last-child td) {
+		border-bottom: 0;
+	}
+
+	:global(tbody tr:hover td) {
+		background: var(--card-hover);
+	}
+}
+
+.emptyState {
+	padding: rem(36) rem(20);
+	text-align: center;
+	color: var(--text1);
+}
+
+.emptyTitle {
+	margin: 0;
+	color: var(--text2);
+	font-size: rem(15);
+	font-weight: 600;
+}
+
+.emptyDescription {
+	margin: rem(6) 0 0;
+	font-size: rem(13);
+}
+
+.actions {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: rem(8);
+	white-space: nowrap;
+}
+
+.actionButton {
+	padding: rem(6) rem(10);
+	border: 1px solid var(--border);
+	border-radius: rem(5);
+	background: transparent;
+	color: var(--text2);
+	font-size: rem(12);
+	font-weight: 600;
+	cursor: pointer;
+	transition:
+		background-color 0.2s ease,
+		border-color 0.2s ease;
+
+	&:hover {
+		background: var(--card-hover);
+		border-color: var(--accent);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 2px;
+	}
+}
+
+.editButton {
+	color: var(--accent);
+}
+
+.deleteButton {
+	color: #b64b43;
+
+	&:hover {
+		border-color: #b64b43;
+		background: rgb(182 75 67 / 10%);
+	}
+}
+
+@media (max-width: 40em) {
+	.tableHeader {
+		align-items: flex-start;
+		padding: rem(16);
+	}
+
+	.title {
+		font-size: rem(16);
+	}
+
+	.table :global(th),
+	.table :global(td) {
+		padding: rem(12);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.actionButton {
+		transition: none;
+	}
+}

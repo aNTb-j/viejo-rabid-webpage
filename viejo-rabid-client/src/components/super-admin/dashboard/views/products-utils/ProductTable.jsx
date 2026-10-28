@@ -1,6 +1,7 @@
 
 import CustomTable from '../../../../shared/table/CustomTable';
-import styles from './ProductTable.module.css';
+import tableStyles from '../../../../../styles/components/table.module.scss';
+import styles from '../../../../../styles/components/purchasetable.module.scss';
 
 function ProductTable({ products = [], onEdit, onDelete }) {
 	const titles = [
@@ -67,36 +68,36 @@ function ProductTable({ products = [], onEdit, onDelete }) {
 					</button>
 				</div>
 			),
-		} 
+		}
 	];
 
 
 	return (
-		<section className={styles.tableContainer}>
-			<div className={styles.tableHeader}>
+		<section className={tableStyles.tableContainer}>
+			<div className={tableStyles.tableHeader}>
 				<div>
-					<h5 className={styles.title}>
+					<h5 className={tableStyles.title}>
 						Inventario de productos
 					</h5>
 
-					<p className={styles.subtitle}>
+					<p className={tableStyles.subtitle}>
 						Productos registrados en el sistema
 					</p>
 				</div>
 
-				<span className={styles.productCount}>
+				<span className={tableStyles.productCount}>
 					{products.length} productos
 				</span>
 			</div>
 
-			<div className={styles.tableWrapper}>
+			<div className={tableStyles.tableWrapper}>
 				<CustomTable
 					titles={titles}
 					data={products}
 					rowKey="id_product"
 					emptyMessage="No hay productos registrados"
 					emptyDescription="Los productos que agregues aparecerán en esta tabla."
-					className={styles.productTable}
+					className={tableStyles.table}
 				/>
 			</div>
 		</section>

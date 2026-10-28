@@ -1,6 +1,6 @@
 import { Card } from "react-bootstrap"
 
-const CustomCard = () => {
+const GenericCard = () => {
 	return (
 		<div>
 			<Card>
@@ -9,4 +9,4 @@ const CustomCard = () => {
 	)
 }
 
-export default CustomCard
+export default GenericCard;

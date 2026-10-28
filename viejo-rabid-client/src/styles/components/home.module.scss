@@ -1,0 +1,91 @@
+@use '../util' as *;
+
+.home {
+	min-height: 100vh;
+	padding: rem(24) rem(40) rem(64);
+	overflow-x: hidden;
+	background: var(--background);
+	color: var(--text2);
+}
+
+.hero {
+	width: 100%;
+	margin-bottom: rem(48);
+	overflow: hidden;
+	border-radius: rem(6);
+}
+
+.productSection {
+	margin-bottom: rem(48);
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+.sectionHeading {
+	display: flex;
+	align-items: center;
+	gap: rem(20);
+	margin-bottom: rem(24);
+}
+
+.sectionTitle {
+	flex-shrink: 0;
+	margin: 0;
+	color: var(--text2);
+	font-size: rem(24);
+	font-weight: 700;
+	letter-spacing: 0.02em;
+}
+
+.sectionLine {
+	flex: 1;
+	height: 1px;
+	background: var(--border);
+}
+
+.productColumn {
+	display: flex;
+
+	>* {
+		width: 100%;
+	}
+}
+
+@media (max-width: 62em) {
+	.home {
+		padding: rem(20) rem(24) rem(48);
+	}
+
+	.hero {
+		margin-bottom: rem(36);
+	}
+
+	.sectionTitle {
+		font-size: rem(22);
+	}
+}
+
+@media (max-width: 40em) {
+	.home {
+		padding: rem(16) rem(12) rem(36);
+	}
+
+	.hero {
+		margin-bottom: rem(28);
+	}
+
+	.productSection {
+		margin-bottom: rem(36);
+	}
+
+	.sectionHeading {
+		gap: rem(12);
+		margin-bottom: rem(16);
+	}
+
+	.sectionTitle {
+		font-size: rem(19);
+	}
+}

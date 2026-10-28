@@ -1,5 +1,5 @@
 
-import styles from './dashboard-utils/DashboardView.module.css';
+import styles from '../../../../styles/components/dashboard.module.scss';
 
 
 const DashboardView = () => {

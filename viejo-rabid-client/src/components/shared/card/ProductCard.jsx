@@ -1,11 +1,16 @@
+
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
-import styles from './ProductCard.module.css';
+import styles from '../../../styles/components/card.module.scss';
 
 const ProductCard = ({ name, selectedColor, price, image }) => {
 	return (
 		<Card className={styles.card}>
+			<span className={styles.name}>
+				{name || 'Producto'}
+			</span>
+
 			<div className={styles.imageContainer}>
 				<Card.Img
 					className={styles.image}
@@ -29,16 +34,11 @@ const ProductCard = ({ name, selectedColor, price, image }) => {
 
 				<div className={styles.colorSection}>
 					<span className={styles.colorLabel}>
-						Color: {selectedColor}
+						Color: {selectedColor || 'No especificado'}
 					</span>
-
-		
 				</div>
 
-				<Button
-					className={styles.button}
-					variant="primary"
-				>
+				<Button className={styles.button} variant="primary">
 					Ver más
 				</Button>
 			</Card.Body>

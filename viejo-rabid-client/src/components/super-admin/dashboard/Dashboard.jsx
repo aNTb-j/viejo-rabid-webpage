@@ -1,9 +1,5 @@
-import { useState } from 'react';
-import { Fragment } from 'react';
 
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { useState } from 'react';
 
 import NavBar from '../../shared/navbar/NavBar.jsx';
 import Sidebar from './Sidebar.jsx';
@@ -13,38 +9,51 @@ import ProductsView from './views/ProductsView.jsx';
 import SuppliersView from './views/SuppliersView.jsx';
 import PurchasesView from './views/PurchasesView.jsx';
 
-// React Bootstrap Off-Canvas
+import styles from '../../../styles/components/dashboard.module.scss';
 
 const Dashboard = () => {
+  const [section, setSection] = useState('home');
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
-	const [section, setSection] = useState('dashboard');
+  const renderView = () => {
+    switch (section) {
+      case 'home':
+        return <DashboardView />;
 
-	return (
-		<Fragment>
+      case 'products':
+        return <ProductsView />;
 
-			<NavBar />
+      case 'suppliers':
+        return <SuppliersView />;
 
-			<Container fluid>
-				<Row>
+      case 'purchases':
+        return <PurchasesView />;
 
-					{/* Lugar para la sidebar*/}
-					<Col xs={2}>
-						<Sidebar setSection={setSection} />
-					</Col>
+      default:
+        return <DashboardView />;
+    }
+  };
 
-					{/* Cuadricula de contenido */}
-					<Col xs={10}>
-						{section === 'home' && <DashboardView />}
-						{section === 'products' && <ProductsView />}
-						{section === 'suppliers' && <SuppliersView />}
-						{section === 'purchases' && <PurchasesView />}
-					</Col>
+  return (
+    <div className={styles.dashboard}>
+      <NavBar />
 
-				</Row>
-			</Container>
+      <div className={styles.layout}>
+        <Sidebar
+          activeSection={section}
+          setSection={setSection}
+          isCollapsed={sidebarCollapsed}
+          onToggleCollapsed={() =>
+            setSidebarCollapsed((current) => !current)
+          }
+        />
 
-		</Fragment>
-	);
+        <main className={styles.content}>
+          {renderView()}
+        </main>
+      </div>
+    </div>
+  );
 };
 
 export default Dashboard;

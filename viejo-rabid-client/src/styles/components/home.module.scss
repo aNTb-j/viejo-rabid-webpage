@@ -53,6 +53,45 @@
 	}
 }
 
+
+.search {
+    width: 100%;
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.search input {
+    border-radius: 25px;
+    padding: 0.8rem 1.2rem;
+    border: 1px solid #526b53;
+}
+
+.search input:focus {
+    border-color: #344e41;
+    box-shadow: 0 0 0 0.2rem rgba(82, 107, 83, 0.15);
+}
+
+.productsSection {
+    padding: 2rem 0;
+}
+
+.title {
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #344e41;
+    text-align: center;
+}
+
+.noResults {
+    text-align: center;
+    padding: 2rem;
+    color: #526b53;
+    font-size: 1.1rem;
+}
+
+
 @media (max-width: 62em) {
 	.home {
 		padding: rem(20) rem(24) rem(48);

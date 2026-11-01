@@ -1,11 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Form, Button, Alert, Row, Col } from 'react-bootstrap';
 
 import CollapsibleForm from '../../utils/CollapsibleForm.jsx';
 import { GenericForm } from '../../../../shared/forms/GenericForm';
 import formStyles from '../../../../../styles/components/formlayout.module.scss';
 
-const ProductForm = ({ onAddProduct }) => {
+const ProductForm = ({
+	onAddProduct,
+	onUpdateProduct,
+	editingProduct,
+	onCancelEdit
+}) => {
 
 	const [idSupplier, setIdSupplier] = useState('');
 	const [internProductCode, setInternProductCode] = useState('');
@@ -33,7 +38,7 @@ const ProductForm = ({ onAddProduct }) => {
 
 		try {
 			const response = await fetch(
-				'http://localhost:3000/dashboard',
+				'http://localhost:3000/product',
 				{
 					method: 'POST',
 					headers: {
@@ -75,6 +80,24 @@ const ProductForm = ({ onAddProduct }) => {
 			setError(true);
 		}
 	};
+
+	useEffect(() => {
+		if (editingProduct) {
+			setIdSupplier(editingProduct.id_supplier_fk);
+			setInternProductCode(editingProduct.intern_code);
+			setProductName(editingProduct.name);
+			setProductSize(editingProduct.size);
+			setProductPrice(editingProduct.price);
+			setProductColor(editingProduct.color);
+			setProductBrand(editingProduct.brand);
+			setProductStock(editingProduct.stock);
+			setBuyDate(editingProduct.date);
+
+			setExtraTags(
+				editingProduct.tags?.map(tag => tag.name).join(', ') || ''
+			);
+		}
+	}, [editingProduct]);
 
 	return (
 		<>

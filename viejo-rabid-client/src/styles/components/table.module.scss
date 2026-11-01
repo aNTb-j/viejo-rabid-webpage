@@ -51,6 +51,12 @@
 	overscroll-behavior-x: contain;
 }
 
+.actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
 .table {
 	width: 100%;
 	margin: 0;

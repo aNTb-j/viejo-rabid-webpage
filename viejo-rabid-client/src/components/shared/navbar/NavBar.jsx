@@ -5,6 +5,10 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
+import ThemeToggle from '../../services/theme/ThemeToggle';
+
+import ProfileDropdown from '../profile/ProfileDropdown';
+
 import styles from '../../../styles/components/navbar.module.scss';
 
 const NavBar = () => {
@@ -69,6 +73,9 @@ const NavBar = () => {
 							Cargar venta
 						</NavDropdown.Item>
 
+						<NavDropdown.Item href="#action/3.3">
+							<ThemeToggle />
+						</NavDropdown.Item>
 						<NavDropdown.Divider />
 
 						<NavDropdown.Item href="/dashboard">
@@ -81,6 +88,8 @@ const NavBar = () => {
 					</NavDropdown>
 				</Nav>
 			</Navbar.Collapse>
+			<ProfileDropdown />
+			
 		</Navbar>
 	);
 };

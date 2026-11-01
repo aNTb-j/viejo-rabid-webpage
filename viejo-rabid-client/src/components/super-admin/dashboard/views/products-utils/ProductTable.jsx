@@ -1,9 +1,11 @@
 
+import { Button } from 'react-bootstrap';
+
 import CustomTable from '../../../../shared/table/CustomTable';
 import tableStyles from '../../../../../styles/components/table.module.scss';
 import styles from '../../../../../styles/components/purchasetable.module.scss';
 
-function ProductTable({ products = [], onEdit, onDelete }) {
+function ProductTable({ products = [], onEditProduct, onRemoveProduct }) {
 	const titles = [
 		{
 			key: 'id_product',
@@ -46,9 +48,7 @@ function ProductTable({ products = [], onEdit, onDelete }) {
 							: styles.stockAvailable;
 
 				return (
-					<span
-						className={`${styles.stockBadge} ${stockClass}`}
-					>
+					<span className={`${styles.stockBadge} ${stockClass}`}>
 						{product.stock}
 					</span>
 				);
@@ -58,19 +58,26 @@ function ProductTable({ products = [], onEdit, onDelete }) {
 			key: 'actions',
 			label: 'Acciones',
 			render: (product) => (
-				<div>
-					<button onClick={() => onEdit?.(product)}>
+				<div className={styles.actions}>
+					<Button
+						variant="outline-primary"
+						size="sm"
+						onClick={() => onEditProduct?.(product)}
+					>
 						Editar
-					</button>
+					</Button>
 
-					<button onClick={() => onDelete?.(product.id_product)}>
+					<Button
+						variant="outline-danger"
+						size="sm"
+						onClick={() => onRemoveProduct?.(product.id_product)}
+					>
 						Eliminar
-					</button>
+					</Button>
 				</div>
 			),
-		}
+		},
 	];
-
 
 	return (
 		<section className={tableStyles.tableContainer}>

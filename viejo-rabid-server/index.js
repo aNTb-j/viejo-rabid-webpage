@@ -10,7 +10,7 @@ import './src/database/models/tags.js';
 import './src/database/models/productTags.js';
 
 import loginRouter from './src/routes/login.router.js';
-import dashboardRouter from "./src/routes/dashboard.router.js";
+import productRouter from "./src/routes/product.router.js";
 import layoutDefRouter from "./src/routes/layoutdef.router.js";
 import purchasesRouter from "./src/routes/purchases.router.js";
 import supplierRouter from './src/routes/supplier.router.js';
@@ -27,7 +27,7 @@ app.use(cors({
 app.use(express.json());
 
 app.use(loginRouter);
-app.use(dashboardRouter);
+app.use(productRouter);
 app.use(layoutDefRouter);
 app.use(purchasesRouter);
 app.use(supplierRouter);

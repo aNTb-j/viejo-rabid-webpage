@@ -1,0 +1,138 @@
+@use '../util' as *;
+
+.registerPage {
+	min-height: 100vh;
+	padding: rem(48) rem(20);
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	background-color: var(--background);
+	color: var(--text2);
+}
+
+.registerCard {
+	width: 100%;
+	max-width: rem(760);
+	border: 1px solid var(--border);
+	border-radius: rem(16);
+	background-color: var(--surface);
+	box-shadow: 0 rem(12) rem(35) rgb(0 0 0 / 7%);
+}
+
+.registerBody {
+	padding: rem(36);
+}
+
+.header {
+	margin-bottom: rem(30);
+}
+
+.eyebrow {
+	display: block;
+	margin-bottom: rem(10);
+	color: var(--accent);
+	font-size: rem(12);
+	font-weight: 700;
+	letter-spacing: 0.16em;
+}
+
+.title {
+	margin-bottom: rem(8);
+	color: var(--text2);
+	font-size: rem(29);
+	font-weight: 650;
+}
+
+.subtitle {
+	margin: 0;
+	color: var(--text1);
+	font-size: rem(15);
+}
+
+.formGrid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: rem(20) rem(18);
+}
+
+.field {
+	min-width: 0;
+
+	label {
+		margin-bottom: rem(8);
+		color: var(--text2);
+		font-size: rem(14);
+		font-weight: 600;
+	}
+
+	input {
+		min-height: rem(46);
+		padding: rem(10) rem(13);
+		border: 1px solid var(--border);
+		border-radius: rem(8);
+		background-color: var(--background);
+		color: var(--text2);
+		font-size: rem(15);
+		transition: border-color 0.2s, box-shadow 0.2s;
+
+		&::placeholder {
+			color: var(--text1);
+		}
+
+		&:focus {
+			border-color: var(--accent);
+			box-shadow: 0 0 0 rem(3) var(--accent-soft);
+		}
+	}
+}
+
+.sectionLabel {
+	grid-column: 1 / -1;
+	padding-top: rem(8);
+	padding-bottom: rem(12);
+	border-bottom: 1px solid var(--border);
+	color: var(--accent);
+	font-size: rem(14);
+	font-weight: 700;
+}
+
+.submitButton {
+	width: 100%;
+	min-height: rem(48);
+	margin-top: rem(28);
+	border: none;
+	border-radius: rem(8);
+	background-color: var(--accent);
+	color: white;
+	font-size: rem(15);
+	font-weight: 600;
+	transition: background-color 0.2s, transform 0.2s;
+
+	&:hover,
+	&:focus-visible {
+		background-color: var(--accent-hover);
+	}
+
+	&:active {
+		transform: translateY(1px);
+	}
+}
+
+@media (max-width: 37.5em) {
+	.registerPage {
+		padding: rem(20) rem(12);
+	}
+
+	.registerBody {
+		padding: rem(24) rem(18);
+	}
+
+	.formGrid {
+		grid-template-columns: 1fr;
+		gap: rem(16);
+	}
+
+	.title {
+		font-size: rem(25);
+	}
+}

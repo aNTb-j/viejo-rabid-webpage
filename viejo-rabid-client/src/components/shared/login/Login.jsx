@@ -22,7 +22,7 @@ import { useNavigate } from 'react-router';
 import { AuthenticationContext } from '../auth/auth.context';
 import { errorToast, successToast } from "../../shared/toast/toast";
 
-import styles from './Login.module.css'
+import styles from '../../../styles/components/login.module.scss'
 
 const Login = () => {
 	const { handleUserLogin } = useContext(AuthenticationContext)

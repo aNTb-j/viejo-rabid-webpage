@@ -5,7 +5,7 @@ import { errorToast, successToast } from '../toast/toast.js'
 
 import { GenericForm } from '../forms/GenericForm.jsx';
 
-import styles from './Register.module.css'
+import styles from '../../../styles/components/register.module.scss'
 
 
 const Register = () => {

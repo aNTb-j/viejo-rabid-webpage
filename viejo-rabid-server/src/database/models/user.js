@@ -2,35 +2,35 @@ import { DataTypes } from "sequelize";
 import { sequelize } from "../db.js";
 
 export const User = sequelize.define("User", {
-	id_user:{
+	id_user: {
 		type: DataTypes.INTEGER,
-		primaryKey:true,
+		primaryKey: true,
 		autoIncrement: true
 	},
-	user:{
+	user: {
 		type: DataTypes.STRING,
 		allowNull: false
 	},
-	password:{
+	password: {
 		type: DataTypes.STRING,
 		allowNull: false
 	},
-	dni:{
+	dni: {
 		type: DataTypes.INTEGER,
 		allowNull: false,
 		unique: true
 	},
-	username:{
+	username: {
 		type: DataTypes.STRING,
 		allowNull: false,
 		unique: true
 	},
-	surname:{
+	surname: {
 		type: DataTypes.INTEGER,
 		allowNull: false,
 		unique: true
 	},
-	email:{
+	email: {
 		type: DataTypes.STRING,
 		allowNull: false,
 		unique: true,
@@ -43,7 +43,15 @@ export const User = sequelize.define("User", {
 		type: DataTypes.INTEGER,
 		allowNull: false,
 		unique: true
+	},
+	role: {
+		type: DataTypes.STRING,
+		allowNull: false,
+		defaultValue: 'client',
+		validate: {
+			isIn: [['client', 'admin', 'superadmin']]
+		}
 	}
-},{
+}, {
 	timestamp: false
 })

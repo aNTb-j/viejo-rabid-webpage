@@ -91,7 +91,7 @@ const Home = () => {
 					/>
 				</section>
 
-				{/* Resultados de búsqueda */}
+				{/* Resultados de busqueda */}
 				{search.trim() !== '' ? (
 
 					<section className={styles.productsSection}>

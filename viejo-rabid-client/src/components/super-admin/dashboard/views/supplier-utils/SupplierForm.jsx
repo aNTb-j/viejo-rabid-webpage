@@ -25,21 +25,26 @@ const SupplierForm = () => {
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
-
-		setSupplier(prev => ({
-			...prev,
-			[name]: value,
-		}));
-
-		setErrors(prev => ({
-			...prev,
-			[name]: false,
-		}));
+		setSupplier(prev => ({ ...prev, [name]: value, }));
+		setErrors(prev => ({ ...prev, [name]: false, }));
 	};
 
 	const handleFileChange = (e) => {
-		setProductFile(e.target.files?.[0] ?? null);
+		const file = e.target.files?.[0] ?? null;
+
+		if (file && !file.name.toLowerCase().endsWith('.csv')) {
+			setProductFile(null);
+			e.target.value = '';
+
+			setMessageType('danger');
+			setMessage('El archivo debe tener formato CSV.');
+			return;
+		}
+
+		setProductFile(file);
+		setMessage('');
 	};
+
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -64,6 +69,7 @@ const SupplierForm = () => {
 		try {
 			setLoading(true);
 
+			// Registrar proveedor
 			const response = await fetch('http://localhost:3000/suppliers', {
 				method: 'POST',
 				headers: {
@@ -86,24 +92,29 @@ const SupplierForm = () => {
 
 			supplierCreated = true;
 
+			// Importar productos CSV
 			if (productFile) {
-				const supplierId = data.id_supplier ?? data.id;
+				const supplierId = data.id;
 
 				if (!supplierId) {
 					throw new Error(
-						'El proveedor se creó, pero el servidor no devolvió su ID para importar los productos.'
+						'El servidor no devolvió el ID del proveedor.'
 					);
 				}
 
-				const formData = new FormData();
-				formData.append('file', productFile);
-				formData.append('id_supplier_fk', String(supplierId));
+				const csvContent = await productFile.text();
 
 				const productsResponse = await fetch(
 					'http://localhost:3000/suppliers/products',
 					{
 						method: 'POST',
-						body: formData,
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify({
+							id_supplier_fk: supplierId,
+							csv: csvContent,
+						}),
 					}
 				);
 
@@ -112,11 +123,12 @@ const SupplierForm = () => {
 				if (!productsResponse.ok) {
 					throw new Error(
 						productsData.message ||
-						'El proveedor se creó, pero falló la importación de productos.'
+						'Falló la importación de productos.'
 					);
 				}
 			}
 
+			// Limpiar formulario
 			setSupplier(initialSupplier);
 			setProductFile(null);
 
@@ -131,6 +143,7 @@ const SupplierForm = () => {
 					? 'Proveedor y lista de productos registrados correctamente.'
 					: 'Proveedor guardado correctamente.'
 			);
+
 		} catch (error) {
 			console.error('Error al guardar proveedor:', error);
 
@@ -140,10 +153,12 @@ const SupplierForm = () => {
 					? `El proveedor se creó, pero ocurrió un problema al importar los productos: ${error.message}`
 					: error.message || 'Ocurrió un error al guardar el proveedor.'
 			);
+
 		} finally {
 			setLoading(false);
 		}
 	};
+
 
 	return (
 		<div className={styles.formContainer}>
@@ -203,12 +218,13 @@ const SupplierForm = () => {
 							ref={fileInputRef}
 							id="productFile"
 							type="file"
-							accept=".csv,.xlsx,.xls"
+							accept=".csv,text/csv"
 							onChange={handleFileChange}
 						/>
 
 						<Form.Text>
-							Opcional. Seleccioná un archivo CSV o Excel con la lista de productos del proveedor.
+							Opcional. Seleccioná un archivo CSV con la lista
+							de productos del proveedor.
 						</Form.Text>
 					</Form.Group>
 

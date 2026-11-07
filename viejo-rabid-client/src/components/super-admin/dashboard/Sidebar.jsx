@@ -8,7 +8,6 @@ import {
 	ProductIcon,
 	StockIcon,
 	PurchasesIcon,
-	SalesIcon,
 } from './utils/SideBarIcons.jsx';
 
 const Sidebar = ({ setSection, activeSection, isCollapsed, onToggleCollapsed }) => {
@@ -18,8 +17,6 @@ const Sidebar = ({ setSection, activeSection, isCollapsed, onToggleCollapsed }) 
 		{ id: 'products', label: 'Productos', Icon: ProductIcon },
 		{ id: 'suppliers', label: 'Proveedores', Icon: StockIcon },
 		{ id: 'purchases', label: 'Compras', Icon: PurchasesIcon },
-		{ id: 'sales', label: 'Ventas', Icon: SalesIcon },
-		{ id: 'expenses', label: 'Gastos', Icon: SalesIcon },
 	];
 
 	return (

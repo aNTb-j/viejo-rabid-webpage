@@ -6,13 +6,6 @@ import dotenv from "dotenv";
 dotenv.config();
 
 
-// Crear un custom Hook para chekear validar la existencia del usuario
-//
-//
-//
-//
-
-
 // Get
 export const loginUser = async (req, res) => {
 	try {

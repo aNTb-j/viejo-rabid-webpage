@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { registerSupplier } from "../service/suppliers.service.js";
+import { registerSupplier, importSupplierProducts, getSuppliers } from "../service/suppliers.service.js";
 
 const supplierRouter = Router();
 
@@ -7,4 +7,10 @@ const supplierRouter = Router();
 
 supplierRouter.post("/suppliers", registerSupplier);
 
+// Importar lista de productos CSV
+supplierRouter.post("/suppliers/products", importSupplierProducts);
+
+supplierRouter.get("/suppliers", getSuppliers)
+
 export default supplierRouter;
+

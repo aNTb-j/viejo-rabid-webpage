@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 
 import NavBar from '../../shared/navbar/NavBar';
-import CollapsibleForm from  '../dashboard/utils/CollapsibleForm.jsx';
+import CollapsibleForm from '../dashboard/utils/CollapsibleForm.jsx';
 
 import formStyles from '../../../styles/components/formlayout.module.scss';
 import styles from '../../../styles/components/layoutdefiner.module.scss';
@@ -196,11 +196,7 @@ const LayoutDefiner = () => {
 				</CollapsibleForm>
 
 				{message && (
-					<Alert
-						variant={messageType}
-						dismissible
-						onClose={() => setMessage('')}
-					>
+					<Alert variant={messageType} dismissible onClose={() => setMessage('')}>
 						{message}
 					</Alert>
 				)}

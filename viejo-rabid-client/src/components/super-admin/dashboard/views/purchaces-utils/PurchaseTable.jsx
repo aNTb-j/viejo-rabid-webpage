@@ -59,7 +59,7 @@ const PurchaseTable = ({
 						variant="outline-danger"
 						size="sm"
 						className={tableStyles.actionButton}
-						onClick={() => onRemoveProduct?.(index)}
+						onClick={() => onRemoveProduct?.(item)}
 					>
 						Quitar
 					</Button>

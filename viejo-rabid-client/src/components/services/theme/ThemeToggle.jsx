@@ -10,8 +10,7 @@ const ThemeToggle = () => {
     return (
         <Button
             variant="outline-secondary"
-            onClick={toggleTheme}
-        >
+            onClick={toggleTheme} >
             {theme === "light" ? "Modo oscuro" : "Modo claro"}
         </Button>
     );

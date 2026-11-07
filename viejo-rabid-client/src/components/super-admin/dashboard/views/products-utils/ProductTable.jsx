@@ -59,19 +59,11 @@ function ProductTable({ products = [], onEditProduct, onRemoveProduct }) {
 			label: 'Acciones',
 			render: (product) => (
 				<div className={styles.actions}>
-					<Button
-						variant="outline-primary"
-						size="sm"
-						onClick={() => onEditProduct?.(product)}
-					>
+					<Button variant="outline-primary" size="sm" onClick={() => onEditProduct?.(product)}>
 						Editar
 					</Button>
 
-					<Button
-						variant="outline-danger"
-						size="sm"
-						onClick={() => onRemoveProduct?.(product.id_product)}
-					>
+					<Button variant="outline-danger" size="sm" onClick={() => onRemoveProduct?.(product.id_product)}>
 						Eliminar
 					</Button>
 				</div>

@@ -4,6 +4,8 @@ import Card from 'react-bootstrap/Card';
 
 import styles from '../../../styles/components/card.module.scss';
 
+const placeholders = "../../public/images/tomasholders.png"
+
 const ProductCard = ({ name, selectedColor, price, image }) => {
 	return (
 		<Card className={styles.card}>
@@ -17,7 +19,7 @@ const ProductCard = ({ name, selectedColor, price, image }) => {
 					variant="top"
 					src={
 						image ||
-						'https://placehold.co/600x750/f0ede5/526b53?text=Viejo+Rabid'
+						placeholders
 					}
 					alt={name || 'Producto'}
 				/>

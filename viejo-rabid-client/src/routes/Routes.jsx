@@ -9,29 +9,54 @@ import Login from "../components/shared/login/Login";
 import Register from "../components/shared/login/Register";
 import Dashboard from "../components/super-admin/dashboard/Dashboard";
 import LayoutDefiner from "../components/super-admin/layout-definer/LayoutDefiner";
+import SalesView from "../components/admin/SalesView";
 
 import NotFound from "../components/shared/notFound/NotFound";
+import RoleGuard from "../components/shared/auth/RoleGuard";
 
 const Router = () => {
+
 	return (
 		<BrowserRouter>
-
 			<Routes>
 
+				{/* Rutas generales */}
 				<Route path="/login" element={<Login />} />
-
 				<Route path="/register" element={<Register />} />
-
 				<Route path="/home" element={<Home />} />
 
-				<Route path="/dashboard" element={<Dashboard />} />
+				{/* admin y superadmin*/}
+				<Route
+					path="/sales"
+					element={
+						<RoleGuard allowedRoles={['admin', 'superadmin']}>
+							<SalesView />
+						</RoleGuard>
+					}
+				/>
 
-				<Route path="/layoutdef" element={<LayoutDefiner />} />
+				{/* Solamente superadmin */}
+				<Route
+					path="/dashboard"
+					element={
+						<RoleGuard allowedRoles={['superadmin']}>
+							<Dashboard />
+						</RoleGuard>
+					}
+				/>
+
+				<Route
+					path="/layoutdef"
+					element={
+						<RoleGuard allowedRoles={['superadmin']}>
+							<LayoutDefiner />
+						</RoleGuard>
+					}
+				/>
 
 				<Route path="*" element={<NotFound />} />
 
 			</Routes>
-
 		</BrowserRouter>
 	);
 };

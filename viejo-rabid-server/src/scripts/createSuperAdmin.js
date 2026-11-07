@@ -1,7 +1,10 @@
 import bcrypt from 'bcrypt';
+import dotenv from 'dotenv';
 
-import { sequelize } from '../db.js';
-import { User } from '../models/User.js';
+import { sequelize } from '../database/db.js';
+import { User } from '../database/models/user.js';
+
+dotenv.config();
 
 const createSuperAdmin = async () => {
 
@@ -33,7 +36,7 @@ const createSuperAdmin = async () => {
             email: process.env.SUPERADMIN_EMAIL,
             birthdate: process.env.SUPERADMIN_BIRTHDATE,
             phone_number: process.env.SUPERADMIN_PHONE,
-            role: 'superadmin'
+            role: process.env.SUPERADMIN_ROLE
         });
 
         console.log('Superadmin creado correctamente.');

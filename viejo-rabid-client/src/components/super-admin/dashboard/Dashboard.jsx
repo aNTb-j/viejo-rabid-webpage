@@ -12,48 +12,48 @@ import PurchasesView from './views/PurchasesView.jsx';
 import styles from '../../../styles/components/dashboard.module.scss';
 
 const Dashboard = () => {
-  const [section, setSection] = useState('home');
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+	const [section, setSection] = useState('home');
+	const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
-  const renderView = () => {
-    switch (section) {
-      case 'home':
-        return <DashboardView />;
+	const renderView = () => {
+		switch (section) {
+			case 'home':
+				return <DashboardView />;
 
-      case 'products':
-        return <ProductsView />;
+			case 'products':
+				return <ProductsView />;
 
-      case 'suppliers':
-        return <SuppliersView />;
+			case 'suppliers':
+				return <SuppliersView />;
 
-      case 'purchases':
-        return <PurchasesView />;
+			case 'purchases':
+				return <PurchasesView />;
 
-      default:
-        return <DashboardView />;
-    }
-  };
+			default:
+				return <DashboardView />;
+		}
+	};
 
-  return (
-    <div className={styles.dashboard}>
-      <NavBar />
+	return (
+		<div className={styles.dashboard}>
+			<NavBar />
 
-      <div className={styles.layout}>
-        <Sidebar
-          activeSection={section}
-          setSection={setSection}
-          isCollapsed={sidebarCollapsed}
-          onToggleCollapsed={() =>
-            setSidebarCollapsed((current) => !current)
-          }
-        />
+			<div className={styles.layout}>
+				<Sidebar
+					activeSection={section}
+					setSection={setSection}
+					isCollapsed={sidebarCollapsed}
+					onToggleCollapsed={() =>
+						setSidebarCollapsed((current) => !current)
+					}
+				/>
 
-        <main className={styles.content}>
-          {renderView()}
-        </main>
-      </div>
-    </div>
-  );
+				<main className={styles.content}>
+					{renderView()}
+				</main>
+			</div>
+		</div>
+	);
 };
 
 export default Dashboard;

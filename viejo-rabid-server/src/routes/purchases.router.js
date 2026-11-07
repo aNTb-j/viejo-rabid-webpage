@@ -5,6 +5,9 @@ const purchasesRouter = Router();
 
 // purchases
 
+// Falta editar purchase
+// Comnfirmar purchase
+
 purchasesRouter.post("/purchases", addPurchase);
 purchasesRouter.get("/purchases", getAllPurchases);
 

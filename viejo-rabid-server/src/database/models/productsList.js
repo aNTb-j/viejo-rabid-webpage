@@ -7,27 +7,26 @@ export const ProductList = sequelize.define("ProductList", {
 		primaryKey: true,
 		autoIncrement: true
 	},
+	id_supplier_fk: {
+		type: DataTypes.INTEGER,
+		allowNull: false
+	},
 	cod_producto: {
 		type: DataTypes.INTEGER,
-		foreignKey: true,
 		allowNull: false
 	},
 	talle: {
 		type: DataTypes.STRING,
-		foreignKey: true,
 		allowNull: false
 	},
 	color: {
 		type: DataTypes.STRING,
-		foreignKey: true,
 		allowNull: false
 	},
 	precio: {
 		type: DataTypes.INTEGER,
-		foreignKey: true,
 		allowNull: false
 	}
 }, {
-	timestamp: false
-})
-
+	timestamps: false
+});

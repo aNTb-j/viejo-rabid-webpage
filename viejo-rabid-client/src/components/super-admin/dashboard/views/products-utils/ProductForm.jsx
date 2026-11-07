@@ -26,87 +26,129 @@ const ProductForm = ({
 	const [message, setMessage] = useState('');
 	const [error, setError] = useState(false);
 
-	const handleProductAgregation = async (event) => {
+	// Campos vacios
+	const resetForm = () => {
+		setIdSupplier('');
+		setInternProductCode('');
+		setProductName('');
+		setProductSize('');
+		setProductPrice(0);
+		setProductColor('');
+		setProductBrand('');
+		setProductStock('');
+		setBuyDate('');
+		setExtraTags('');
+	};
+
+	// Cargar datos del producto seleccionado
+	useEffect(() => {
+		if (editingProduct) {
+			setIdSupplier(editingProduct.id_supplier_fk ?? '');
+			setInternProductCode(editingProduct.intern_code ?? '');
+			setProductName(editingProduct.name ?? '');
+			setProductSize(editingProduct.size ?? '');
+			setProductPrice(editingProduct.price ?? 0);
+			setProductColor(editingProduct.color ?? '');
+			setProductBrand(editingProduct.brand ?? '');
+			setProductStock(editingProduct.stock ?? '');
+			setBuyDate(editingProduct.date?.slice(0, 10) ?? '');
+
+			setExtraTags(
+				editingProduct.tags?.map(tag => tag.name).join(', ') || ''
+			);
+		} else {
+			resetForm();
+		}
+	}, [editingProduct]);
+
+	// Crear o actualizar producto
+	const handleSubmit = async (event) => {
 		event.preventDefault();
 
 		setMessage('');
+		setError(false);
 
 		const tags = extraTags
 			.split(',')
 			.map(tag => tag.trim())
 			.filter(Boolean);
 
+		const productData = {
+			id_supplier_fk: Number(idSupplier),
+			intern_code: Number(internProductCode),
+			name: productName,
+			brand: productBrand,
+			color: productColor,
+			size: productSize,
+			price: Number(productPrice),
+			stock: Number(productStock),
+			date: buyDate,
+			tags
+		};
+
+		const isEditing = Boolean(editingProduct);
+
+		const url = isEditing ? `http://localhost:3000/product/${editingProduct.id_product}` : 'http://localhost:3000/product';
+
 		try {
-			const response = await fetch(
-				'http://localhost:3000/product',
-				{
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						id_supplier_fk: Number(idSupplier),
-						intern_code: Number(internProductCode),
-						name: productName,
-						brand: productBrand,
-						color: productColor,
-						size: productSize,
-						price: Number(productPrice),
-						stock: Number(productStock),
-						date: buyDate,
-						tags
-					})
-				}
-			);
+			const response = await fetch(url, {
+				method: isEditing ? 'PUT' : 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(productData)
+			});
 
 			const data = await response.json();
 
 			if (!response.ok) {
 				throw new Error(
-					data.message || 'Error al registrar el producto'
+					data.message || 'Error al guardar el producto'
 				);
 			}
 
-			onAddProduct?.(data.product);
-
-			setMessage('Producto creado correctamente');
-			setError(false);
+			if (isEditing) {
+				onUpdateProduct?.(data.product);
+				setMessage('Producto actualizado correctamente');
+			} else {
+				onAddProduct?.(data.product);
+				setMessage('Producto creado correctamente');
+				resetForm();
+			}
 
 		} catch (error) {
-			console.error('Error al registrar producto:', error);
+			console.error('Error al guardar producto:', error);
+
 			setMessage(
 				error.message || 'Error de conexión con el servidor'
 			);
+
 			setError(true);
 		}
 	};
 
-	useEffect(() => {
-		if (editingProduct) {
-			setIdSupplier(editingProduct.id_supplier_fk);
-			setInternProductCode(editingProduct.intern_code);
-			setProductName(editingProduct.name);
-			setProductSize(editingProduct.size);
-			setProductPrice(editingProduct.price);
-			setProductColor(editingProduct.color);
-			setProductBrand(editingProduct.brand);
-			setProductStock(editingProduct.stock);
-			setBuyDate(editingProduct.date);
+	// Cancelar edición
+	const handleCancel = () => {
+		resetForm();
+		setMessage('');
+		setError(false);
+		onCancelEdit?.();
+	};
 
-			setExtraTags(
-				editingProduct.tags?.map(tag => tag.name).join(', ') || ''
-			);
-		}
-	}, [editingProduct]);
+	const isEditing = Boolean(editingProduct);
 
 	return (
 		<>
 			<CollapsibleForm
 				id="product-form"
-				title="Registrar producto"
-				description="Agregar un nuevo producto al inventario"
+				title={isEditing ? 'Editar producto' : 'Registrar producto'}
+				description={
+					isEditing
+						? 'Modificar los datos del producto seleccionado'
+						: 'Agregar un nuevo producto al inventario'
+				}
 			>
-				<Form onSubmit={handleProductAgregation}>
+				<Form onSubmit={handleSubmit}>
 					<Row>
 						<Col md={6}>
 							<GenericForm
@@ -176,14 +218,12 @@ const ProductForm = ({
 						<Col md={6}>
 							<Form.Group
 								className={formStyles.formGroup}
-								controlId="productSize"
-							>
+								controlId="productSize">
 								<Form.Label>Talla</Form.Label>
 								<Form.Select
 									value={productSize}
 									onChange={(e) => setProductSize(e.target.value)}
-									required
-								>
+									required>
 									<option value="">Seleccionar talla</option>
 									<option value="XS">XS</option>
 									<option value="S">S</option>
@@ -258,24 +298,29 @@ const ProductForm = ({
 							type="submit"
 							className={formStyles.submitButton}
 						>
-							Crear producto
+							{isEditing ? 'Guardar cambios' : 'Crear producto'}
 						</Button>
+
+						{isEditing && (
+							<Button
+								variant="outline-secondary"
+								type="button"
+								onClick={handleCancel}
+							>
+								Cancelar
+							</Button>
+						)}
 					</div>
 				</Form>
 			</CollapsibleForm>
 
 			{message && (
-				<Alert
-					variant={error ? 'danger' : 'success'}
-					className={formStyles.message}
-					dismissible
-					onClose={() => setMessage('')}
-				>
+				<Alert variant={error ? 'danger' : 'success'} className={formStyles.message} dismissibleonClose={() => setMessage('')}>
 					{message}
 				</Alert>
 			)}
 		</>
-	)
+	);
 };
 
 export default ProductForm;

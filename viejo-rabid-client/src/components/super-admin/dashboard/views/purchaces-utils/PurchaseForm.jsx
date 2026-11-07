@@ -99,7 +99,7 @@ const PurchaseForm = ({
 					<GenericForm
 						id="idSupplier"
 						name="idSupplier"
-						label="ID del proveedor"
+						text="ID del proveedor"
 						type="number"
 						placeholder="Ingresar ID del proveedor"
 						value={idSupplier}
@@ -116,7 +116,7 @@ const PurchaseForm = ({
 						<GenericForm
 							id="intern_code"
 							name="intern_code"
-							label="Código del producto"
+							text="Código del producto"
 							type="number"
 							value={product.intern_code}
 							onChange={handleProductChange}
@@ -128,7 +128,7 @@ const PurchaseForm = ({
 						<GenericForm
 							id="name"
 							name="name"
-							label="Nombre"
+							text="Nombre"
 							value={product.name}
 							onChange={handleProductChange}
 							placeholder="Nombre del producto"
@@ -139,7 +139,7 @@ const PurchaseForm = ({
 						<GenericForm
 							id="brand"
 							name="brand"
-							label="Marca"
+							text="Marca"
 							value={product.brand}
 							onChange={handleProductChange}
 							placeholder="Marca"
@@ -150,7 +150,7 @@ const PurchaseForm = ({
 						<GenericForm
 							id="color"
 							name="color"
-							label="Color"
+							text="Color"
 							value={product.color}
 							onChange={handleProductChange}
 							placeholder="Color"
@@ -161,7 +161,7 @@ const PurchaseForm = ({
 						<GenericForm
 							id="size"
 							name="size"
-							label="Talle"
+							text="Talle"
 							value={product.size}
 							onChange={handleProductChange}
 							placeholder="Talle"
@@ -172,7 +172,7 @@ const PurchaseForm = ({
 						<GenericForm
 							id="price"
 							name="price"
-							label="Precio unitario"
+							text="Precio unitario"
 							type="number"
 							value={product.price}
 							onChange={handleProductChange}
@@ -184,7 +184,7 @@ const PurchaseForm = ({
 						<GenericForm
 							id="stock"
 							name="stock"
-							label="Cantidad"
+							text="Cantidad"
 							type="number"
 							value={product.stock}
 							onChange={handleProductChange}
@@ -195,10 +195,7 @@ const PurchaseForm = ({
 					</div>
 
 					<div className={formStyles.formActions}>
-						<Button
-							type="submit"
-							className={formStyles.submitButton}
-						>
+						<Button type="submit" className={formStyles.submitButton}>
 							Agregar producto
 						</Button>
 					</div>

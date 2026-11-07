@@ -19,7 +19,15 @@ export const Products = sequelize.define("Products", {
 		type: DataTypes.STRING,
 		allowNull: false
 	},
+	brand: {
+		type: DataTypes.STRING,
+		allowNull: false
+	},
 	size: {
+		type: DataTypes.STRING,
+		allowNull: false
+	},
+	color: {
 		type: DataTypes.STRING,
 		allowNull: false
 	},

@@ -14,6 +14,8 @@ import productRouter from "./src/routes/product.router.js";
 import layoutDefRouter from "./src/routes/layoutdef.router.js";
 import purchasesRouter from "./src/routes/purchases.router.js";
 import supplierRouter from './src/routes/supplier.router.js';
+import clientRouter from './src/routes/client.router.js';
+import salesRouter from './src/routes/sales.router.js';
 
 const app = express();
 
@@ -31,6 +33,8 @@ app.use(productRouter);
 app.use(layoutDefRouter);
 app.use(purchasesRouter);
 app.use(supplierRouter);
+app.use(clientRouter);
+app.use(salesRouter);
 
 try {
     await sequelize.authenticate();

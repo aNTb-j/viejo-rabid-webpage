@@ -6,6 +6,7 @@ import { ProductList } from "../database/models/productsList.js";
 import { SuppliersProducts } from "../database/models/suppliersProducts.js";
 import { Purchases } from "../database/models/purchases.js";
 import { PurchaseItems } from "../database/models/purchaseItems.js";
+import { Products } from "../database/models/products.js";
 
 // Asociaciones
 Suppliers.belongsToMany(ProductList, {
@@ -54,129 +55,115 @@ PurchaseItems.belongsTo(ProductList, {
 });
 
 // POST /purchases
+
 export const addPurchase = async (req, res) => {
 	const transaction = await sequelize.transaction();
 
 	try {
-		const { id_supplier_fk, items } = req.body;
+		const { id_supplier_fk, products } = req.body;
 
-		if (!id_supplier_fk || !Array.isArray(items) || items.length === 0) {
+		// Validación inicial
+		if (
+			!id_supplier_fk ||
+			!Array.isArray(products) ||
+			products.length === 0
+		) {
 			await transaction.rollback();
 
 			return res.status(400).json({
-				message: "Se requiere un proveedor y al menos un artículo."
+				message: "Se requiere un proveedor y al menos un producto."
 			});
 		}
 
+		// Verificar proveedor
 		const supplier = await Suppliers.findByPk(id_supplier_fk, {
 			transaction
 		});
 
-		if (!supplier) {
-			await transaction.rollback();
+		//if (!supplier) {
+		//	await transaction.rollback();
 
-			return res.status(404).json({
-				message: "El proveedor no existe."
-			});
-		}
+		//	return res.status(404).json({
+		//		message: "El proveedor no existe."
+		//	});
+		//}
 
-		// Validar todos los artículos antes de crear la compra
-		const validatedItems = [];
+		const purchaseDate = new Date();
 
-		for (const item of items) {
-			const { id_product_list_fk, amount, price } = item;
+		for (const product of products) {
+			const {
+				intern_code,
+				name,
+				brand,
+				color,
+				size,
+				price,
+				stock
+			} = product;
 
+			// Validar datos del producto
 			if (
-				!Number.isInteger(Number(amount)) ||
-				Number(amount) < 1 ||
+				!name?.trim() ||
+				!brand?.trim() ||
+				!color?.trim() ||
+				!size?.trim() ||
+				!Number.isInteger(Number(stock)) ||
+				Number(stock) < 1 ||
 				!Number.isFinite(Number(price)) ||
 				Number(price) < 0
 			) {
-				await transaction.rollback();
-
-				return res.status(400).json({
-					message: "Cada artículo debe tener una cantidad entera positiva y un precio válido."
-				});
+				throw new Error("Uno de los productos contiene datos inválidos.");
 			}
 
-			const product = await ProductList.findByPk(
-				id_product_list_fk,
-				{ transaction }
-			);
-
-			if (!product) {
-				await transaction.rollback();
-
-				return res.status(400).json({
-					message: `No existe el artículo del catálogo ${id_product_list_fk}.`
-				});
-			}
-
-			// Verificar que el artículo esté asociado a ese proveedor
-			const supplierProduct = await SuppliersProducts.findOne({
+			// Buscar variante existente
+			const existingProduct = await Products.findOne({
 				where: {
-					id_supplier_fk,
-					id_product_list_fk
+					intern_code,
+					size,
+					color
 				},
 				transaction
 			});
 
-			if (!supplierProduct) {
-				await transaction.rollback();
+			if (existingProduct) {
+				// Incrementar stock
+				await existingProduct.update({
+					stock: existingProduct.stock + Number(stock),
+					price: Number(price),
+					date: purchaseDate
+				}, { transaction });
 
-				return res.status(400).json({
-					message: `El artículo ${id_product_list_fk} no pertenece al catálogo de este proveedor.`
-				});
+			} else {
+				// Crear nuevo producto
+				await Products.create({
+					id_supplier_fk,
+					intern_code,
+					name,
+					brand,
+					color,
+					size,
+					price: Number(price),
+					stock: Number(stock),
+					date: purchaseDate
+				}, { transaction });
 			}
-
-			validatedItems.push({
-				id_product_list_fk: product.id_product_list,
-				cod_producto: product.cod_producto,
-				talle: product.talle,
-				color: product.color,
-				price: Number(price),
-				amount: Number(amount)
-			});
 		}
-
-		// Crear cabecera: permanece pendiente
-		const purchase = await Purchases.create(
-			{
-				id_supplier_fk,
-				status: "pending"
-			},
-			{ transaction }
-		);
-
-		// Crear líneas de la compra
-		await PurchaseItems.bulkCreate(
-			validatedItems.map(item => ({
-				id_purchase_fk: purchase.id_purchases,
-				...item
-			})),
-			{ transaction }
-		);
 
 		await transaction.commit();
 
 		return res.status(201).json({
-			message: "Compra guardada como pendiente.",
-			purchase: {
-				id_purchases: purchase.id_purchases,
-				id_supplier_fk: purchase.id_supplier_fk,
-				status: purchase.status,
-				items: validatedItems
-			}
+			message: "Compra registrada correctamente."
 		});
+
 	} catch (error) {
 		if (!transaction.finished) {
 			await transaction.rollback();
 		}
 
-		console.error("Error al crear la compra:", error);
+		console.error("Error al registrar la compra:", error);
 
 		return res.status(500).json({
-			message: "Error interno al crear la compra."
+			message: error.message || "Error interno al registrar la compra."
 		});
 	}
 };

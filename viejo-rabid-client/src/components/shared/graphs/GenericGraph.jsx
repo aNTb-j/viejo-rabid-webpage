@@ -27,9 +27,7 @@ const GenericChart = ({
 }) => {
 
 	const renderChart = () => {
-
 		switch (type) {
-
 			case 'bar':
 				return (
 					<BarChart data={data}>
@@ -50,30 +48,16 @@ const GenericChart = ({
 						<YAxis />
 						<Tooltip />
 						<Legend />
-						<Line
-							type="monotone"
-							dataKey={dataKey}
-							stroke={colors[0]}
-							strokeWidth={2}
-						/>
+						<Line type="monotone" dataKey={dataKey} stroke={colors[0]} strokeWidth={2} />
 					</LineChart>
 				);
 
 			case 'pie':
 				return (
 					<PieChart>
-						<Pie
-							data={data}
-							dataKey={dataKey}
-							nameKey={categoryKey}
-							outerRadius={100}
-							label
-						>
+						<Pie data={data} dataKey={dataKey} nameKey={categoryKey} outerRadius={100} label >
 							{data.map((entry, index) => (
-								<Cell
-									key={index}
-									fill={colors[index % colors.length]}
-								/>
+								<Cell key={index} fill={colors[index % colors.length]} />
 							))}
 						</Pie>
 						<Tooltip />

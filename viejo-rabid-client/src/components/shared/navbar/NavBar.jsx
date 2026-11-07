@@ -6,8 +6,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
 import ThemeToggle from '../../services/theme/ThemeToggle';
-
 import ProfileDropdown from '../profile/ProfileDropdown';
+import RoleGuard from '../auth/RoleGuard';
 
 import styles from '../../../styles/components/navbar.module.scss';
 
@@ -56,6 +56,7 @@ const NavBar = () => {
 			/>
 
 			<Navbar.Collapse id="main-navbar" className={styles.collapse}>
+
 				<Nav className={styles.left}>
 					<Nav.Link className={styles.link} href="/home">
 						Inicio
@@ -63,33 +64,35 @@ const NavBar = () => {
 				</Nav>
 
 				<Nav className={styles.right}>
-					<NavDropdown
-						className={styles.dropdown}
-						title="Menú"
-						id="main-nav-dropdown"
-						align="end"
-					>
-						<NavDropdown.Item href="#action/3.3">
-							Cargar venta
-						</NavDropdown.Item>
 
-						<NavDropdown.Item href="#action/3.3">
-							<ThemeToggle />
-						</NavDropdown.Item>
-						<NavDropdown.Divider />
+					{/* Menú exclusivo para admin y superadmin */}
+					<RoleGuard allowedRoles={['admin', 'superadmin']}>
+						<NavDropdown title="Menú" id="main-nav-dropdown">
+							<NavDropdown.Item href="/sales">
+								Cargar venta
+							</NavDropdown.Item>
 
-						<NavDropdown.Item href="/dashboard">
-							Dashboard
-						</NavDropdown.Item>
+							<RoleGuard allowedRoles={['superadmin']}>
+								<NavDropdown.Divider />
+								<NavDropdown.Item href="/dashboard">
+									Dashboard
+								</NavDropdown.Item>
+								<NavDropdown.Item href="/layoutdef">
+									Layout Definer
+								</NavDropdown.Item>
+							</RoleGuard>
+						</NavDropdown>
+					</RoleGuard>
 
-						<NavDropdown.Item href="/layoutdef">
-							Layout Definer
-						</NavDropdown.Item>
-					</NavDropdown>
+					{/* Disponible para todos los usuarios */}
+					<ThemeToggle />
+
 				</Nav>
+
 			</Navbar.Collapse>
+
 			<ProfileDropdown />
-			
+
 		</Navbar>
 	);
 };

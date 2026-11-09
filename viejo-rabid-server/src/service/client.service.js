@@ -38,16 +38,16 @@ export const getClient = async (req, res) => {
 	}
 };
 
-// PATCH: Editar nombre de usuario
+
 // PATCH: Editar nombre de acceso
-export const editUserName = async (req, res) => {
+export const editUserEmail = async (req, res) => {
 	try {
-		const { user: newUser } = req.body;
+		const { email } = req.body;
 		const currentUser = req.user.user;
 
-		if (!newUser || !newUser.trim()) {
+		if (!email || !email.trim()) {
 			return res.status(400).json({
-				message: "El nombre de usuario es obligatorio."
+				message: "El email es obligatorio."
 			});
 		}
 
@@ -61,49 +61,42 @@ export const editUserName = async (req, res) => {
 			});
 		}
 
-		// Comprobar que el nuevo nombre no esté ocupado
-		const existingUser = await User.findOne({
-			where: { user: newUser.trim() }
+		const existingEmail = await User.findOne({
+			where: { email: email.trim() }
 		});
 
-		if (existingUser && existingUser.id_user !== user.id_user) {
+		if (existingEmail && existingEmail.id_user !== user.id_user) {
 			return res.status(409).json({
-				message: "Ese nombre de usuario ya está en uso."
+				message: "Ese email ya está registrado."
 			});
 		}
 
-		user.user = newUser.trim();
+		user.email = email.trim();
 		await user.save();
 
-		// Generar nuevo token
-		const token = jwt.sign(
-			{ user: user.user },
-			process.env.SECRETKEY,
-			{ expiresIn: "1h" }
-		);
-
 		return res.status(200).json({
-			message: "Nombre de acceso actualizado correctamente.",
-			user: user.user,
-			token
+			message: "Email actualizado correctamente.",
+			email: user.email
 		});
 
 	} catch (error) {
-		console.error("Error al actualizar usuario:", error);
+		console.error("Error al actualizar email:", error);
 
 		return res.status(500).json({
-			message: "Error al actualizar el nombre de acceso."
+			message: "Error al actualizar el email."
 		});
 	}
-};	
+};
 
 
 // DELETE: Eliminar cuenta
 export const deleteAccount = async (req, res) => {
 	try {
-		const userId = req.user.id;
+		const currentUser = req.user.user;
 
-		const user = await User.findByPk(userId);
+		const user = await User.findOne({
+			where: { user: currentUser }
+		});
 
 		if (!user) {
 			return res.status(404).json({
@@ -118,6 +111,8 @@ export const deleteAccount = async (req, res) => {
 		});
 
 	} catch (error) {
+		console.error("Error al eliminar cuenta:", error);
+
 		return res.status(500).json({
 			message: "Error al eliminar la cuenta.",
 			error: error.message

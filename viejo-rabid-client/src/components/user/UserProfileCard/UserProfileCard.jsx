@@ -1,21 +1,22 @@
-
 import { useContext, useEffect, useState } from "react";
 import { Card, Form, Button, Alert, Spinner } from "react-bootstrap";
+import { useNavigate } from "react-router";
 
 import { AuthenticationContext } from "../../shared/auth/auth.context";
+
 
 const UserProfileCard = () => {
 	const { token, handleUserLogout } = useContext(AuthenticationContext);
 
 	const [user, setUser] = useState(null);
-	const [username, setUsername] = useState("");
+	const [email, setEmail] = useState("");
 
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
 	const [message, setMessage] = useState("");
 	const [error, setError] = useState("");
 
-
+	const navigate = useNavigate();
 
 	// Obtiene los datos del usuario
 	useEffect(() => {
@@ -27,6 +28,8 @@ const UserProfileCard = () => {
 			}
 
 			try {
+				setLoading(true);
+
 				const response = await fetch("http://localhost:3000/client", {
 					headers: {
 						Authorization: `Bearer ${token}`
@@ -35,15 +38,12 @@ const UserProfileCard = () => {
 
 				const data = await response.json();
 
-				console.log("Status:", response.status);
-				console.log("Respuesta backend:", data);
-
 				if (!response.ok) {
 					throw new Error(data.message || "No se pudieron obtener los datos.");
 				}
 
 				setUser(data);
-				setUsername(data.username ?? "");
+				setEmail(data.email ?? "");
 
 			} catch (error) {
 				console.error("Error al obtener usuario:", error);
@@ -58,12 +58,12 @@ const UserProfileCard = () => {
 
 	}, [token]);
 
-	// Modifica el nombre de usuario
-	const handleEditUsername = async (e) => {
+	// Modifica el email
+	const handleEditEmail = async (e) => {
 		e.preventDefault();
 
-		if (!username.trim()) {
-			setError("El nombre de usuario es obligatorio.");
+		if (!email.trim()) {
+			setError("El email es obligatorio.");
 			return;
 		}
 
@@ -78,18 +78,24 @@ const UserProfileCard = () => {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${token}`
 				},
-				body: JSON.stringify({ user: username.trim() })
+				body: JSON.stringify({
+					email: email.trim()
+				})
 			});
 
 			const data = await response.json();
 
 			if (!response.ok) {
-				throw new Error(data.message || "No se pudo actualizar el usuario.");
+				throw new Error(data.message || "No se pudo actualizar el email.");
 			}
 
+			setUser(prev => ({
+				...prev,
+				email: data.email
+			}));
+
+			setEmail(data.email);
 			setMessage(data.message);
-			setUser(prev => ({ ...prev, user: data.user }));
-			setUsername(data.user);
 
 		} catch (error) {
 			setError(error.message);
@@ -124,6 +130,7 @@ const UserProfileCard = () => {
 			}
 
 			handleUserLogout();
+			navigate("/login", { replace: true });
 
 		} catch (error) {
 			setError(error.message);
@@ -159,21 +166,21 @@ const UserProfileCard = () => {
 
 				<hr />
 
-				{/* Modificar nombre de usuario */}
-				<Form onSubmit={handleEditUsername}>
+				{/* Modificar email */}
+				<Form onSubmit={handleEditEmail}>
 					<Form.Group className="mb-3">
-						<Form.Label>Nuevo nombre de usuario</Form.Label>
+						<Form.Label>Nuevo email</Form.Label>
 
 						<Form.Control
-							type="text"
-							value={username}
-							onChange={(e) => setUsername(e.target.value)}
+							type="email"
+							value={email}
+							onChange={(e) => setEmail(e.target.value)}
 							required
 						/>
 					</Form.Group>
 
 					<Button type="submit" disabled={saving}>
-						{saving ? "Actualizando..." : "Actualizar nombre"}
+						{saving ? "Actualizando..." : "Actualizar email"}
 					</Button>
 				</Form>
 

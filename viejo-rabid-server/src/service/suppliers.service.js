@@ -157,9 +157,7 @@ export const importSupplierProducts = async (req, res) => {
 		await sequelize.transaction(async (transaction) => {
 
 			await ProductList.destroy({
-				where: {
-					id_supplier_fk: supplierId
-				},
+				where: {id_supplier_fk: supplierId},
 				transaction
 			});
 

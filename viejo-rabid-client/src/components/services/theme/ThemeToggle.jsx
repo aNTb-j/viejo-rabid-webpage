@@ -1,19 +1,21 @@
 import { useContext } from "react";
 import { ThemeContext } from "../../services/theme/theme.context";
 
-import Button from "react-bootstrap/Button";
+import ToggleButton from "./ToggleButton.jsx";
 
 const ThemeToggle = () => {
 
-    const { theme, toggleTheme } = useContext(ThemeContext);
+	const { theme, toggleTheme } = useContext(ThemeContext);
 
-    return (
-        <Button
-            variant="outline-secondary"
-            onClick={toggleTheme} >
-            {theme === "light" ? "Modo oscuro" : "Modo claro"}
-        </Button>
-    );
+	return (
+		<ToggleButton
+			checked={theme === "dark"}
+			onChange={toggleTheme}
+			name="theme-toggle"
+			offLabel="off"
+			onLabel="on"
+		/>
+	);
 };
 
 export default ThemeToggle;

@@ -33,7 +33,7 @@ export const addSale = async (req, res) => {
 export const getSales = async (req, res) => {
 	try {
 		const sales = await Sales.findAll({
-			order: [["id_sales", "DESC"]]
+			order: [["id_sales"]]
 		});
 
 		return res.status(200).json({ sales });

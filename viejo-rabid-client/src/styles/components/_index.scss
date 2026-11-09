@@ -1,5 +1,4 @@
-@forward 'header';
-@forward 'toggle';
+@forward 'toggle.module.scss';
 @forward 'card.module.scss';
 @forward 'dashboard.module.scss';
 @forward 'form.module.scss';
@@ -13,7 +12,10 @@
 @forward 'sidebar.module.scss';
 @forward 'suppliersform.module.scss';
 @forward 'table.module.scss';
-@forward 'toggle.scss';
+@forward 'profiledropdown.module.scss';
+@forward 'register.module.scss';
+@forward 'sales.module.scss';
+@forward 'suplierstable.module.scss';
 
 @forward 'navbar.module.scss';
-@forward 'buttons';
+@forward 'buttons.module.scss';

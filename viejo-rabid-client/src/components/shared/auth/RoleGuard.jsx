@@ -8,13 +8,19 @@ const RoleGuard = ({ allowedRoles, children }) => {
 	const navigate = useNavigate();
 
 	const [userRole, setUserRole] = useState(null);
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(Boolean(token));
 
 	useEffect(() => {
+
+		// Si no hay token, no realiza la consulta
+		if (!token) return;
+
+		let active = true;
+
+		// Obtiene el rol del usuario
 		const fetchUserRole = async () => {
 			try {
 				const response = await fetch("http://localhost:3000/auth/role", {
-					method: "GET",
 					headers: {
 						Authorization: `Bearer ${token}`
 					}
@@ -26,35 +32,43 @@ const RoleGuard = ({ allowedRoles, children }) => {
 
 				const data = await response.json();
 
-				setUserRole(data.role);
-
-				console.log("Rol del usuario autenticado:", data.role);
+				if (active) {
+					setUserRole(data.role);
+				}
 
 			} catch (error) {
 				console.error("Error al obtener el rol:", error);
-				setUserRole(null);
+
+				if (active) {
+					setUserRole(null);
+				}
 
 			} finally {
-				setLoading(false);
+				if (active) {
+					setLoading(false);
+				}
 			}
 		};
 
-		if (token) {
-			setLoading(true);
-			fetchUserRole();
-		} else {
-			setUserRole(null);
-			setLoading(false);
-		}
+		fetchUserRole();
+
+		// Evita actualizar estados si el componente se desmonta
+		return () => {
+			active = false;
+		};
 
 	}, [token]);
 
 	useEffect(() => {
+
+		// Redirige si el usuario no tiene permisos
 		if (!loading && (!userRole || !allowedRoles.includes(userRole))) {
-			navigate(-1);
+			navigate("/home", { replace: true });
 		}
+
 	}, [loading, userRole, allowedRoles, navigate]);
 
+	// Evita mostrar el contenido mientras verifica los permisos
 	if (loading || !allowedRoles.includes(userRole)) {
 		return null;
 	}

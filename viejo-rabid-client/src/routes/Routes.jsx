@@ -11,6 +11,8 @@ import Dashboard from "../components/super-admin/dashboard/Dashboard";
 import LayoutDefiner from "../components/super-admin/layout-definer/LayoutDefiner";
 import SalesView from "../components/admin/SalesView";
 
+import UserView from "../components/user/UserView";
+
 import NotFound from "../components/shared/notFound/NotFound";
 import RoleGuard from "../components/shared/auth/RoleGuard";
 
@@ -24,6 +26,7 @@ const Router = () => {
 				<Route path="/login" element={<Login />} />
 				<Route path="/register" element={<Register />} />
 				<Route path="/home" element={<Home />} />
+				<Route path="/client" element={<UserView />} />
 
 				{/* admin y superadmin*/}
 				<Route

@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Form, Button, Card, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router";
 
+import NavBar from "../shared/navbar/NavBar.jsx";
+
 import { GenericForm } from "../shared/forms/GenericForm.jsx";
 import SalesTable from "./SalesTable.jsx";
 
@@ -65,75 +67,76 @@ const SalesView = () => {
 	};
 
 	return (
-		<div className={styles.salesPage}>
+		<> <NavBar />
+			<div className={styles.salesPage}>
 
-			<header className={styles.pageHeader}>
-				<h2 className={styles.pageTitle}>Ventas</h2>
-				<p className={styles.pageDescription}>
-					Registrá nuevas ventas y consultá el historial.
-				</p>
-			</header>
+				<header className={styles.pageHeader}>
+					<h2 className={styles.pageTitle}>Ventas</h2>
+					<p className={styles.pageDescription}>
+						Registrá nuevas ventas y consultá el historial.
+					</p>
+				</header>
 
-			<Card className={styles.formCard}>
-				<Card.Body className={styles.formBody}>
+				<Card className={styles.formCard}>
+					<Card.Body className={styles.formBody}>
 
-					<div className={styles.formHeader}>
-						<h4 className={styles.formTitle}>Registrar venta</h4>
-						<p className={styles.formDescription}>
-							Completá los datos para registrar una nueva venta.
-						</p>
-					</div>
+						<div className={styles.formHeader}>
+							<h4 className={styles.formTitle}>Registrar venta</h4>
+							<p className={styles.formDescription}>
+								Completá los datos para registrar una nueva venta.
+							</p>
+						</div>
 
-					{message && (
-						<Alert
-							variant={error ? "danger" : "success"}
-							className={styles.alert}
-							dismissible
-							onClose={() => setMessage("")}
-						>
-							{message}
-						</Alert>
-					)}
+						{message && (
+							<Alert
+								variant={error ? "danger" : "success"}
+								className={styles.alert}
+								dismissible
+								onClose={() => setMessage("")}
+							>
+								{message}
+							</Alert>
+						)}
 
-					<Form onSubmit={handleSubmit}>
-						<GenericForm
-							id="placeholder"
-							name="placeholder"
-							text="Datos de la venta"
-							value={sale.placeholder}
-							onChange={handleChange}
-							placeholder="Ingresar datos"
-							required
-							className={styles.formField}
-						/>
+						<Form onSubmit={handleSubmit}>
+							<GenericForm
+								id="placeholder"
+								name="placeholder"
+								text="Datos de la venta"
+								value={sale.placeholder}
+								onChange={handleChange}
+								placeholder="Ingresar datos"
+								required
+								className={styles.formField}
+							/>
 
-						<Button
-							type="submit"
-							className={styles.submitButton}
-							disabled={loading}
-						>
-							{loading ? "Registrando..." : "Registrar venta"}
-						</Button>
-					</Form>
+							<Button
+								type="submit"
+								className={styles.submitButton}
+								disabled={loading}
+							>
+								{loading ? "Registrando..." : "Registrar venta"}
+							</Button>
+						</Form>
 
-				</Card.Body>
-			</Card>
+					</Card.Body>
+				</Card>
 
-			<section className={styles.tableSection}>
-				<SalesTable refreshKey={refreshKey} />
-			</section>
+				<section className={styles.tableSection}>
+					<SalesTable refreshKey={refreshKey} />
+				</section>
 
-			<div className={styles.navigation}>
-				<Button
-					type="button"
-					className={styles.backButton}
-					onClick={() => navigate("/home")}
-				>
-					Volver a Home
-				</Button>
+				<div className={styles.navigation}>
+					<Button
+						type="button"
+						className={styles.backButton}
+						onClick={() => navigate("/home")}
+					>
+						Volver a Home
+					</Button>
+				</div>
 			</div>
-
-		</div>
+		</>
 	);
 };
 

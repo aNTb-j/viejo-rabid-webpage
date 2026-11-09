@@ -1,11 +1,14 @@
 import { Router } from "express";
-import { getUserRole } from "../service/client.service.js";
+import { verifyToken } from "../middleware/auth.js";
+import { getClient, deleteAccount, editUserName } from "../service/client.service.js";
 
 const clientRouter = Router();
 
-// Roles
+// client
 
+clientRouter.get("/client", verifyToken, getClient);
+clientRouter.delete("/client",verifyToken, deleteAccount);
+clientRouter.patch("/client",verifyToken, editUserName);
 
-clientRouter.get('/auth/role', getUserRole);
 
 export default clientRouter;

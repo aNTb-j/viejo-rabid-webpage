@@ -40,10 +40,7 @@ const NavBar = () => {
 	}, []);
 
 	return (
-		<Navbar
-			expand="lg"
-			className={`${styles.navbar} ${hidden ? styles.hidden : ''}`}
-		>
+		<Navbar expand="lg" className={`${styles.navbar} ${hidden ? styles.hidden : ''}`}>
 			<Navbar.Brand className={styles.brand} href="/home">
 				<span className={styles.brandName}>VIEJO RABID</span>
 				<span className={styles.brandSubtitle}>Estilo urbano</span>
@@ -67,16 +64,27 @@ const NavBar = () => {
 
 					{/* Menú exclusivo para admin y superadmin */}
 					<RoleGuard allowedRoles={['admin', 'superadmin']}>
-						<NavDropdown title="Menú" id="main-nav-dropdown">
+						<NavDropdown
+							title={
+								<span className={styles.menuButton}>
+									<span>Menú</span>
+									<i className={styles.menuArrow}></i>
+								</span>
+							}
+							id="main-nav-dropdown"
+							className={styles.menuDropdown}>
+								
 							<NavDropdown.Item href="/sales">
 								Cargar venta
 							</NavDropdown.Item>
 
 							<RoleGuard allowedRoles={['superadmin']}>
 								<NavDropdown.Divider />
+
 								<NavDropdown.Item href="/dashboard">
 									Dashboard
 								</NavDropdown.Item>
+
 								<NavDropdown.Item href="/layoutdef">
 									Layout Definer
 								</NavDropdown.Item>

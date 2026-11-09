@@ -8,7 +8,6 @@ const Protected = ({ children }) => {
 	if (loading) return <p>Cargando...</p>;
 
 	if (!token) {
-		console.log(token)
 		return <Navigate to="/home" replace />;
 	}
 

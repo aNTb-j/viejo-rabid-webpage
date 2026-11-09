@@ -16,7 +16,7 @@ Tags.belongsToMany(TagGroups, {
 	as: 'groups'
 });
 
-
+// Obtener todas las tags cargadas
 export const getAllTags = async (req, res) => {
 	try {
 		const tags = await Tags.findAll();
@@ -50,6 +50,7 @@ export const getAllTagGroups = async (req, res) => {
 	}
 };
 
+// Creacion de los grupos para mostrar en home
 export const createTagGroup = async (req, res) => {
 	const { title, tags } = req.body;
 
@@ -59,9 +60,7 @@ export const createTagGroup = async (req, res) => {
 		});
 
 		const tagInstances = await Tags.findAll({
-			where: {
-				id_tag: tags
-			}
+			where: { id_tag: tags}
 		});
 
 		if (tagInstances.length !== tags.length) {

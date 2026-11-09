@@ -95,7 +95,7 @@ export const editUserName = async (req, res) => {
 			message: "Error al actualizar el nombre de acceso."
 		});
 	}
-};
+};	
 
 
 // DELETE: Eliminar cuenta

@@ -130,7 +130,7 @@ const UserProfileCard = () => {
 			}
 
 			handleUserLogout();
-			navigate("/login", { replace: true });
+			navigate("/home", { replace: true });
 
 		} catch (error) {
 			setError(error.message);

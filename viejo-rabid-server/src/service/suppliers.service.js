@@ -64,18 +64,18 @@ export const registerSupplier = async (req, res) => {
 };
 
 export const getSuppliers = async (req, res) => {
-    try {
-        const suppliers = await Suppliers.findAll();
+	try {
+		const suppliers = await Suppliers.findAll();
 
-        return res.status(200).json(suppliers);
+		return res.status(200).json(suppliers);
 
-    } catch (error) {
-        console.error("Error al obtener proveedores:", error);
+	} catch (error) {
+		console.error("Error al obtener proveedores:", error);
 
-        return res.status(500).json({
-            message: "Error al obtener proveedores."
-        });
-    }
+		return res.status(500).json({
+			message: "Error al obtener proveedores."
+		});
+	}
 };
 
 // POST /suppliers/products
@@ -157,7 +157,7 @@ export const importSupplierProducts = async (req, res) => {
 		await sequelize.transaction(async (transaction) => {
 
 			await ProductList.destroy({
-				where: {id_supplier_fk: supplierId},
+				where: { id_supplier_fk: supplierId },
 				transaction
 			});
 
@@ -178,6 +178,33 @@ export const importSupplierProducts = async (req, res) => {
 
 		return res.status(500).json({
 			message: error.message || 'Error al importar los productos.'
+		});
+	}
+};
+
+export const deleteSupplier = async (req, res) => {
+	try {
+		const { id } = req.params;
+
+		const supplier = await Suppliers.findByPk(id);
+
+		if (!supplier) {
+			return res.status(404).json({
+				message: "No se encontró el proveedor."
+			});
+		}
+
+		await supplier.destroy();
+
+		return res.status(200).json({
+			message: "Proveedor eliminado correctamente."
+		});
+
+	} catch (error) {
+		console.error("Error al eliminar proveedor:", error);
+
+		return res.status(500).json({
+			message: "No se pudo eliminar el proveedor."
 		});
 	}
 };

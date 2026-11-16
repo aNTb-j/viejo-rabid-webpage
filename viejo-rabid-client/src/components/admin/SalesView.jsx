@@ -24,10 +24,7 @@ const SalesView = () => {
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 
-		setSale(prev => ({
-			...prev,
-			[name]: value
-		}));
+		setSale(prev => ({ ...prev, [name]: value }));
 	};
 
 	const handleSubmit = async (e) => {
@@ -67,7 +64,8 @@ const SalesView = () => {
 	};
 
 	return (
-		<> <NavBar />
+		<>
+			<NavBar />
 			<div className={styles.salesPage}>
 
 				<header className={styles.pageHeader}>

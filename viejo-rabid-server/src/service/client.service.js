@@ -20,7 +20,7 @@ export const getClient = async (req, res) => {
 				"role"
 			]
 		});
-		console.log(user)
+
 		if (!user) {
 			return res.status(404).json({
 				message: "Usuario no encontrado."

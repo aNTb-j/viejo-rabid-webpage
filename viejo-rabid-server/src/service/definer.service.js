@@ -60,7 +60,7 @@ export const createTagGroup = async (req, res) => {
 		});
 
 		const tagInstances = await Tags.findAll({
-			where: { id_tag: tags}
+			where: { id_tag: tags }
 		});
 
 		if (tagInstances.length !== tags.length) {
@@ -77,12 +77,48 @@ export const createTagGroup = async (req, res) => {
 			message: 'Grupo creado correctamente',
 			group
 		});
-		
+
 	} catch (error) {
 		console.error('Error al crear el grupo:', error);
 
 		return res.status(500).json({
 			message: 'Error al crear el grupo'
+		});
+	}
+};
+
+
+export const deleteTagGroup = async (req, res) => {
+	try {
+		const { id } = req.params;
+
+		const group = await TagGroups.findByPk(id);
+
+		if (!group) {
+			return res.status(404).json({
+				message: 'No se encontró la sección.'
+			});
+		}
+
+		// Eliminar relaciones con etiquetas
+		await TagGroupTags.destroy({
+			where: {
+				id_group_fk: group.id_tag_group
+			}
+		});
+
+		// Eliminar grupo
+		await group.destroy();
+
+		return res.status(200).json({
+			message: 'Sección eliminada correctamente.'
+		});
+
+	} catch (error) {
+		console.error('Error al eliminar sección:', error);
+
+		return res.status(500).json({
+			message: 'Error al eliminar la sección.'
 		});
 	}
 };

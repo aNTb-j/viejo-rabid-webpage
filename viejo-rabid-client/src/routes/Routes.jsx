@@ -1,64 +1,53 @@
-import {
-	BrowserRouter,
-	Routes,
-	Route
-} from "react-router";
+
+import { BrowserRouter, Routes, Route } from "react-router";
 
 import Home from "../components/shared/home/Home";
 import Login from "../components/shared/login/Login";
 import Register from "../components/shared/login/Register";
+
 import Dashboard from "../components/super-admin/dashboard/Dashboard";
 import LayoutDefiner from "../components/super-admin/layout-definer/LayoutDefiner";
 import SalesView from "../components/admin/SalesView";
 
 import UserView from "../components/user/UserView";
-
 import NotFound from "../components/shared/notFound/NotFound";
+
 import RoleGuard from "../components/shared/auth/RoleGuard";
+import Protected from "../components/shared/auth/Protected";
 
 const Router = () => {
-
 	return (
 		<BrowserRouter>
 			<Routes>
-
 				{/* Rutas generales */}
+				<Route path="/home" element={<Home />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/register" element={<Register />} />
-				<Route path="/home" element={<Home />} />
-				<Route path="/client" element={<UserView />} />
 
-				{/* admin y superadmin*/}
+				{/* Perfil: todos los roles */}
 				<Route
-					path="/sales"
-					element={
-						<RoleGuard allowedRoles={['admin', 'superadmin']}>
-							<SalesView />
-						</RoleGuard>
-					}
+					path="/client"
+					element={<Protected><RoleGuard><UserView /></RoleGuard></Protected>}
 				/>
 
-				{/* Solamente superadmin */}
+				{/* Ventas: admin y superadmin */}
+				<Route
+					path="/sales"
+					element={<Protected><RoleGuard><SalesView /></RoleGuard></Protected>}
+				/>
+
+				{/* Dashboard y layoutdef: superadmin */}
 				<Route
 					path="/dashboard"
-					element={
-						<RoleGuard allowedRoles={['superadmin']}>
-							<Dashboard />
-						</RoleGuard>
-					}
+					element={<Protected><RoleGuard><Dashboard /></RoleGuard></Protected>}
 				/>
 
 				<Route
 					path="/layoutdef"
-					element={
-						<RoleGuard allowedRoles={['superadmin']}>
-							<LayoutDefiner />
-						</RoleGuard>
-					}
+					element={<Protected><RoleGuard><LayoutDefiner /></RoleGuard></Protected>}
 				/>
 
 				<Route path="*" element={<NotFound />} />
-
 			</Routes>
 		</BrowserRouter>
 	);

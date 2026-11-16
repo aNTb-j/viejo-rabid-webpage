@@ -144,9 +144,10 @@ const ProductsView = () => {
 
 			<section className={styles.formSection}>
 				<ProductForm
+					key={editingProduct?.id_product ?? 'new-product'}
+					editingProduct={editingProduct}
 					onAddProduct={handleAddProduct}
 					onUpdateProduct={handleUpdateProduct}
-					editingProduct={editingProduct}
 					onCancelEdit={handleCancelEdit}
 				/>
 			</section>

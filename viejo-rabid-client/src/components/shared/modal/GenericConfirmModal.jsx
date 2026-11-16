@@ -1,3 +1,4 @@
+
 import { Modal, Button } from 'react-bootstrap';
 
 const GenericConfirmModal = ({
@@ -6,18 +7,19 @@ const GenericConfirmModal = ({
 	message,
 	onConfirm,
 	onCancel,
-	confirmText = "Sí",
-	cancelText = "No",
-	loading = false
+	confirmText = 'Sí',
+	cancelText = 'No',
+	confirmVariant = 'danger',
+	showCancel = true,
+	loading = false,
 }) => {
-
 	const handleConfirm = () => {
-		onConfirm();
+		onConfirm?.();
 	};
 
 	return (
 		<Modal show={show} onHide={onCancel} centered>
-			<Modal.Header closeButton>
+			<Modal.Header closeButton={!loading}>
 				<Modal.Title>{title}</Modal.Title>
 			</Modal.Header>
 
@@ -26,11 +28,21 @@ const GenericConfirmModal = ({
 			</Modal.Body>
 
 			<Modal.Footer>
-				<Button variant="secondary" onClick={onCancel} disabled={loading}>
-					{cancelText}
-				</Button>
+				{showCancel && (
+					<Button
+						variant="secondary"
+						onClick={onCancel}
+						disabled={loading}
+					>
+						{cancelText}
+					</Button>
+				)}
 
-				<Button variant="danger" onClick={handleConfirm} disabled={loading}>
+				<Button
+					variant={confirmVariant}
+					onClick={handleConfirm}
+					disabled={loading}
+				>
 					{confirmText}
 				</Button>
 			</Modal.Footer>

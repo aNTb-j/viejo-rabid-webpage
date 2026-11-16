@@ -7,33 +7,49 @@ dotenv.config();
 
 
 // Get
+
+// POST - Login
 export const loginUser = async (req, res) => {
 	try {
 		const { user, password } = req.body;
 
-		// Verifica si un usuario ya existe
+		// Verificar si el usuario existe
 		const checkUser = await User.findOne({
 			where: { user }
-		})
+		});
 
-		if (!checkUser)
-			return res.status(401).send({ message: "Usuario no encontrado" })
+		if (!checkUser) {
+			return res.status(401).json({
+				error: "user",
+				message: "Usuario no encontrado."
+			});
+		}
 
-		// Compara contraseñas
-		const comparison = await bcrypt.compare(password, checkUser.password);
+		// Comparar contraseña
+		const comparison = await bcrypt.compare(
+			password,
+			checkUser.password
+		);
 
+		if (!comparison) {
+			return res.status(401).json({
+				error: "password",
+				message: "Contraseña incorrecta."
+			});
+		}
 
-		if (!comparison)
-			return res.status(401).send({ message: "Usuario o contraseña incorrecta" });
-
-		// JWT 
+		// Generar JWT
 		const secretKey = process.env.SECRETKEY;
 
 		if (!secretKey) {
 			throw new Error("Falta configurar SECRETKEY");
 		}
 
-		const token = jwt.sign({ user: checkUser.user }, secretKey, { expiresIn: "1h" });
+		const token = jwt.sign(
+			{ user: checkUser.user },
+			secretKey,
+			{ expiresIn: "1h" }
+		);
 
 		return res.json({ token });
 
@@ -47,28 +63,67 @@ export const loginUser = async (req, res) => {
 };
 
 
+
 // Post
+
 export const registerUser = async (req, res) => {
 	try {
-		const { user, password, dni, username, surname, email, birthdate, phone_number } = req.body;
+		const {
+			user,
+			password,
+			dni,
+			username,
+			surname,
+			email,
+			birthdate,
+			phone_number
+		} = req.body;
 
-		// Verifica si un usuario ya existe
-		const existingUser = await User.findOne({ where: { dni } })
+		// Verificar usuario existente
+		const existingUser = await User.findOne({
+			where: { user }
+		});
 
-		if (existingUser)
-			return res.status(400).send({ message: "Usuario existente" })
+		if (existingUser) {
+			return res.status(409).json({
+				field: 'user',
+				message: 'El nombre de usuario ya se encuentra registrado.'
+			});
+		}
 
-		// Hasheo de contraseñas
+		// Verificar DNI existente
+		const existingDni = await User.findOne({
+			where: { dni }
+		});
+
+		if (existingDni) {
+			return res.status(409).json({
+				field: 'dni',
+				message: 'El DNI ya se encuentra registrado.'
+			});
+		}
+
+		// Verificar email existente
+		const existingEmail = await User.findOne({
+			where: { email }
+		});
+
+		if (existingEmail) {
+			return res.status(409).json({
+				field: 'email',
+				message: 'El correo electrónico ya se encuentra registrado.'
+			});
+		}
+
+		// Hasheo de contraseña
 		const saltRounds = 10;
-
 		const salt = await bcrypt.genSalt(saltRounds);
+		const hashedPassword = await bcrypt.hash(password, salt);
 
-		const hashedPasword = await bcrypt.hash(password, salt);
-
-		// Registro de nuevo usuario
+		// Registrar nuevo usuario
 		const registerNewUser = await User.create({
 			user,
-			password: hashedPasword,
+			password: hashedPassword,
 			dni,
 			username,
 			surname,
@@ -78,16 +133,15 @@ export const registerUser = async (req, res) => {
 		});
 
 		return res.status(201).json({
-			message: "Usuario creado correctamente",
+			message: 'Usuario creado correctamente.',
 			id: registerNewUser.id_user
 		});
 
 	} catch (error) {
-		console.error("Error al registrar usuario:", error);
+		console.error('Error al registrar usuario:', error);
 
 		return res.status(500).json({
-			message: "Error interno al registrar el usuario"
+			message: 'Error interno al registrar el usuario.'
 		});
 	}
-}
-
+};

@@ -1,76 +1,41 @@
+
+import { useContext } from "react";
+import { Navigate } from "react-router";
+
 import { AuthenticationContext } from "./auth.context";
-import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router";
 
-const RoleGuard = ({ allowedRoles, children }) => {
+const RoleGuard = ({ children, allowedRoles }) => {
+	const { userRole, roleLoading } = useContext(AuthenticationContext);
 
-	const { token } = useContext(AuthenticationContext);
-	const navigate = useNavigate();
+	if (roleLoading) return null;
 
-	const [userRole, setUserRole] = useState(null);
-	const [loading, setLoading] = useState(Boolean(token));
+	// Modo visual: mostrar u ocultar componentes
+	if (allowedRoles !== undefined) {
+		return allowedRoles.includes(userRole) ? children : null;
+	}
 
-	useEffect(() => {
+	// Modo protección de rutas
+	const permissions = {
+		"/home": ["client", "admin", "superadmin"],
+		"/client": ["client", "admin", "superadmin"],
+		"/sales": ["admin", "superadmin"],
+		"/dashboard": ["superadmin"],
+		"/layoutdef": ["superadmin"]
+	};
 
-		// Si no hay token, no realiza la consulta
-		if (!token) return;
+	const currentPath = window.location.pathname;
+	const permittedRoles = permissions[currentPath] || [];
 
-		let active = true;
+	console.log("RoleGuard:", {
+		path: window.location.pathname,
+		userRole,
+		roleLoading,
+		allowedRoles,
+		hasAccess: allowedRoles?.includes(userRole)
+	});
 
-		// Obtiene el rol del usuario
-		const fetchUserRole = async () => {
-			try {
-				const response = await fetch("http://localhost:3000/auth/role", {
-					headers: {
-						Authorization: `Bearer ${token}`
-					}
-				});
-
-				if (!response.ok) {
-					throw new Error("No se pudo obtener el rol");
-				}
-
-				const data = await response.json();
-
-				if (active) {
-					setUserRole(data.role);
-				}
-
-			} catch (error) {
-				console.error("Error al obtener el rol:", error);
-
-				if (active) {
-					setUserRole(null);
-				}
-
-			} finally {
-				if (active) {
-					setLoading(false);
-				}
-			}
-		};
-
-		fetchUserRole();
-
-		// Evita actualizar estados si el componente se desmonta
-		return () => {
-			active = false;
-		};
-
-	}, [token]);
-
-	useEffect(() => {
-
-		// Redirige si el usuario no tiene permisos
-		if (!loading && (!userRole || !allowedRoles.includes(userRole))) {
-			navigate("/home", { replace: true });
-		}
-
-	}, [loading, userRole, allowedRoles, navigate]);
-
-	// Evita mostrar el contenido mientras verifica los permisos
-	if (loading || !allowedRoles.includes(userRole)) {
-		return null;
+	if (!permittedRoles.includes(userRole)) {
+		return <Navigate to="/home" replace />;
 	}
 
 	return children;

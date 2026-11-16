@@ -1,5 +1,8 @@
+
 import { useState, useEffect } from 'react';
-import { Form, Button, Alert, Row, Col } from 'react-bootstrap';
+import { errorToast, successToast } from '../../../../shared/toast/toast.js';
+
+import { Form, Row, Col, Button } from 'react-bootstrap';
 
 import CollapsibleForm from '../../utils/CollapsibleForm.jsx';
 import { GenericForm } from '../../../../shared/forms/GenericForm';
@@ -23,10 +26,9 @@ const ProductForm = ({
 	const [buyDate, setBuyDate] = useState('');
 	const [extraTags, setExtraTags] = useState('');
 
-	const [message, setMessage] = useState('');
-	const [error, setError] = useState(false);
+	const [errors, setErrors] = useState({});
 
-	// Campos vacios
+	// Limpiar campos
 	const resetForm = () => {
 		setIdSupplier('');
 		setInternProductCode('');
@@ -38,6 +40,7 @@ const ProductForm = ({
 		setProductStock('');
 		setBuyDate('');
 		setExtraTags('');
+		setErrors({});
 	};
 
 	// Cargar datos del producto seleccionado
@@ -61,12 +64,90 @@ const ProductForm = ({
 		}
 	}, [editingProduct]);
 
+	// Manejar cambios en los campos
+	const handleChange = (e, setter, field) => {
+		const { value } = e.target;
+
+		setter(value);
+
+		setErrors(prev => ({
+			...prev,
+			[field]: ''
+		}));
+	};
+
+	// Validar campos del producto
+	const validateProduct = () => {
+		const newErrors = {};
+
+		// Proveedor
+		if (!String(idSupplier).trim()) {
+			newErrors.idSupplier = 'El proveedor es obligatorio.';
+		} else if (
+			!Number.isInteger(Number(idSupplier)) ||
+			Number(idSupplier) <= 0
+		) {
+			newErrors.idSupplier = 'Ingresá un ID de proveedor válido.';
+		}
+
+		// Código interno
+		if (!String(internProductCode).trim()) {
+			newErrors.internProductCode = 'El código interno es obligatorio.';
+		} else if (
+			!Number.isInteger(Number(internProductCode)) ||
+			Number(internProductCode) < 0
+		) {
+			newErrors.internProductCode = 'Ingresá un código interno válido.';
+		}
+
+		// Nombre
+		if (!productName.trim()) {
+			newErrors.productName = 'El nombre del producto es obligatorio.';
+		} else if (productName.trim().length < 2) {
+			newErrors.productName = 'El nombre debe tener al menos 2 caracteres.';
+		}
+
+		// Talla
+		if (!productSize) {
+			newErrors.productSize = 'La talla es obligatoria.';
+		}
+
+		// Precio
+		if (productPrice === '' || !Number.isFinite(Number(productPrice))) {
+			newErrors.productPrice = 'El precio es obligatorio.';
+		} else if (Number(productPrice) < 0) {
+			newErrors.productPrice = 'El precio no puede ser negativo.';
+		}
+
+		// Stock
+		if (productStock === '') {
+			newErrors.productStock = 'El stock es obligatorio.';
+		} else if (
+			!Number.isInteger(Number(productStock)) ||
+			Number(productStock) < 0
+		) {
+			newErrors.productStock = 'Ingresá una cantidad de stock válida.';
+		}
+
+		// Fecha de compra
+		if (!buyDate) {
+			newErrors.buyDate = 'La fecha de compra es obligatoria.';
+		} else if (buyDate > new Date().toISOString().slice(0, 10)) {
+			newErrors.buyDate = 'La fecha no puede ser futura.';
+		}
+
+		setErrors(newErrors);
+
+		return Object.keys(newErrors).length === 0;
+	};
+
 	// Crear o actualizar producto
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
-		setMessage('');
-		setError(false);
+		if (!validateProduct()) {
+			return;
+		}
 
 		const tags = extraTags
 			.split(',')
@@ -88,7 +169,9 @@ const ProductForm = ({
 
 		const isEditing = Boolean(editingProduct);
 
-		const url = isEditing ? `http://localhost:3000/product/${editingProduct.id_product}` : 'http://localhost:3000/product';
+		const url = isEditing
+			? `http://localhost:3000/product/${editingProduct.id_product}`
+			: 'http://localhost:3000/product';
 
 		try {
 			const response = await fetch(url, {
@@ -102,224 +185,216 @@ const ProductForm = ({
 			const data = await response.json();
 
 			if (!response.ok) {
-				throw new Error(
-					data.message || 'Error al guardar el producto'
-				);
+				throw new Error(data.message || 'Error al guardar el producto');
 			}
 
 			if (isEditing) {
 				onUpdateProduct?.(data.product);
-				setMessage('Producto actualizado correctamente');
+				successToast('Producto actualizado correctamente.');
 			} else {
 				onAddProduct?.(data.product);
-				setMessage('Producto creado correctamente');
+				successToast('Producto creado correctamente.');
 				resetForm();
 			}
 
 		} catch (error) {
 			console.error('Error al guardar producto:', error);
 
-			setMessage(
-				error.message || 'Error de conexión con el servidor'
+			errorToast(
+				error.message || 'Error de conexión con el servidor.'
 			);
-
-			setError(true);
 		}
 	};
 
 	// Cancelar edición
 	const handleCancel = () => {
 		resetForm();
-		setMessage('');
-		setError(false);
 		onCancelEdit?.();
 	};
 
 	const isEditing = Boolean(editingProduct);
 
 	return (
-		<>
-			<CollapsibleForm
-				id="product-form"
-				title={isEditing ? 'Editar producto' : 'Registrar producto'}
-				description={
-					isEditing
-						? 'Modificar los datos del producto seleccionado'
-						: 'Agregar un nuevo producto al inventario'
-				}
-			>
-				<Form onSubmit={handleSubmit}>
-					<Row>
-						<Col md={6}>
-							<GenericForm
-								id="idSupplier"
-								text="Proveedor"
-								label="Proveedor"
-								type="number"
-								value={idSupplier}
-								onChange={(e) => setIdSupplier(e.target.value)}
-								placeholder="ID del proveedor"
-								className={formStyles.formGroup}
-								required
-							/>
-						</Col>
+		<CollapsibleForm
+			id="product-form"
+			title={isEditing ? 'Editar producto' : 'Registrar producto'}
+			description={
+				isEditing
+					? 'Modificar los datos del producto seleccionado'
+					: 'Agregar un nuevo producto al inventario'
+			}
+		>
+			<Form noValidate onSubmit={handleSubmit}>
+				<Row>
+					<Col md={6}>
+						<GenericForm
+							id="idSupplier"
+							text="Proveedor"
+							type="number"
+							value={idSupplier}
+							onChange={(e) => handleChange(e, setIdSupplier, 'idSupplier')}
+							error={errors.idSupplier}
+							placeholder="ID del proveedor"
+							className={formStyles.formGroup}
+							required
+						/>
+					</Col>
 
-						<Col md={6}>
-							<GenericForm
-								id="productCode"
-								text="Código interno"
-								label="Código interno"
-								type="number"
-								value={internProductCode}
-								onChange={(e) => setInternProductCode(e.target.value)}
-								placeholder="Código del producto"
-								className={formStyles.formGroup}
-								required
-							/>
-						</Col>
+					<Col md={6}>
+						<GenericForm
+							id="productCode"
+							text="Código interno"
+							type="number"
+							value={internProductCode}
+							onChange={(e) => handleChange(e, setInternProductCode, 'internProductCode')}
+							error={errors.internProductCode}
+							placeholder="Código del producto"
+							className={formStyles.formGroup}
+							required
+						/>
+					</Col>
 
-						<Col md={6}>
-							<GenericForm
-								id="productBrand"
-								text="Marca"
-								label="Marca"
-								value={productBrand}
-								onChange={(e) => setProductBrand(e.target.value)}
-								placeholder="Marca del producto"
-								className={formStyles.formGroup}
-							/>
-						</Col>
+					<Col md={6}>
+						<GenericForm
+							id="productBrand"
+							text="Marca"
+							value={productBrand}
+							onChange={(e) => setProductBrand(e.target.value)}
+							placeholder="Marca del producto"
+							className={formStyles.formGroup}
+						/>
+					</Col>
 
-						<Col md={6}>
-							<GenericForm
-								id="productName"
-								text="Producto"
-								label="Nombre del producto"
-								value={productName}
-								onChange={(e) => setProductName(e.target.value)}
-								placeholder="Ej.: Remera básica"
-								className={formStyles.formGroup}
-								required
-							/>
-						</Col>
+					<Col md={6}>
+						<GenericForm
+							id="productName"
+							text="Producto"
+							value={productName}
+							onChange={(e) => handleChange(e, setProductName, 'productName')}
+							error={errors.productName}
+							placeholder="Ej.: Remera básica"
+							className={formStyles.formGroup}
+							required
+						/>
+					</Col>
 
-						<Col md={6}>
-							<GenericForm
-								id="productColor"
-								text="Color"
-								label="Color"
-								value={productColor}
-								onChange={(e) => setProductColor(e.target.value)}
-								placeholder="Ej.: Verde"
-								className={formStyles.formGroup}
-							/>
-						</Col>
+					<Col md={6}>
+						<GenericForm
+							id="productColor"
+							text="Color"
+							value={productColor}
+							onChange={(e) => setProductColor(e.target.value)}
+							placeholder="Ej.: Verde"
+							className={formStyles.formGroup}
+						/>
+					</Col>
 
-						<Col md={6}>
-							<Form.Group
-								className={formStyles.formGroup}
-								controlId="productSize">
-								<Form.Label>Talla</Form.Label>
-								<Form.Select
-									value={productSize}
-									onChange={(e) => setProductSize(e.target.value)}
-									required>
-									<option value="">Seleccionar talla</option>
-									<option value="XS">XS</option>
-									<option value="S">S</option>
-									<option value="M">M</option>
-									<option value="L">L</option>
-									<option value="XL">XL</option>
-									<option value="XXL">XXL</option>
-								</Form.Select>
-							</Form.Group>
-						</Col>
-
-						<Col md={6}>
-							<GenericForm
-								id="productPrice"
-								text="Precio"
-								label="Precio del producto"
-								type="number"
-								min="0"
-								step="0.01"
-								value={productPrice}
-								onChange={(e) => setProductPrice(e.target.value)}
-								className={formStyles.formGroup}
-								required
-							/>
-						</Col>
-
-						<Col md={6}>
-							<GenericForm
-								id="productStock"
-								text="Stock"
-								label="Stock del producto"
-								type="number"
-								min="0"
-								value={productStock}
-								onChange={(e) => setProductStock(e.target.value)}
-								placeholder="Cantidad disponible"
-								className={formStyles.formGroup}
-								required
-							/>
-						</Col>
-
-						<Col md={6}>
-							<GenericForm
-								id="date"
-								text="Fecha de compra"
-								label="Fecha de compra"
-								type="date"
-								value={buyDate}
-								onChange={(e) => setBuyDate(e.target.value)}
-								className={formStyles.formGroup}
-								required
-							/>
-						</Col>
-
-						<Col md={6}>
-							<GenericForm
-								id="productTags"
-								text="Etiqueta/s"
-								label="Etiquetas"
-								value={extraTags}
-								onChange={(e) => setExtraTags(e.target.value)}
-								placeholder="Ej.: invierno, casual, gala"
-								description="Separá las etiquetas con comas."
-								className={formStyles.formGroup}
-							/>
-						</Col>
-					</Row>
-
-					<div className={formStyles.formActions}>
-						<Button
-							variant="success"
-							type="submit"
-							className={formStyles.submitButton}
+					<Col md={6}>
+						<Form.Group
+							className={formStyles.formGroup}
+							controlId="productSize"
 						>
-							{isEditing ? 'Guardar cambios' : 'Crear producto'}
-						</Button>
+							<Form.Label>Talla</Form.Label>
 
-						{isEditing && (
-							<Button
-								variant="outline-secondary"
-								type="button"
-								onClick={handleCancel}
+							<Form.Select
+								value={productSize}
+								onChange={(e) => handleChange(e, setProductSize, 'productSize')}
+								isInvalid={Boolean(errors.productSize)}
+								required
 							>
-								Cancelar
-							</Button>
-						)}
-					</div>
-				</Form>
-			</CollapsibleForm>
+								<option value="">Seleccionar talla</option>
+								<option value="XS">-</option>
+								<option value="XS">XS</option>
+								<option value="S">S</option>
+								<option value="M">M</option>
+								<option value="L">L</option>
+								<option value="XL">XL</option>
+								<option value="XXL">XXL</option>
+							</Form.Select>
 
-			{message && (
-				<Alert variant={error ? 'danger' : 'success'} className={formStyles.message} dismissibleonClose={() => setMessage('')}>
-					{message}
-				</Alert>
-			)}
-		</>
+							<Form.Control.Feedback type="invalid">
+								{errors.productSize}
+							</Form.Control.Feedback>
+						</Form.Group>
+					</Col>
+
+					<Col md={6}>
+						<GenericForm
+							id="productPrice"
+							text="Precio"
+							type="number"
+							min="0"
+							step="0.01"
+							value={productPrice}
+							onChange={(e) => handleChange(e, setProductPrice, 'productPrice')}
+							error={errors.productPrice}
+							className={formStyles.formGroup}
+							required
+						/>
+					</Col>
+
+					<Col md={6}>
+						<GenericForm
+							id="productStock"
+							text="Stock"
+							type="number"
+							min="0"
+							value={productStock}
+							onChange={(e) => handleChange(e, setProductStock, 'productStock')}
+							error={errors.productStock}
+							placeholder="Cantidad disponible"
+							className={formStyles.formGroup}
+							required
+						/>
+					</Col>
+
+					<Col md={6}>
+						<GenericForm
+							id="date"
+							text="Fecha de compra"
+							type="date"
+							value={buyDate}
+							onChange={(e) => handleChange(e, setBuyDate, 'buyDate')}
+							error={errors.buyDate}
+							className={formStyles.formGroup}
+							required
+						/>
+					</Col>
+
+					<Col md={6}>
+						<GenericForm
+							id="productTags"
+							text="Etiqueta/s"
+							value={extraTags}
+							onChange={(e) => setExtraTags(e.target.value)}
+							placeholder="Ej.: invierno, casual, gala"
+							description="Separá las etiquetas con comas."
+							className={formStyles.formGroup}
+						/>
+					</Col>
+				</Row>
+
+				<div className={formStyles.formActions}>
+					<Button
+						variant="success"
+						type="submit"
+						className={formStyles.submitButton}
+					>
+						{isEditing ? 'Guardar cambios' : 'Crear producto'}
+					</Button>
+
+					{isEditing && (
+						<Button
+							variant="outline-secondary"
+							type="button"
+							onClick={handleCancel}
+						>
+							Cancelar
+						</Button>
+					)}
+				</div>
+			</Form>
+		</CollapsibleForm>
 	);
 };
 

@@ -93,7 +93,6 @@ const Home = () => {
 
 				{/* Resultados de busqueda */}
 				{search.trim() !== '' ? (
-
 					<section className={styles.productsSection}>
 						<h2 className={styles.title}>
 							Resultados de búsqueda

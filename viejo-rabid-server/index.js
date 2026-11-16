@@ -11,7 +11,7 @@ import './src/database/models/productTags.js';
 
 import loginRouter from './src/routes/login.router.js';
 import productRouter from "./src/routes/product.router.js";
-import layoutDefRouter from "./src/routes/layoutdef.router.js";
+import definerRouter from "./src/routes/definer.router.js";
 import purchasesRouter from "./src/routes/purchases.router.js";
 import supplierRouter from './src/routes/supplier.router.js';
 import rolesRouter from './src/routes/roles.router.js';
@@ -31,7 +31,7 @@ app.use(express.json());
 
 app.use(loginRouter);
 app.use(productRouter);
-app.use(layoutDefRouter);
+app.use(definerRouter);
 app.use(purchasesRouter);
 app.use(supplierRouter);
 app.use(rolesRouter);

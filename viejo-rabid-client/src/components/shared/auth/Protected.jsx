@@ -1,11 +1,11 @@
+
 import { useContext } from "react";
 import { Navigate } from "react-router";
-import { AuthenticationContext } from "./auth.context.jsx";
+
+import { AuthenticationContext } from "./auth.context";
 
 const Protected = ({ children }) => {
-	const { token, loading } = useContext(AuthenticationContext);
-
-	if (loading) return <p>Cargando...</p>;
+	const { token } = useContext(AuthenticationContext);
 
 	if (!token) {
 		return <Navigate to="/home" replace />;

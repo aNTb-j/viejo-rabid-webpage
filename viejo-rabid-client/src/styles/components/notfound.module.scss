@@ -1,0 +1,109 @@
+.notFound {
+	min-height: 100vh;
+	background: #faf8f5;
+	overflow: hidden;
+}
+
+.dressingRoom {
+	position: relative;
+	width: 100%;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+}
+
+.message {
+	position: relative;
+	z-index: 1;
+	max-width: 550px;
+	padding: 2rem;
+	text-align: center;
+	color: #1a1612;
+
+	opacity: 0;
+	transition: opacity 0.6s ease;
+
+	h1 {
+		font-size: clamp(1.7rem, 4vw, 2.5rem);
+		font-weight: 700;
+	}
+
+	p {
+		color: #8c8070;
+		margin-bottom: 2rem;
+	}
+}
+
+.visible {
+	opacity: 1;
+}
+
+.errorCode {
+	display: block;
+	font-size: clamp(5rem, 15vw, 9rem);
+	font-weight: 900;
+	color: #344e41;
+}
+
+.backButton {
+	background: #344e41;
+	border: none;
+	padding: 0.8rem 1.8rem;
+
+	&:hover {
+		background: #2f6b45;
+	}
+}
+
+.curtain {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 50%;
+	z-index: 2;
+
+	background-color: #344e41;
+
+	background-image: repeating-linear-gradient(90deg,
+			rgba(0, 0, 0, 0.12) 0px,
+			rgba(255, 255, 255, 0.08) 12px,
+			rgba(0, 0, 0, 0.15) 25px,
+			transparent 42px);
+
+	box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.2);
+
+	touch-action: none;
+	cursor: grab;
+	user-select: none;
+
+	&:active {
+		cursor: grabbing;
+	}
+}
+
+.curtainLeft {
+	left: 0;
+}
+
+.curtainRight {
+	right: 0;
+}
+
+.instruction {
+	position: absolute;
+	z-index: 3;
+	bottom: 2rem;
+	color: white;
+	font-size: 0.95rem;
+	text-align: center;
+	pointer-events: none;
+	text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.message {
+		transition: none;
+	}
+}

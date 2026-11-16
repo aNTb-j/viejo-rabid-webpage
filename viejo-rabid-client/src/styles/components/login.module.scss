@@ -139,3 +139,15 @@
         font-size: rem(26);
     }
 }
+
+.invalidField {
+    :global(.form-control) {
+        border: 1px solid #c65b4b;
+        box-shadow: 0 0 0 0.15rem rgba(198, 91, 75, 0.15);
+
+        &:focus {
+            border-color: #c65b4b;
+            box-shadow: 0 0 0 0.2rem rgba(198, 91, 75, 0.2);
+        }
+    }
+}

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { registerSupplier, importSupplierProducts, getSuppliers } from "../service/suppliers.service.js";
+import { registerSupplier, importSupplierProducts, getSuppliers, deleteSupplier } from "../service/suppliers.service.js";
 
 const supplierRouter = Router();
 
@@ -11,6 +11,8 @@ supplierRouter.post("/suppliers", registerSupplier);
 supplierRouter.post("/suppliers/products", importSupplierProducts);
 
 supplierRouter.get("/suppliers", getSuppliers)
+
+supplierRouter.delete("/suppliers/:id", deleteSupplier);
 
 export default supplierRouter;
 

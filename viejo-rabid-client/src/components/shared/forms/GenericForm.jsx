@@ -1,6 +1,5 @@
-import Form from 'react-bootstrap/Form';
 
-// Archibo de tipo de formulario
+import Form from 'react-bootstrap/Form';
 
 export const GenericForm = ({
 	id,
@@ -43,7 +42,15 @@ export const GenericForm = ({
 				required={required}
 				disabled={disabled}
 				isInvalid={isInvalid}
-				aria-describedby={error ? `${id}-error` : description ? `${id}-description`: undefined}
+				aria-invalid={isInvalid}
+				max={type === 'date' ? new Date().toISOString().split('T')[0] : props.max}
+				aria-describedby={
+					error
+						? `${id}-error`
+						: description
+							? `${id}-description`
+							: undefined
+				}
 			/>
 
 			{error && (

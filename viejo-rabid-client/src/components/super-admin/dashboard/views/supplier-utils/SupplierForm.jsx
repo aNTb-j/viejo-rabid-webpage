@@ -5,12 +5,10 @@ import { Form, Button } from 'react-bootstrap';
 import { GenericForm } from '../../../../shared/forms/GenericForm';
 import CollapsibleForm from '../../utils/CollapsibleForm.jsx';
 
-import GenericConfirmModal from '../../../../shared/modal/GenericConfirmModal.jsx';
 import { errorToast, successToast } from '../../../../shared/toast/toast.js';
 
 import formStyles from '../../../../../styles/components/formlayout.module.scss';
 import styles from '../../../../../styles/components/suppliersform.module.scss';
-
 
 const initialSupplier = {
 	name: '',
@@ -18,14 +16,11 @@ const initialSupplier = {
 	phone: '',
 };
 
-const SupplierForm = () => {
+const SupplierForm = ({ onSupplierCreated }) => {
 	const [supplier, setSupplier] = useState(initialSupplier);
 	const [productFile, setProductFile] = useState(null);
 	const [errors, setErrors] = useState({});
-	const [message, setMessage] = useState('');
-	const [messageType, setMessageType] = useState('success');
 	const [loading, setLoading] = useState(false);
-	const [showModal, setShowModal] = useState(false);
 
 	const fileInputRef = useRef(null);
 
@@ -47,14 +42,12 @@ const SupplierForm = () => {
 	const validateSupplier = () => {
 		const newErrors = {};
 
-		// Nombre
 		if (!supplier.name.trim()) {
 			newErrors.name = 'El nombre es obligatorio.';
 		} else if (supplier.name.trim().length < 2) {
 			newErrors.name = 'El nombre debe tener al menos 2 caracteres.';
 		}
 
-		// Email
 		if (!supplier.email.trim()) {
 			newErrors.email = 'El correo electrónico es obligatorio.';
 		} else if (
@@ -63,7 +56,6 @@ const SupplierForm = () => {
 			newErrors.email = 'Ingresá un correo electrónico válido.';
 		}
 
-		// Teléfono
 		const phone = supplier.phone.trim();
 		const phoneDigits = phone.replace(/\D/g, '');
 
@@ -87,23 +79,20 @@ const SupplierForm = () => {
 			setProductFile(null);
 			e.target.value = '';
 
-			setMessageType('danger');
-			setMessage('El archivo debe tener formato CSV.');
+			errorToast('El archivo debe tener formato CSV.');
 			return;
 		}
 
 		setProductFile(file);
-		setMessage('');
 	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		setMessage('');
+		if (loading) return;
 
 		if (!validateSupplier()) {
-			setMessageType('danger');
-			setMessage('Revisá los campos indicados.');
+			errorToast('Revisá los campos indicados.');
 			return;
 		}
 
@@ -134,6 +123,9 @@ const SupplierForm = () => {
 			}
 
 			supplierCreated = true;
+
+			// Actualizar tabla porque el proveedor ya existe
+			onSupplierCreated?.();
 
 			// Importar productos CSV
 			if (productFile) {
@@ -180,7 +172,6 @@ const SupplierForm = () => {
 				fileInputRef.current.value = '';
 			}
 
-			setMessageType('success');
 			successToast(
 				productFile
 					? 'Proveedor y lista de productos registrados correctamente.'
@@ -190,7 +181,6 @@ const SupplierForm = () => {
 		} catch (error) {
 			console.error('Error al guardar proveedor:', error);
 
-			setMessageType('danger');
 			errorToast(
 				supplierCreated
 					? `El proveedor se creó, pero ocurrió un problema al importar los productos: ${error.message}`
@@ -282,19 +272,8 @@ const SupplierForm = () => {
 					</div>
 				</Form>
 			</CollapsibleForm>
-
-			<GenericConfirmModal
-				show={showModal}
-				title={messageType === 'success' ? 'Operación exitosa' : 'Ocurrió un error'}
-				message={message}
-				confirmText="Aceptar"
-				confirmVariant={messageType === 'success' ? 'success' : 'danger'}
-				showCancel={false}
-				onConfirm={() => setShowModal(false)}
-				onCancel={() => setShowModal(false)}
-			/>
 		</div>
-	);
+	);	
 };
 
 export default SupplierForm;

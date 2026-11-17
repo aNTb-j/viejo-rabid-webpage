@@ -73,4 +73,43 @@ export const deleteSale = async (req, res) => {
 			message: "Error al eliminar la venta."
 		});
 	}
-};	
+};
+
+
+// PUT
+export const updateSale = async (req, res) => {
+	try {
+		const { id } = req.params;
+		const { placeholder } = req.body;
+
+		if (!placeholder?.trim()) {
+			return res.status(400).json({
+				message: "Debe completar los datos de la venta."
+			});
+		}
+
+		const sale = await Sales.findByPk(id);
+
+		if (!sale) {
+			return res.status(404).json({
+				message: "Venta no encontrada."
+			});
+		}
+
+		await sale.update({
+			placeholder: placeholder.trim()
+		});
+
+		return res.status(200).json({
+			message: "Venta actualizada correctamente.",
+			sale
+		});
+
+	} catch (error) {
+		console.error("Error al actualizar la venta:", error);
+
+		return res.status(500).json({
+			message: "Error al actualizar la venta."
+		});
+	}
+};

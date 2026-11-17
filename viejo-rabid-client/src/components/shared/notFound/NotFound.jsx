@@ -13,8 +13,8 @@ const PageNotFound = () => {
 
 	const dragRef = useRef(null);
 
-	const goBackLoginHandler = () => {
-		navigate("/login");
+	const goBackHomeHandler = () => {
+		navigate("/home");
 	};
 
 	const handlePointerDown = (e, side) => {
@@ -68,7 +68,7 @@ const PageNotFound = () => {
 
 					<Button
 						className={styles.backButton}
-						onClick={goBackLoginHandler}
+						onClick={goBackHomeHandler}
 					>
 						Volver al inicio
 					</Button>

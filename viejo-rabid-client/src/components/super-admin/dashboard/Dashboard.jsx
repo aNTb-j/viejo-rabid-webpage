@@ -1,37 +1,25 @@
-
 import { useState } from 'react';
+import { Outlet, useLocation, useNavigate } from 'react-router';
 
 import NavBar from '../../shared/navbar/NavBar.jsx';
 import Sidebar from './Sidebar.jsx';
 
-import DashboardView from './views/DashboardView.jsx';
-import ProductsView from './views/ProductsView.jsx';
-import SuppliersView from './views/SuppliersView.jsx';
-import PurchasesView from './views/PurchasesView.jsx';
-
 import styles from '../../../styles/components/dashboard.module.scss';
 
 const Dashboard = () => {
-	const [section, setSection] = useState('home');
 	const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
-	const renderView = () => {
-		switch (section) {
-			case 'home':
-				return <DashboardView />;
+	const navigate = useNavigate();
+	const location = useLocation();
 
-			case 'products':
-				return <ProductsView />;
+	const section = location.pathname.split('/')[2] || 'home';
 
-			case 'suppliers':
-				return <SuppliersView />;
+	const handleSectionChange = (newSection) => {
+		const path = newSection === 'home'
+			? '/dashboard'
+			: `/dashboard/${newSection}`;
 
-			case 'purchases':
-				return <PurchasesView />;
-
-			default:
-				return <DashboardView />;
-		}
+		navigate(path);
 	};
 
 	return (
@@ -41,15 +29,15 @@ const Dashboard = () => {
 			<div className={styles.layout}>
 				<Sidebar
 					activeSection={section}
-					setSection={setSection}
+					setSection={handleSectionChange}
 					isCollapsed={sidebarCollapsed}
 					onToggleCollapsed={() =>
-						setSidebarCollapsed((current) => !current)
+						setSidebarCollapsed(current => !current)
 					}
 				/>
 
 				<main className={styles.content}>
-					{renderView()}
+					<Outlet />
 				</main>
 			</div>
 		</div>

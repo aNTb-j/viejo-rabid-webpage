@@ -1,11 +1,12 @@
 
 import { useContext } from "react";
-import { Navigate } from "react-router";
+import { Navigate, useLocation } from "react-router";
 
 import { AuthenticationContext } from "./auth.context";
 
 const RoleGuard = ({ children, allowedRoles }) => {
 	const { userRole, roleLoading } = useContext(AuthenticationContext);
+	const location = useLocation();
 
 	if (roleLoading) return null;
 
@@ -14,7 +15,6 @@ const RoleGuard = ({ children, allowedRoles }) => {
 		return allowedRoles.includes(userRole) ? children : null;
 	}
 
-	// Modo protección de rutas
 	const permissions = {
 		"/home": ["client", "admin", "superadmin"],
 		"/client": ["client", "admin", "superadmin"],
@@ -23,16 +23,14 @@ const RoleGuard = ({ children, allowedRoles }) => {
 		"/layoutdef": ["superadmin"]
 	};
 
-	const currentPath = window.location.pathname;
-	const permittedRoles = permissions[currentPath] || [];
+	const currentPath = location.pathname;
 
-	console.log("RoleGuard:", {
-		path: window.location.pathname,
-		userRole,
-		roleLoading,
-		allowedRoles,
-		hasAccess: allowedRoles?.includes(userRole)
-	});
+	// Reconocer todas las subsecciones del dashboard
+	const permissionPath = currentPath.startsWith("/dashboard/")
+		? "/dashboard"
+		: currentPath;
+
+	const permittedRoles = permissions[permissionPath] || [];
 
 	if (!permittedRoles.includes(userRole)) {
 		return <Navigate to="/home" replace />;

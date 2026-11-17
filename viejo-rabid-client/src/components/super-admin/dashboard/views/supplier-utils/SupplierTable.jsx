@@ -1,6 +1,8 @@
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Table, Alert, Spinner, Button } from "react-bootstrap";
+
+import GenericConfirmModal from '../../../../../components/shared/modal/GenericConfirmModal.jsx';
 
 import styles from "../../../../../styles/components/suplierstable.module.scss";
 
@@ -10,7 +12,11 @@ const SuppliersTable = ({ refreshKey = 0 }) => {
 	const [error, setError] = useState("");
 	const [deletingId, setDeletingId] = useState(null);
 
-	const loadSuppliers = async () => {
+	const [showConfirm, setShowConfirm] = useState(false);
+	const [selectedSupplier, setSelectedSupplier] = useState(null);
+
+	// Cargar proveedores
+	const loadSuppliers = useCallback(async () => {
 		try {
 			setLoading(true);
 			setError("");
@@ -35,25 +41,39 @@ const SuppliersTable = ({ refreshKey = 0 }) => {
 		} finally {
 			setLoading(false);
 		}
-	};
+	}, []);
 
+	// Actualizar cuando cambie refreshKey
 	useEffect(() => {
 		loadSuppliers();
-	}, [refreshKey]);
+	}, [loadSuppliers, refreshKey]);
 
-	const handleDeleteSupplier = async (supplier) => {
-		const confirmed = window.confirm(
-			`¿Estás seguro de que deseas eliminar al proveedor "${supplier.suppliersName}"?`
-		);
+	// Abrir confirmación
+	const handleDeleteClick = (supplier) => {
+		setSelectedSupplier(supplier);
+		setShowConfirm(true);
+	};
 
-		if (!confirmed) return;
+	// Cancelar eliminación
+	const handleCancelDelete = () => {
+		if (deletingId !== null) return;
+
+		setShowConfirm(false);
+		setSelectedSupplier(null);
+	};
+
+	// Confirmar eliminación
+	const handleDeleteSupplier = async () => {
+		if (!selectedSupplier || deletingId !== null) return;
+
+		const supplierId = selectedSupplier.id_supplier;
 
 		try {
-			setDeletingId(supplier.id_supplier);
+			setDeletingId(supplierId);
 			setError("");
 
 			const response = await fetch(
-				`http://localhost:3000/suppliers/${supplier.id_supplier}`,
+				`http://localhost:3000/suppliers/${supplierId}`,
 				{
 					method: "DELETE",
 				}
@@ -68,10 +88,11 @@ const SuppliersTable = ({ refreshKey = 0 }) => {
 			}
 
 			setSuppliers(prev =>
-				prev.filter(
-					item => item.id_supplier !== supplier.id_supplier
-				)
+				prev.filter(item => item.id_supplier !== supplierId)
 			);
+
+			setShowConfirm(false);
+			setSelectedSupplier(null);
 
 		} catch (err) {
 			console.error("Error al eliminar proveedor:", err);
@@ -96,78 +117,95 @@ const SuppliersTable = ({ refreshKey = 0 }) => {
 	}
 
 	return (
-		<section className={styles.tableContainer}>
+		<>
+			<section className={styles.tableContainer}>
 
-			<header className={styles.tableHeader}>
-				<div>
-					<h4 className={styles.title}>Proveedores</h4>
-					<p className={styles.subtitle}>
-						Listado de proveedores registrados.
-					</p>
-				</div>
+				<header className={styles.tableHeader}>
+					<div>
+						<h4 className={styles.title}>Proveedores</h4>
+						<p className={styles.subtitle}>
+							Listado de proveedores registrados.
+						</p>
+					</div>
 
-				<span className={styles.count}>
-					{suppliers.length} proveedores
-				</span>
-			</header>
+					<span className={styles.count}>
+						{suppliers.length} proveedores
+					</span>
+				</header>
 
-			{error && (
-				<Alert variant="danger" dismissible onClose={() => setError("")}>
-					{error}
-				</Alert>
-			)}
+				{error && (
+					<Alert
+						variant="danger"
+						dismissible
+						onClose={() => setError("")}
+					>
+						{error}
+					</Alert>
+				)}
 
-			<div className={styles.tableWrapper}>
-				<Table responsive hover className={styles.table}>
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th>Proveedor</th>
-							<th>Email</th>
-							<th>Teléfono</th>
-							<th>Acciones</th>
-						</tr>
-					</thead>
+				<div className={styles.tableWrapper}>
+					<Table responsive hover className={styles.table}>
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Proveedor</th>
+								<th>Email</th>
+								<th>Teléfono</th>
+								<th>Acciones</th>
+							</tr>
+						</thead>
 
-					<tbody>
-						{suppliers.length > 0 ? (
-							suppliers.map(supplier => (
-								<tr key={supplier.id_supplier}>
-									<td>{supplier.id_supplier}</td>
-									<td>{supplier.suppliersName}</td>
-									<td>{supplier.email || "-"}</td>
-									<td>{supplier.supplierPhone || "-"}</td>
-									<td>
-										<Button
-											variant="outline-danger"
-											size="sm"
-											disabled={deletingId !== null}
-											onClick={() => handleDeleteSupplier(supplier)}
-										>
-											{deletingId === supplier.id_supplier ? (
-												<Spinner
-													animation="border"
-													size="sm"
-												/>
-											) : (
-												"Eliminar"
-											)}
-										</Button>
+						<tbody>
+							{suppliers.length > 0 ? (
+								suppliers.map(supplier => (
+									<tr key={supplier.id_supplier}>
+										<td>{supplier.id_supplier}</td>
+										<td>{supplier.suppliersName}</td>
+										<td>{supplier.email || "-"}</td>
+										<td>{supplier.supplierPhone || "-"}</td>
+										<td>
+											<Button
+												variant="outline-danger"
+												size="sm"
+												disabled={deletingId !== null}
+												onClick={() => handleDeleteClick(supplier)}
+											>
+												Eliminar
+											</Button>
+										</td>
+									</tr>
+								))
+							) : (
+								<tr>
+									<td colSpan={5} className={styles.emptyState}>
+										Todavía no hay proveedores registrados.
 									</td>
 								</tr>
-							))
-						) : (
-							<tr>
-								<td colSpan={5} className={styles.emptyState}>
-									Todavía no hay proveedores registrados.
-								</td>
-							</tr>
-						)}
-					</tbody>
-				</Table>
-			</div>
+							)}
+						</tbody>
+					</Table>
+				</div>
 
-		</section>
+			</section>
+
+			<GenericConfirmModal
+				show={showConfirm}
+				title="Eliminar proveedor"
+				message={
+					<>
+						¿Estás seguro de que deseas eliminar al proveedor{" "}
+						<strong>{selectedSupplier?.suppliersName}</strong>?
+						<br />
+						Esta acción no se puede deshacer.
+					</>
+				}
+				onConfirm={handleDeleteSupplier}
+				onCancel={handleCancelDelete}
+				confirmText="Eliminar"
+				confirmVariant="danger"
+				loading={deletingId !== null}
+			/>
+		</>
 	);
 };
 
